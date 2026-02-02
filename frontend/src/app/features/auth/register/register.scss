@@ -1,0 +1,80 @@
+// frontend/src/app/features/auth/register/register.component.scss
+
+.register-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 20px;
+}
+
+.register-card {
+  max-width: 450px;
+  width: 100%;
+  padding: 20px;
+  
+  mat-card-header {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 30px;
+    
+    mat-card-title {
+      text-align: center;
+      
+      h1 {
+        font-size: 28px;
+        margin-bottom: 8px;
+        color: #333;
+      }
+      
+      p {
+        color: #666;
+        font-size: 16px;
+        margin: 0;
+      }
+    }
+  }
+  
+  mat-card-content {
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    
+    .full-width {
+      width: 100%;
+    }
+    
+    .register-button {
+      height: 48px;
+      font-size: 16px;
+      margin-top: 10px;
+      
+      mat-spinner {
+        display: inline-block;
+        margin: 0 auto;
+      }
+    }
+    
+    .login-link {
+      text-align: center;
+      margin-top: 20px;
+      
+      p {
+        color: #666;
+        
+        a {
+          color: #667eea;
+          text-decoration: none;
+          font-weight: 500;
+          
+          &:hover {
+            text-decoration: underline;
+          }
+        }
+      }
+    }
+  }
+}

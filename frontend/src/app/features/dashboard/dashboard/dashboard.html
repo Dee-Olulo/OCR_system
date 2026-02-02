@@ -1,0 +1,89 @@
+<!-- frontend/src/app/features/dashboard/dashboard.component.html -->
+
+<div class="dashboard-container">
+  <div class="welcome-section" *ngIf="currentUser$ | async as user">
+    <h1>Welcome back, {{ user.username }}!</h1>
+    <p>Manage your documents and process them with OCR</p>
+  </div>
+  
+  <div class="stats-grid" *ngIf="!loading && stats">
+    <mat-card class="stat-card total">
+      <mat-card-content>
+        <div class="stat-icon">
+          <mat-icon>description</mat-icon>
+        </div>
+        <div class="stat-info">
+          <h3>{{ stats.total }}</h3>
+          <p>Total Documents</p>
+        </div>
+      </mat-card-content>
+    </mat-card>
+    
+    <mat-card class="stat-card completed">
+      <mat-card-content>
+        <div class="stat-icon">
+          <mat-icon>check_circle</mat-icon>
+        </div>
+        <div class="stat-info">
+          <h3>{{ stats.completed }}</h3>
+          <p>Completed</p>
+        </div>
+      </mat-card-content>
+    </mat-card>
+    
+    <mat-card class="stat-card processing">
+      <mat-card-content>
+        <div class="stat-icon">
+          <mat-icon>autorenew</mat-icon>
+        </div>
+        <div class="stat-info">
+          <h3>{{ stats.processing }}</h3>
+          <p>Processing</p>
+        </div>
+      </mat-card-content>
+    </mat-card>
+    
+    <mat-card class="stat-card pending">
+      <mat-card-content>
+        <div class="stat-icon">
+          <mat-icon>schedule</mat-icon>
+        </div>
+        <div class="stat-info">
+          <h3>{{ stats.pending }}</h3>
+          <p>Pending</p>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  
+  <div class="loading-container" *ngIf="loading">
+    <mat-spinner></mat-spinner>
+  </div>
+  
+  <div class="quick-actions">
+    <h2>Quick Actions</h2>
+    <div class="actions-grid">
+      <mat-card class="action-card">
+        <mat-card-content>
+          <mat-icon color="primary">cloud_upload</mat-icon>
+          <h3>Upload Document</h3>
+          <p>Upload a new image document for OCR processing</p>
+          <button mat-raised-button color="primary" routerLink="/upload">
+            Upload Now
+          </button>
+        </mat-card-content>
+      </mat-card>
+      
+      <mat-card class="action-card">
+        <mat-card-content>
+          <mat-icon color="accent">folder_open</mat-icon>
+          <h3>View Documents</h3>
+          <p>Browse and manage all your uploaded documents</p>
+          <button mat-raised-button color="accent" routerLink="/documents">
+            View All
+          </button>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+</div>

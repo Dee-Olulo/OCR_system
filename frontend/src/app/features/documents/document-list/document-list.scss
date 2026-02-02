@@ -1,0 +1,140 @@
+// frontend/src/app/features/documents/document-list/document-list.component.scss
+
+.document-list-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+    
+    h1 {
+      font-size: 32px;
+      margin-bottom: 8px;
+      color: #333;
+    }
+    
+    .subtitle {
+      color: #666;
+      margin: 0;
+    }
+    
+    button {
+      mat-icon {
+        margin-right: 8px;
+      }
+    }
+  }
+}
+
+mat-card-content {
+  padding: 0 !important;
+}
+
+.loading-container {
+  display: flex;
+  justify-content: center;
+  padding: 64px;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 64px 24px;
+  
+  mat-icon {
+    font-size: 64px;
+    width: 64px;
+    height: 64px;
+    color: #ccc;
+    margin-bottom: 16px;
+  }
+  
+  h3 {
+    font-size: 24px;
+    margin: 0 0 8px 0;
+    color: #666;
+  }
+  
+  p {
+    color: #999;
+    margin: 0 0 24px 0;
+  }
+  
+  button {
+    mat-icon {
+      margin-right: 8px;
+    }
+  }
+}
+
+.table-container {
+  .documents-table {
+    width: 100%;
+    
+    th {
+      font-weight: 600;
+      color: #333;
+      background-color: #fafafa;
+    }
+    
+    .filename-cell {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      
+      mat-icon {
+        font-size: 20px;
+        width: 20px;
+        height: 20px;
+        color: #666;
+      }
+      
+      span {
+        max-width: 300px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+    }
+    
+    .actions {
+      display: flex;
+      gap: 4px;
+    }
+    
+    .clickable-row {
+      cursor: pointer;
+      transition: background-color 0.2s;
+      
+      &:hover {
+        background-color: #f5f5f5;
+      }
+    }
+  }
+  
+  mat-paginator {
+    border-top: 1px solid #e0e0e0;
+  }
+}
+
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    align-items: flex-start !important;
+    gap: 16px;
+    
+    button {
+      width: 100%;
+    }
+  }
+  
+  .documents-table {
+    font-size: 14px;
+    
+    .filename-cell span {
+      max-width: 150px;
+    }
+  }
+}

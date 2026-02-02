@@ -1,0 +1,126 @@
+<!-- frontend/src/app/features/documents/document-detail/document-detail.component.html -->
+
+<div class="document-detail-container">
+  <div class="header">
+    <button mat-icon-button (click)="goBack()">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <h1>Document Details</h1>
+  </div>
+  
+  <div *ngIf="loading" class="loading-container">
+    <mat-spinner></mat-spinner>
+  </div>
+  
+  <div *ngIf="!loading && document" class="content">
+    <mat-card class="info-card">
+      <mat-card-header>
+        <mat-card-title>
+          <mat-icon>insert_drive_file</mat-icon>
+          <span>{{ document.filename }}</span>
+        </mat-card-title>
+      </mat-card-header>
+      
+      <mat-card-content>
+        <div class="info-grid">
+          <div class="info-item">
+            <label>Status:</label>
+            <mat-chip [color]="getStatusColor(document.status)" selected>
+              {{ document.status | titlecase }}
+            </mat-chip>
+          </div>
+          
+          <div class="info-item">
+            <label>File Size:</label>
+            <span>{{ formatFileSize(document.file_size) }}</span>
+          </div>
+          
+          <div class="info-item">
+            <label>File Type:</label>
+            <span>{{ document.file_type }}</span>
+          </div>
+          
+          <div class="info-item">
+            <label>Uploaded:</label>
+            <span>{{ formatDate(document.uploaded_at) }}</span>
+          </div>
+        </div>
+        
+        <mat-divider></mat-divider>
+        
+        <div class="actions">
+          <button mat-raised-button color="accent" (click)="downloadDocument()">
+            <mat-icon>download</mat-icon>
+            Download
+          </button>
+          <button mat-raised-button color="warn" (click)="deleteDocument()">
+            <mat-icon>delete</mat-icon>
+            Delete
+          </button>
+        </div>
+      </mat-card-content>
+    </mat-card>
+    
+    <mat-card class="ocr-card">
+      <mat-card-header>
+        <mat-card-title>
+          <mat-icon>text_fields</mat-icon>
+          <span>OCR Processing</span>
+        </mat-card-title>
+      </mat-card-header>
+      
+      <mat-card-content>
+        <div *ngIf="document.status === 'pending'" class="ocr-controls">
+          <p>This document has not been processed yet. Select an OCR engine and click process.</p>
+          
+          <mat-form-field appearance="outline">
+            <mat-label>OCR Engine</mat-label>
+            <mat-select [(ngModel)]="selectedEngine">
+              <mat-option value="tesseract">Tesseract (Fast)</mat-option>
+              <mat-option value="easyocr">EasyOCR (Accurate)</mat-option>
+              <mat-option value="both">Both (Best Result)</mat-option>
+            </mat-select>
+          </mat-form-field>
+          
+          <button mat-raised-button color="primary" 
+                  (click)="processWithOCR()" 
+                  [disabled]="processing">
+            <mat-spinner *ngIf="processing" diameter="20"></mat-spinner>
+            <mat-icon *ngIf="!processing">play_arrow</mat-icon>
+            <span *ngIf="!processing">Process Document</span>
+            <span *ngIf="processing">Processing...</span>
+          </button>
+        </div>
+        
+        <div *ngIf="document.status === 'processing'" class="processing-state">
+          <mat-spinner diameter="40"></mat-spinner>
+          <p>Processing document with OCR...</p>
+        </div>
+        
+        <div *ngIf="document.status === 'completed'" class="extracted-text">
+          <div class="text-header">
+            <h3>Extracted Text</h3>
+            <button mat-raised-button color="primary" (click)="processWithOCR()" [disabled]="processing">
+              <mat-icon>refresh</mat-icon>
+              Re-process
+            </button>
+          </div>
+          
+          <div class="text-container">
+            <pre *ngIf="document.extracted_text">{{ document.extracted_text }}</pre>
+            <p *ngIf="!document.extracted_text" class="no-text">No text extracted</p>
+          </div>
+        </div>
+        
+        <div *ngIf="document.status === 'failed'" class="failed-state">
+          <mat-icon color="warn">error</mat-icon>
+          <p>OCR processing failed. Please try again.</p>
+          <button mat-raised-button color="primary" (click)="processWithOCR()" [disabled]="processing">
+            <mat-icon>refresh</mat-icon>
+            Retry
+          </button>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

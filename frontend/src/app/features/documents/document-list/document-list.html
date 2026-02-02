@@ -1,0 +1,110 @@
+<!-- frontend/src/app/features/documents/document-list/document-list.component.html -->
+
+<div class="document-list-container">
+  <div class="header">
+    <div>
+      <h1>Documents</h1>
+      <p class="subtitle">View and manage all your documents</p>
+    </div>
+    <button mat-raised-button color="primary" routerLink="/upload">
+      <mat-icon>add</mat-icon>
+      Upload New
+    </button>
+  </div>
+  
+  <mat-card>
+    <mat-card-content>
+      <div *ngIf="loading" class="loading-container">
+        <mat-spinner></mat-spinner>
+      </div>
+      
+      <div *ngIf="!loading && documents.length === 0" class="empty-state">
+        <mat-icon>inbox</mat-icon>
+        <h3>No documents yet</h3>
+        <p>Upload your first document to get started</p>
+        <button mat-raised-button color="primary" routerLink="/upload">
+          <mat-icon>cloud_upload</mat-icon>
+          Upload Document
+        </button>
+      </div>
+      
+      <div *ngIf="!loading && documents.length > 0" class="table-container">
+        <table mat-table [dataSource]="documents" class="documents-table">
+          
+          <!-- Filename Column -->
+          <ng-container matColumnDef="filename">
+            <th mat-header-cell *matHeaderCellDef>Filename</th>
+            <td mat-cell *matCellDef="let document">
+              <div class="filename-cell">
+                <mat-icon>insert_drive_file</mat-icon>
+                <span>{{ document.filename }}</span>
+              </div>
+            </td>
+          </ng-container>
+          
+          <!-- Status Column -->
+          <ng-container matColumnDef="status">
+            <th mat-header-cell *matHeaderCellDef>Status</th>
+            <td mat-cell *matCellDef="let document">
+              <mat-chip [color]="getStatusColor(document.status)" selected>
+                {{ document.status | titlecase }}
+              </mat-chip>
+            </td>
+          </ng-container>
+          
+          <!-- Uploaded At Column -->
+          <ng-container matColumnDef="uploaded_at">
+            <th mat-header-cell *matHeaderCellDef>Uploaded</th>
+            <td mat-cell *matCellDef="let document">
+              {{ formatDate(document.uploaded_at) }}
+            </td>
+          </ng-container>
+          
+          <!-- File Size Column -->
+          <ng-container matColumnDef="file_size">
+            <th mat-header-cell *matHeaderCellDef>Size</th>
+            <td mat-cell *matCellDef="let document">
+              {{ formatFileSize(document.file_size) }}
+            </td>
+          </ng-container>
+          
+          <!-- Actions Column -->
+          <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef>Actions</th>
+            <td mat-cell *matCellDef="let document">
+              <div class="actions">
+                <button mat-icon-button color="primary" 
+                        (click)="viewDocument(document)"
+                        matTooltip="View Details">
+                  <mat-icon>visibility</mat-icon>
+                </button>
+                <button mat-icon-button color="accent" 
+                        (click)="downloadDocument(document, $event)"
+                        matTooltip="Download">
+                  <mat-icon>download</mat-icon>
+                </button>
+                <button mat-icon-button color="warn" 
+                        (click)="deleteDocument(document, $event)"
+                        matTooltip="Delete">
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </div>
+            </td>
+          </ng-container>
+          
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;" 
+              class="clickable-row"
+              (click)="viewDocument(row)"></tr>
+        </table>
+        
+        <mat-paginator
+          [length]="totalDocuments"
+          [pageSize]="pageSize"
+          [pageSizeOptions]="[5, 10, 25, 50]"
+          (page)="onPageChange($event)">
+        </mat-paginator>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

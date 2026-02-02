@@ -1,0 +1,141 @@
+// frontend/src/app/features/documents/document-upload/document-upload.component.scss
+
+.upload-container {
+  max-width: 800px;
+  margin: 0 auto;
+  
+  h1 {
+    font-size: 32px;
+    margin-bottom: 8px;
+    color: #333;
+  }
+  
+  .subtitle {
+    color: #666;
+    margin-bottom: 32px;
+  }
+}
+
+.upload-card {
+  margin-bottom: 24px;
+  
+  mat-card-content {
+    padding: 32px !important;
+  }
+  
+  .upload-area {
+    border: 2px dashed #ccc;
+    border-radius: 8px;
+    padding: 48px 24px;
+    text-align: center;
+    transition: all 0.3s ease;
+    background-color: #fafafa;
+    
+    &.drag-over {
+      border-color: #3f51b5;
+      background-color: #e8eaf6;
+    }
+    
+    &.has-file {
+      border-style: solid;
+      background-color: #fff;
+    }
+    
+    .upload-prompt {
+      mat-icon {
+        font-size: 64px;
+        width: 64px;
+        height: 64px;
+        color: #3f51b5;
+        margin-bottom: 16px;
+      }
+      
+      h3 {
+        font-size: 20px;
+        margin: 0 0 8px 0;
+        color: #333;
+      }
+      
+      p {
+        color: #666;
+        margin: 16px 0;
+        
+        &.file-info {
+          font-size: 14px;
+          margin-top: 24px;
+        }
+      }
+      
+      button {
+        margin: 16px 0;
+      }
+    }
+    
+    .file-preview {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      
+      .file-icon {
+        font-size: 48px;
+        width: 48px;
+        height: 48px;
+        color: #3f51b5;
+      }
+      
+      .file-details {
+        flex: 1;
+        text-align: left;
+        
+        h3 {
+          margin: 0 0 4px 0;
+          font-size: 16px;
+          color: #333;
+        }
+        
+        p {
+          margin: 0;
+          color: #666;
+          font-size: 14px;
+        }
+      }
+    }
+  }
+  
+  mat-progress-bar {
+    margin-top: 16px;
+  }
+  
+  .upload-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 16px;
+    margin-top: 24px;
+  }
+}
+
+.info-card {
+  mat-card-header {
+    mat-card-title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      
+      mat-icon {
+        color: #3f51b5;
+      }
+    }
+  }
+  
+  mat-card-content {
+    ul {
+      padding-left: 20px;
+      
+      li {
+        margin-bottom: 8px;
+        color: #666;
+        line-height: 1.6;
+      }
+    }
+  }
+}

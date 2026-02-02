@@ -1,0 +1,74 @@
+<!-- frontend/src/app/features/documents/document-upload/document-upload.component.html -->
+
+<div class="upload-container">
+  <h1>Upload Document</h1>
+  <p class="subtitle">Upload an image document for OCR processing</p>
+  
+  <mat-card class="upload-card">
+    <mat-card-content>
+      <div class="upload-area"
+           [class.drag-over]="dragOver"
+           [class.has-file]="selectedFile"
+           (dragover)="onDragOver($event)"
+           (dragleave)="onDragLeave($event)"
+           (drop)="onDrop($event)">
+        
+        <div *ngIf="!selectedFile" class="upload-prompt">
+          <mat-icon>cloud_upload</mat-icon>
+          <h3>Drag and drop your file here</h3>
+          <p>or</p>
+          <input type="file"
+                 #fileInput
+                 accept=".jpg,.jpeg,.png,.tiff,.tif"
+                 (change)="onFileSelected($event)"
+                 style="display: none;">
+          <button mat-raised-button color="primary" (click)="fileInput.click()">
+            Browse Files
+          </button>
+          <p class="file-info">Supported formats: JPG, PNG, TIFF (Max 10MB)</p>
+        </div>
+        
+        <div *ngIf="selectedFile" class="file-preview">
+          <mat-icon class="file-icon">insert_drive_file</mat-icon>
+          <div class="file-details">
+            <h3>{{ selectedFile.name }}</h3>
+            <p>{{ formatFileSize(selectedFile.size) }}</p>
+          </div>
+          <button mat-icon-button color="warn" (click)="removeFile()" [disabled]="uploading">
+            <mat-icon>close</mat-icon>
+          </button>
+        </div>
+      </div>
+      
+      <mat-progress-bar *ngIf="uploading" mode="indeterminate"></mat-progress-bar>
+      
+      <div class="upload-actions" *ngIf="selectedFile">
+        <button mat-raised-button (click)="removeFile()" [disabled]="uploading">
+          Cancel
+        </button>
+        <button mat-raised-button color="primary" (click)="uploadFile()" [disabled]="uploading">
+          <span *ngIf="!uploading">Upload</span>
+          <span *ngIf="uploading">Uploading...</span>
+        </button>
+      </div>
+    </mat-card-content>
+  </mat-card>
+  
+  <mat-card class="info-card">
+    <mat-card-header>
+      <mat-card-title>
+        <mat-icon>info</mat-icon>
+        <span>Upload Guidelines</span>
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <ul>
+        <li>Supported formats: JPG, JPEG, PNG, TIFF</li>
+        <li>Maximum file size: 10 MB</li>
+        <li>For best results, upload clear, high-quality images</li>
+        <li>Avoid blurry or low-resolution images</li>
+        <li>Documents will be processed automatically after upload</li>
+      </ul>
+    </mat-card-content>
+  </mat-card>
+</div>
