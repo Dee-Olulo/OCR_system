@@ -64,17 +64,27 @@ export class DocumentUploadComponent {
   }
   
   validateAndSetFile(file: File): void {
-    // Validate file type
-    const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/tiff'];
+    // Validate file type - Phase 2: Added PDF, DOCX, XLSX, PPTX
+    const allowedTypes = [
+      'image/jpeg', 'image/jpg', 'image/png', 'image/tiff',
+      'application/pdf',
+      'application/vnd.openxmlformats-officedocument.wordprocessingml.document', // DOCX
+      'application/msword', // DOC
+      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', // XLSX
+      'application/vnd.ms-excel', // XLS
+      'application/vnd.openxmlformats-officedocument.presentationml.presentation', // PPTX
+      'application/vnd.ms-powerpoint' // PPT
+    ];
+    
     if (!allowedTypes.includes(file.type)) {
-      this.snackBar.open('Invalid file type. Please upload JPG, PNG, or TIFF images.', 'Close', { duration: 5000 });
+      this.snackBar.open('Invalid file type. Supported: Images, PDF, DOCX, XLSX, PPTX', 'Close', { duration: 5000 });
       return;
     }
     
-    // Validate file size (10MB)
-    const maxSize = 10 * 1024 * 1024;
+    // Validate file size (50MB for Phase 2)
+    const maxSize = 50 * 1024 * 1024;
     if (file.size > maxSize) {
-      this.snackBar.open('File size exceeds 10MB limit.', 'Close', { duration: 5000 });
+      this.snackBar.open('File size exceeds 50MB limit.', 'Close', { duration: 5000 });
       return;
     }
     

@@ -1,0 +1,250 @@
+{
+  "document_type": "invoice",
+  "extraction_timestamp": "2026-02-04T12:06:30.373462",
+  "metadata": {
+    "text_length": 749,
+    "has_tables": true,
+    "table_count": 4,
+    "entity_types_found": [
+      "persons",
+      "organizations",
+      "locations",
+      "dates",
+      "money",
+      "emails",
+      "phone_numbers",
+      "invoice_numbers",
+      "amounts",
+      "key_value_pairs"
+    ]
+  },
+  "entities": {
+    "organizations": [
+      "Street Address",
+      "SHIPPING & HANDLING",
+      "SUBTOTAL"
+    ],
+    "invoice_numbers": [
+      "oice",
+      "OICE"
+    ]
+  },
+  "tables": [
+    {
+      "table_number": 1,
+      "headers": [
+        "[Company Name]\n[Your Company Slogan]",
+        "INVOICE"
+      ],
+      "row_count": 2,
+      "column_count": 2,
+      "data": [
+        [
+          "[Street Address]\n[City, ST ZIP Code]\nPhone: [Phone]  Fax: [Fax]",
+          "Invoice #[100]\nDate: [Date]"
+        ],
+        [
+          "To:\n[Recipient Name]\n[Company Name]\n[Street Address]\n[City, ST ZIP Code]\nPhone: [Phone]",
+          "Ship To:\n[Recipient Name]\n[Company Name\n[Street Address]\n[City, ST ZIP Code]\nPhone: [Phone]"
+        ]
+      ]
+    },
+    {
+      "table_number": 2,
+      "headers": [
+        "Comments or special instructions:\n[To get started right away, just tap any placeholder text (such as this) and start typing to replace it with your own.]"
+      ],
+      "row_count": 1,
+      "column_count": 1,
+      "data": [
+        [
+          ""
+        ]
+      ]
+    },
+    {
+      "table_number": 3,
+      "headers": [
+        "QUANTITY",
+        "DESCRIPTION",
+        "UNIT PRICE",
+        "TOTAL"
+      ],
+      "row_count": 8,
+      "column_count": 4,
+      "data": [
+        [
+          "",
+          "",
+          "",
+          ""
+        ],
+        [
+          "",
+          "",
+          "",
+          ""
+        ],
+        [
+          "",
+          "",
+          "",
+          ""
+        ],
+        [
+          "",
+          "",
+          "",
+          ""
+        ],
+        [
+          "",
+          "",
+          "",
+          ""
+        ],
+        [
+          "",
+          "",
+          "",
+          ""
+        ],
+        [
+          "",
+          "",
+          "",
+          ""
+        ],
+        [
+          "",
+          "",
+          "",
+          ""
+        ]
+      ]
+    },
+    {
+      "table_number": 4,
+      "headers": [
+        "",
+        "SUBTOTAL",
+        ""
+      ],
+      "row_count": 3,
+      "column_count": 3,
+      "data": [
+        [
+          "",
+          "SALES TAX",
+          ""
+        ],
+        [
+          "",
+          "SHIPPING & HANDLING",
+          ""
+        ],
+        [
+          "",
+          "TOTAL due",
+          ""
+        ]
+      ]
+    }
+  ],
+  "invoice_data": {
+    "organizations": [
+      "Street Address",
+      "SHIPPING & HANDLING",
+      "SUBTOTAL"
+    ],
+    "primary_organization": "Street Address",
+    "line_items": [
+      {
+        "row_number": 1,
+        "[Company Name]\n[Your Company Slogan]": "[Street Address]\n[City, ST ZIP Code]\nPhone: [Phone]  Fax: [Fax]",
+        "INVOICE": "Invoice #[100]\nDate: [Date]"
+      },
+      {
+        "row_number": 2,
+        "[Company Name]\n[Your Company Slogan]": "To:\n[Recipient Name]\n[Company Name]\n[Street Address]\n[City, ST ZIP Code]\nPhone: [Phone]",
+        "INVOICE": "Ship To:\n[Recipient Name]\n[Company Name\n[Street Address]\n[City, ST ZIP Code]\nPhone: [Phone]"
+      },
+      {
+        "row_number": 1,
+        "Comments or special instructions:\n[To get started right away, just tap any placeholder text (such as this) and start typing to replace it with your own.]": ""
+      },
+      {
+        "row_number": 1,
+        "QUANTITY": "",
+        "DESCRIPTION": "",
+        "UNIT PRICE": "",
+        "TOTAL": ""
+      },
+      {
+        "row_number": 2,
+        "QUANTITY": "",
+        "DESCRIPTION": "",
+        "UNIT PRICE": "",
+        "TOTAL": ""
+      },
+      {
+        "row_number": 3,
+        "QUANTITY": "",
+        "DESCRIPTION": "",
+        "UNIT PRICE": "",
+        "TOTAL": ""
+      },
+      {
+        "row_number": 4,
+        "QUANTITY": "",
+        "DESCRIPTION": "",
+        "UNIT PRICE": "",
+        "TOTAL": ""
+      },
+      {
+        "row_number": 5,
+        "QUANTITY": "",
+        "DESCRIPTION": "",
+        "UNIT PRICE": "",
+        "TOTAL": ""
+      },
+      {
+        "row_number": 6,
+        "QUANTITY": "",
+        "DESCRIPTION": "",
+        "UNIT PRICE": "",
+        "TOTAL": ""
+      },
+      {
+        "row_number": 7,
+        "QUANTITY": "",
+        "DESCRIPTION": "",
+        "UNIT PRICE": "",
+        "TOTAL": ""
+      },
+      {
+        "row_number": 8,
+        "QUANTITY": "",
+        "DESCRIPTION": "",
+        "UNIT PRICE": "",
+        "TOTAL": ""
+      },
+      {
+        "row_number": 1,
+        "": "",
+        "SUBTOTAL": "SALES TAX"
+      },
+      {
+        "row_number": 2,
+        "": "",
+        "SUBTOTAL": "SHIPPING & HANDLING"
+      },
+      {
+        "row_number": 3,
+        "": "",
+        "SUBTOTAL": "TOTAL due"
+      }
+    ]
+  },
+  "text_preview": "Make all checks payable to [Company Name]\nIf you have any questions concerning this invoice, contact [Name, phone, email]\nThank you for your business!\n[Company Name]\n[Your Company Slogan]\nINVOICE\n\n[Street Address]\n[City, ST ZIP Code]\nPhone: [Phone]  Fax: [Fax]\nInvoice #[100]\nDate: [Date]\nTo:\n[Recipient Name]\n[Company Name]\n[Street Address]\n[City, ST ZIP Code]\nPhone: [Phone]\nShip To:\n[Recipient Name]\n[Company Name\n[Street Address]\n[City, ST ZIP Code]\nPhone: [Phone]\nComments or special instruction..."
+}

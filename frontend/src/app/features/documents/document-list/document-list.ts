@@ -39,7 +39,7 @@ export class DocumentListComponent implements OnInit {
   private snackBar = inject(MatSnackBar);
   
   documents: Document[] = [];
-  displayedColumns: string[] = ['filename', 'status', 'uploaded_at', 'file_size', 'actions'];
+  displayedColumns: string[] = ['filename', 'type', 'status', 'uploaded_at', 'file_size', 'actions'];
   loading = true;
   
   // Pagination
@@ -79,15 +79,15 @@ export class DocumentListComponent implements OnInit {
     this.router.navigate(['/documents', document.id]);
   }
   
-  downloadDocument(document: Document, event: Event): void {
+  downloadDocument(doc: Document, event: Event): void {
     event.stopPropagation();
     
-    this.documentService.downloadDocument(document.id).subscribe({
+    this.documentService.downloadDocument(doc.id).subscribe({
       next: (blob) => {
         const url = window.URL.createObjectURL(blob);
         const link = window.document.createElement('a');
         link.href = url;
-        link.download = document.filename;
+        link.download = doc.filename;
         link.click();
         window.URL.revokeObjectURL(url);
         this.snackBar.open('Download started', 'Close', { duration: 2000 });

@@ -1,0 +1,128 @@
+{
+  "document_type": "invoice",
+  "extraction_timestamp": "2026-02-04T12:16:37.133703",
+  "metadata": {
+    "text_length": 566,
+    "has_tables": false,
+    "table_count": 0,
+    "entity_types_found": [
+      "persons",
+      "organizations",
+      "locations",
+      "dates",
+      "money",
+      "emails",
+      "phone_numbers",
+      "invoice_numbers",
+      "amounts",
+      "key_value_pairs"
+    ]
+  },
+  "entities": {
+    "organizations": [
+      "Description Quantity Unit",
+      "PDF",
+      "AUD"
+    ],
+    "locations": [
+      "Business Name",
+      "Australia"
+    ],
+    "dates": [
+      "2022435",
+      "NSW 2000",
+      "NSW 2009"
+    ],
+    "money": [
+      "$100.00 $",
+      "2,100.00",
+      "10.00",
+      "$2,000.00 $",
+      "2,510.00",
+      "400.00"
+    ],
+    "phone_numbers": [
+      "2000",
+      "+61200000000",
+      "2022\n100",
+      "2022435",
+      "000.00",
+      "510.00",
+      "000.00 2",
+      "10.00",
+      "6120000000",
+      "2009",
+      "2022",
+      "1 100.00 100",
+      "400.00",
+      "100.00"
+    ],
+    "invoice_numbers": [
+      "2022435",
+      "Your"
+    ],
+    "amounts": [
+      "$2,510.00",
+      "$2,000.00",
+      "$100.00",
+      "$2,100.00",
+      "$400.00",
+      "$10.00"
+    ],
+    "key_value_pairs": {
+      "invoice_date": "19/7/2022",
+      "due_date": "3/8/2022",
+      "total_amount": "2,100.00",
+      "subtotal": "2,100.00"
+    }
+  },
+  "invoice_data": {
+    "invoice_number": "2022435",
+    "dates_found": [
+      "2022435",
+      "NSW 2000",
+      "NSW 2009"
+    ],
+    "primary_date": "2022435",
+    "secondary_date": "NSW 2000",
+    "amounts": [
+      "$100.00 $",
+      "2,100.00",
+      "10.00",
+      "$2,000.00 $",
+      "2,510.00",
+      "400.00"
+    ],
+    "potential_total": "400.00",
+    "largest_amount": 2510.0,
+    "organizations": [
+      "Description Quantity Unit",
+      "PDF",
+      "AUD"
+    ],
+    "primary_organization": "Description Quantity Unit",
+    "phone_numbers": [
+      "2000",
+      "+61200000000",
+      "2022\n100",
+      "2022435",
+      "000.00",
+      "510.00",
+      "000.00 2",
+      "10.00",
+      "6120000000",
+      "2009",
+      "2022",
+      "1 100.00 100",
+      "400.00",
+      "100.00"
+    ],
+    "extracted_fields": {
+      "invoice_date": "19/7/2022",
+      "due_date": "3/8/2022",
+      "total_amount": "2,100.00",
+      "subtotal": "2,100.00"
+    }
+  },
+  "text_preview": "Invoice 2022435\n\nA Tax invoice\nYour Business\nBILL TO\nYour Client Issue date: 19/7/2022\n100 Harris St Due date: 3/8/2022\nSydney NSW NSW 2009\nAustralia Reference: 2022435\n\nTotal due (AUD)\n$2,510.00\nDescription Quantity Unit price ($) Amount ($)\nServices & products 1 100.00 100.00\nMore services & products 1 2,000.00 2,000.00\nSubtotal: $2,100.00\nGST 10% from $100.00 $10.00\nGST 20% from $2,000.00 $400.00\nTotal (AUD): $2,510.00\nIssued by, signature:\n\n&. +61200000000 @ www. yourbusinessname.com.au A em..."
+}

@@ -1,0 +1,21 @@
+{
+  "document_type": "unknown",
+  "extraction_timestamp": "2026-02-04T07:21:08.568674",
+  "fields": {},
+  "entities": {
+    "persons": [],
+    "organizations": [],
+    "locations": [],
+    "dates": [],
+    "monetary_values": [],
+    "emails": [],
+    "phone_numbers": []
+  },
+  "tables": [],
+  "extracted_text": "Make all checks payable to [Company Name]\nIf you have any questions concerning this invoice, contact [Name, phone, email]\nThank you for your business!\n[Company Name]\n[Your Company Slogan]\nINVOICE\n\n[Street Address]\n[City, ST ZIP Code]\nPhone: [Phone]  Fax: [Fax]\nInvoice #[100]\nDate: [Date]\nTo:\n[Recipient Name]\n[Company Name]\n[Street Address]\n[City, ST ZIP Code]\nPhone: [Phone]\nShip To:\n[Recipient Name]\n[Company Name\n[Street Address]\n[City, ST ZIP Code]\nPhone: [Phone]\nComments or special instructions:\n[To get started right away, just tap any placeholder text (such as this) and start typing to replace it with your own.]\n\nQUANTITY\nDESCRIPTION\nUNIT PRICE\nTOTAL\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nSUBTOTAL\n\n\nSALES TAX\n\n\nSHIPPING & HANDLING\n\n\nTOTAL due",
+  "metadata": {
+    "total_entities_found": 0,
+    "table_count": 0,
+    "text_length": 749
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "document_type": "unknown",
+  "extraction_timestamp": "2026-02-04T07:56:01.500912",
+  "fields": {},
+  "entities": {
+    "persons": [],
+    "organizations": [],
+    "locations": [],
+    "dates": [],
+    "monetary_values": [],
+    "emails": [],
+    "phone_numbers": []
+  },
+  "tables": [],
+  "extracted_text": "",
+  "metadata": {
+    "total_entities_found": 0,
+    "table_count": 0,
+    "text_length": 0
+  }
+}

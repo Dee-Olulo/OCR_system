@@ -19,13 +19,13 @@
           <p>or</p>
           <input type="file"
                  #fileInput
-                 accept=".jpg,.jpeg,.png,.tiff,.tif"
+                 accept=".jpg,.jpeg,.png,.tiff,.tif,.pdf,.docx,.doc,.xlsx,.xls,.pptx,.ppt"
                  (change)="onFileSelected($event)"
                  style="display: none;">
           <button mat-raised-button color="primary" (click)="fileInput.click()">
             Browse Files
           </button>
-          <p class="file-info">Supported formats: JPG, PNG, TIFF (Max 10MB)</p>
+          <p class="file-info">Supported: Images, PDF, Word, Excel, PowerPoint (Max 50MB)</p>
         </div>
         
         <div *ngIf="selectedFile" class="file-preview">
@@ -63,11 +63,12 @@
     </mat-card-header>
     <mat-card-content>
       <ul>
-        <li>Supported formats: JPG, JPEG, PNG, TIFF</li>
-        <li>Maximum file size: 10 MB</li>
-        <li>For best results, upload clear, high-quality images</li>
-        <li>Avoid blurry or low-resolution images</li>
-        <li>Documents will be processed automatically after upload</li>
+        <li>Supported formats: JPG, PNG, TIFF, PDF, DOCX, XLSX, PPTX</li>
+        <li>Maximum file size: 50 MB</li>
+        <li>For best results, upload clear, high-quality documents</li>
+        <li>PDFs can be text-based or scanned images</li>
+        <li>Tables will be automatically extracted from PDFs and DOCX</li>
+        <li>Documents will be classified and entities extracted</li>
       </ul>
     </mat-card-content>
   </mat-card>

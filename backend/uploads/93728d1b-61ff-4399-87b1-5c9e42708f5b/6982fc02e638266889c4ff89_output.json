@@ -1,0 +1,21 @@
+{
+  "document_type": "form",
+  "extraction_timestamp": "2026-02-04T08:13:42.720697",
+  "fields": {},
+  "entities": {
+    "persons": [],
+    "organizations": [],
+    "locations": [],
+    "dates": [],
+    "monetary_values": [],
+    "emails": [],
+    "phone_numbers": []
+  },
+  "tables": [],
+  "extracted_text": "property_image\n\n_id objectId\nimage_url string\nthumbnail_url string\nis_primary bool\nuploaded_at (nixed).\n\nlisting_confirmation\n\na _id objectId\n\nconfirmation_due...\nconfirmed_at\nis_confirmed\n\nreminder_status string\n\ncreated_at\n\nproperty_location\n\na _id objectId\nlatitude (mixed).\nlongitude (mixed).\nmap_url string\ncreated_at (mixed).\n\n! properties\n\n_id\n\naddress\namenities\narea_sqft\nbathrooms\nbedrooms\ncity\ncountry\ncreated_at\ndescription\nimages\nis_featured\nlandlord_id\nlast_confirmed_at\nlatitude\nlongitude\nprice\nproperty_type\nstate\nstatus\ntitle\nupdated_at\nvideos\nviews\n\nzip_code\n\nobjectId\nstring\nif)\n\nint\n(mixed).\nint\nstring\nstring\ndate\nstring\nif]\n\nbool\nstring\ndate\n(nixed).\n(mixed).\nint\nstring\nstring\nstring\nstring\ndate\n\nia]\n\nint\nstring\n\npayment_date\n\nusers\na _id objectId\nemail string }+—\npassword string\nrole string B—-\n= bookings\n_id objectId —\nstatus string\ndate date\ncreated_at date\ntenant_id string\npayments\na _id objectId\namount double\npayment_method string\npaid_at (nixed).\n\n(mixed),\n\ni notific",
+  "metadata": {
+    "total_entities_found": 0,
+    "table_count": 0,
+    "text_length": 1095
+  }
+}

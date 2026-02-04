@@ -1,0 +1,117 @@
+{
+  "document_type": "invoice",
+  "extraction_timestamp": "2026-02-04T07:31:59.975949",
+  "invoice_info": {
+    "invoice_number": "",
+    "invoice_date": "",
+    "due_date": "",
+    "po_number": "",
+    "customer_id": ""
+  },
+  "vendor": {
+    "name": "Street Address",
+    "email": "",
+    "phone": "",
+    "address": ""
+  },
+  "customer": {
+    "name": "",
+    "address": ""
+  },
+  "financial": {
+    "subtotal": "",
+    "tax": "",
+    "total_amount": "",
+    "currency": "USD",
+    "payment_terms": ""
+  },
+  "line_items": [
+    {
+      "description": "[Street Address]\n[City, ST ZIP Code]\nPhone: [Phone]  Fax: [Fax]",
+      "quantity": "Invoice #[100]\nDate: [Date]",
+      "unit_price": "",
+      "total": ""
+    },
+    {
+      "description": "To:\n[Recipient Name]\n[Company Name]\n[Street Address]\n[City, ST ZIP Code]\nPhone: [Phone]",
+      "quantity": "Ship To:\n[Recipient Name]\n[Company Name\n[Street Address]\n[City, ST ZIP Code]\nPhone: [Phone]",
+      "unit_price": "",
+      "total": ""
+    },
+    {
+      "description": "",
+      "quantity": "",
+      "unit_price": "",
+      "total": ""
+    },
+    {
+      "description": "",
+      "quantity": "",
+      "unit_price": "",
+      "total": ""
+    },
+    {
+      "description": "",
+      "quantity": "",
+      "unit_price": "",
+      "total": ""
+    },
+    {
+      "description": "",
+      "quantity": "",
+      "unit_price": "",
+      "total": ""
+    },
+    {
+      "description": "",
+      "quantity": "",
+      "unit_price": "",
+      "total": ""
+    },
+    {
+      "description": "",
+      "quantity": "",
+      "unit_price": "",
+      "total": ""
+    },
+    {
+      "description": "",
+      "quantity": "",
+      "unit_price": "",
+      "total": ""
+    },
+    {
+      "description": "",
+      "quantity": "",
+      "unit_price": "",
+      "total": ""
+    },
+    {
+      "description": "",
+      "quantity": "SALES TAX",
+      "unit_price": "",
+      "total": ""
+    },
+    {
+      "description": "",
+      "quantity": "SHIPPING & HANDLING",
+      "unit_price": "",
+      "total": ""
+    },
+    {
+      "description": "",
+      "quantity": "TOTAL due",
+      "unit_price": "",
+      "total": ""
+    }
+  ],
+  "extracted_entities": {
+    "all_amounts": [],
+    "all_dates": []
+  },
+  "metadata": {
+    "has_tables": true,
+    "table_count": 4,
+    "confidence_score": 0.0
+  }
+}

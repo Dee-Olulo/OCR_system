@@ -1,0 +1,46 @@
+{
+  "document_type": "invoice",
+  "extraction_timestamp": "2026-02-04T07:21:58.375540",
+  "invoice_info": {
+    "invoice_number": "",
+    "invoice_date": "",
+    "due_date": "",
+    "po_number": "",
+    "customer_id": ""
+  },
+  "vendor": {
+    "name": "",
+    "email": "",
+    "phone": "27 2026",
+    "address": ""
+  },
+  "customer": {
+    "name": "",
+    "address": ""
+  },
+  "financial": {
+    "subtotal": "",
+    "tax": "",
+    "total_amount": "",
+    "currency": "USD",
+    "payment_terms": ""
+  },
+  "line_items": [],
+  "extracted_entities": {
+    "all_amounts": [],
+    "all_dates": [
+      "27 2026",
+      "24 2026",
+      "5 2026\n\nory",
+      "3 2026",
+      "2026",
+      "May 22 2026",
+      "May\n\naun"
+    ]
+  },
+  "metadata": {
+    "has_tables": false,
+    "table_count": 0,
+    "confidence_score": 0.0
+  }
+}

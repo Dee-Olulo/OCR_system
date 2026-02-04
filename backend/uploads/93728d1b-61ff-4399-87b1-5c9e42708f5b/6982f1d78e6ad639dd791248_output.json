@@ -1,0 +1,51 @@
+{
+  "document_type": "form",
+  "extraction_timestamp": "2026-02-04T07:45:03.646170",
+  "fields": {},
+  "entities": {
+    "persons": [
+      "Atrill",
+      "Quickbooks",
+      "11th ed.",
+      "Usability-",
+      "DIANA JERUSHA"
+    ],
+    "organizations": [
+      "Compliance - Compliance",
+      "Complexity - Users",
+      "Institute",
+      "THE CATHOLIC UNIVERSITY OF EASTERN AFRICA",
+      "Scalability - Scalability",
+      "the Institute of Certified Public Accountants",
+      "Limitations\nScalability",
+      "Institute of Certified Public Accountants",
+      "ICPAK"
+    ],
+    "locations": [
+      "Kenya",
+      "London",
+      "Kenan"
+    ],
+    "dates": [
+      "2019",
+      "2015",
+      "1046050",
+      "2008"
+    ],
+    "monetary_values": [],
+    "emails": [],
+    "phone_numbers": [
+      "2019",
+      "2015",
+      "1046050",
+      "2008"
+    ]
+  },
+  "tables": [],
+  "extracted_text": "THE CATHOLIC UNIVERSITY OF EASTERN AFRICA\n\nCOURSE: COMPUTER SCIENCE\nUNIT NAME: BASIC ACCOUNTING\nUNIT CODE:CAC 111\n\nREGISTRATION NO: 1046050\nNAME: DIANA JERUSHA OLULO\n\nQUESTION 2\nDiscuss the role of the Institute of Certified Public Accountants of Kenya in financial reporting in Kenya\nThe Accountants Act No.15 of 2008 confers the council the following roles and functions:\nPromote research into the subjects of accountancy and finance and the publication of books, periodicals, journals and articles in connection therewith.\nIssuing standards of professional practice, including accounting and  auditing standards which form the basis of accountancy practice for members of the institute in preparation, verification and auditing of financial statements.\nAdvise the Minister on matters relating to financial accountability in all sectors of the economy.\nCarry out any other functions prescribed for it under any of other provisions of this act or any other written law eg. technical advisories for S",
+  "metadata": {
+    "total_entities_found": 31,
+    "table_count": 0,
+    "text_length": 5112
+  }
+}

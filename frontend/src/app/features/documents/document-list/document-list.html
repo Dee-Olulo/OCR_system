@@ -42,6 +42,17 @@
             </td>
           </ng-container>
           
+          <!-- Document Type Column (Phase 2) -->
+          <ng-container matColumnDef="type">
+            <th mat-header-cell *matHeaderCellDef>Type</th>
+            <td mat-cell *matCellDef="let document">
+              <mat-chip *ngIf="document.document_type" color="accent" selected>
+                {{ document.document_type | titlecase }}
+              </mat-chip>
+              <span *ngIf="!document.document_type" class="no-type">-</span>
+            </td>
+          </ng-container>
+          
           <!-- Status Column -->
           <ng-container matColumnDef="status">
             <th mat-header-cell *matHeaderCellDef>Status</th>

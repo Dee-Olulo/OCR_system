@@ -13,6 +13,7 @@
   </div>
   
   <div *ngIf="!loading && document" class="content">
+    <!-- Document Info Card -->
     <mat-card class="info-card">
       <mat-card-header>
         <mat-card-title>
@@ -30,13 +31,23 @@
             </mat-chip>
           </div>
           
+          <div class="info-item" *ngIf="document.document_type">
+            <label>Type:</label>
+            <mat-chip color="accent" selected>
+              {{ document.document_type | titlecase }}
+              <span *ngIf="document.classification_confidence"> 
+                ({{ document.classification_confidence }}%)
+              </span>
+            </mat-chip>
+          </div>
+          
           <div class="info-item">
-            <label>File Size:</label>
+            <label>Size:</label>
             <span>{{ formatFileSize(document.file_size) }}</span>
           </div>
           
           <div class="info-item">
-            <label>File Type:</label>
+            <label>Format:</label>
             <span>{{ document.file_type }}</span>
           </div>
           
@@ -53,6 +64,11 @@
             <mat-icon>download</mat-icon>
             Download
           </button>
+          <button mat-raised-button color="primary" (click)="downloadJson()" 
+                  *ngIf="document.json_output_path">
+            <mat-icon>code</mat-icon>
+            JSON
+          </button>
           <button mat-raised-button color="warn" (click)="deleteDocument()">
             <mat-icon>delete</mat-icon>
             Delete
@@ -61,61 +77,175 @@
       </mat-card-content>
     </mat-card>
     
+    <!-- OCR Processing Card -->
     <mat-card class="ocr-card">
       <mat-card-header>
         <mat-card-title>
-          <mat-icon>text_fields</mat-icon>
-          <span>OCR Processing</span>
+          <mat-icon>auto_fix_high</mat-icon>
+          <span>Processing</span>
         </mat-card-title>
       </mat-card-header>
       
       <mat-card-content>
+        <!-- Pending State -->
         <div *ngIf="document.status === 'pending'" class="ocr-controls">
-          <p>This document has not been processed yet. Select an OCR engine and click process.</p>
+          <p>Process to extract text, entities, and structured data.</p>
           
-          <mat-form-field appearance="outline">
-            <mat-label>OCR Engine</mat-label>
-            <mat-select [(ngModel)]="selectedEngine">
-              <mat-option value="tesseract">Tesseract (Fast)</mat-option>
-              <mat-option value="easyocr">EasyOCR (Accurate)</mat-option>
-              <mat-option value="both">Both (Best Result)</mat-option>
-            </mat-select>
-          </mat-form-field>
+          <div class="options">
+            <mat-form-field appearance="outline">
+              <mat-label>OCR Engine</mat-label>
+              <mat-select [(ngModel)]="selectedEngine">
+                <mat-option value="tesseract">Tesseract (Fast)</mat-option>
+                <mat-option value="easyocr">EasyOCR (Accurate)</mat-option>
+                <mat-option value="both">Both (Best)</mat-option>
+              </mat-select>
+            </mat-form-field>
+            
+            <div class="checks">
+              <mat-checkbox [(ngModel)]="extractEntities">Entities</mat-checkbox>
+              <mat-checkbox [(ngModel)]="extractTables">Tables</mat-checkbox>
+              <mat-checkbox [(ngModel)]="classifyDocument">Classify</mat-checkbox>
+              <mat-checkbox [(ngModel)]="generateJson">JSON</mat-checkbox>
+            </div>
+          </div>
           
           <button mat-raised-button color="primary" 
                   (click)="processWithOCR()" 
                   [disabled]="processing">
             <mat-spinner *ngIf="processing" diameter="20"></mat-spinner>
             <mat-icon *ngIf="!processing">play_arrow</mat-icon>
-            <span *ngIf="!processing">Process Document</span>
-            <span *ngIf="processing">Processing...</span>
+            <span>{{ processing ? 'Processing...' : 'Process' }}</span>
           </button>
         </div>
         
+        <!-- Processing State -->
         <div *ngIf="document.status === 'processing'" class="processing-state">
           <mat-spinner diameter="40"></mat-spinner>
-          <p>Processing document with OCR...</p>
+          <p>Processing...</p>
         </div>
         
-        <div *ngIf="document.status === 'completed'" class="extracted-text">
-          <div class="text-header">
-            <h3>Extracted Text</h3>
+        <!-- Completed State -->
+        <div *ngIf="document.status === 'completed'">
+          <div class="result-header">
+            <h3>Complete!</h3>
             <button mat-raised-button color="primary" (click)="processWithOCR()" [disabled]="processing">
               <mat-icon>refresh</mat-icon>
               Re-process
             </button>
           </div>
           
-          <div class="text-container">
-            <pre *ngIf="document.extracted_text">{{ document.extracted_text }}</pre>
-            <p *ngIf="!document.extracted_text" class="no-text">No text extracted</p>
-          </div>
+          <!-- Tabs -->
+          <mat-tab-group>
+            <!-- JSON Output Tab (NEW - First/Default) -->
+            <mat-tab label="JSON Output">
+              <div class="tab-content">
+                <div *ngIf="jsonOutput || document.json_output_path" class="json-viewer">
+                  <div class="json-actions">
+                    <button mat-raised-button color="primary" (click)="downloadJson()">
+                      <mat-icon>download</mat-icon>
+                      Download JSON
+                    </button>
+                    <button mat-icon-button (click)="copyJsonToClipboard()" matTooltip="Copy to clipboard">
+                      <mat-icon>content_copy</mat-icon>
+                    </button>
+                  </div>
+                  <div class="json-display">
+                    <pre>{{ getFormattedJson() }}</pre>
+                  </div>
+                </div>
+                <div *ngIf="!jsonOutput && !document.json_output_path" class="no-data">
+                  <p>JSON output not available. Re-process with "Generate JSON" option enabled.</p>
+                </div>
+              </div>
+            </mat-tab>
+            
+            <!-- Text -->
+            <mat-tab label="Raw Text">
+              <div class="tab-content">
+                <div class="text-box">
+                  <pre *ngIf="document.extracted_text">{{ document.extracted_text }}</pre>
+                  <p *ngIf="!document.extracted_text" class="no-data">No text</p>
+                </div>
+              </div>
+            </mat-tab>
+            
+            <!-- Entities -->
+            <mat-tab label="Entities" *ngIf="document.entities">
+              <div class="tab-content entities">
+                <!-- Key-Values -->
+                <div *ngIf="document.entities.key_value_pairs && Object.keys(document.entities.key_value_pairs).length > 0" class="entity-section">
+                  <h4><mat-icon>key</mat-icon> Key-Value Pairs</h4>
+                  <div class="kv-grid">
+                    <div *ngFor="let kv of Object.entries(document.entities.key_value_pairs)" class="kv-item">
+                      <span class="key">{{ kv[0] }}:</span>
+                      <span class="value">{{ kv[1] }}</span>
+                    </div>
+                  </div>
+                </div>
+                
+                <!-- Other Entities -->
+                <div *ngIf="document.entities.persons && document.entities.persons.length > 0" class="entity-section">
+                  <h4><mat-icon>person</mat-icon> Persons</h4>
+                  <mat-chip-set>
+                    <mat-chip *ngFor="let item of document.entities.persons">{{ item }}</mat-chip>
+                  </mat-chip-set>
+                </div>
+                
+                <div *ngIf="document.entities.organizations && document.entities.organizations.length > 0" class="entity-section">
+                  <h4><mat-icon>business</mat-icon> Organizations</h4>
+                  <mat-chip-set>
+                    <mat-chip *ngFor="let item of document.entities.organizations">{{ item }}</mat-chip>
+                  </mat-chip-set>
+                </div>
+                
+                <div *ngIf="document.entities.money && document.entities.money.length > 0" class="entity-section">
+                  <h4><mat-icon>attach_money</mat-icon> Amounts</h4>
+                  <mat-chip-set>
+                    <mat-chip *ngFor="let item of document.entities.money">{{ item }}</mat-chip>
+                  </mat-chip-set>
+                </div>
+                
+                <div *ngIf="document.entities.emails && document.entities.emails.length > 0" class="entity-section">
+                  <h4><mat-icon>email</mat-icon> Emails</h4>
+                  <mat-chip-set>
+                    <mat-chip *ngFor="let item of document.entities.emails">{{ item }}</mat-chip>
+                  </mat-chip-set>
+                </div>
+                
+                <p *ngIf="!hasAnyEntities()" class="no-data">No entities</p>
+              </div>
+            </mat-tab>
+            
+            <!-- Tables -->
+            <mat-tab label="Tables ({{document.tables.length || 0}})" *ngIf="document.tables && document.tables.length > 0">
+              <div class="tab-content">
+                <div *ngFor="let table of document.tables; let i = index" class="table-section">
+                  <h4>Table {{ i + 1 }}</h4>
+                  <div class="table-scroll">
+                    <table class="simple-table">
+                      <thead>
+                        <tr>
+                          <th *ngFor="let h of table.headers">{{ h }}</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let row of table.rows">
+                          <td *ngFor="let cell of row">{{ cell }}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </mat-tab>
+          </mat-tab-group>
         </div>
         
+        <!-- Failed State -->
         <div *ngIf="document.status === 'failed'" class="failed-state">
           <mat-icon color="warn">error</mat-icon>
-          <p>OCR processing failed. Please try again.</p>
-          <button mat-raised-button color="primary" (click)="processWithOCR()" [disabled]="processing">
+          <p>Failed</p>
+          <button mat-raised-button color="primary" (click)="processWithOCR()">
             <mat-icon>refresh</mat-icon>
             Retry
           </button>

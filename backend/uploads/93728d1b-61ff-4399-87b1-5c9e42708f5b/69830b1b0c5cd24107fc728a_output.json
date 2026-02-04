@@ -1,0 +1,49 @@
+{
+  "document_type": "invoice",
+  "extraction_timestamp": "2026-02-04T09:03:06.056601",
+  "invoice_info": {
+    "invoice_number": "",
+    "invoice_date": "19/7/2022",
+    "due_date": "3/8/2022",
+    "po_number": "",
+    "customer_id": ""
+  },
+  "vendor": {
+    "name": "Description Quantity Unit",
+    "email": "",
+    "phone": "400.00",
+    "address": "Australia"
+  },
+  "customer": {
+    "name": "",
+    "address": "Business Name"
+  },
+  "financial": {
+    "subtotal": "2,100.00",
+    "tax": "",
+    "total_amount": "2,100.00",
+    "currency": "USD",
+    "payment_terms": ""
+  },
+  "line_items": [],
+  "extracted_entities": {
+    "all_amounts": [
+      "400.00",
+      "$2,000.00 $",
+      "2,510.00",
+      "2,100.00",
+      "10.00",
+      "$100.00 $"
+    ],
+    "all_dates": [
+      "NSW 2009",
+      "NSW 2000",
+      "2022435"
+    ]
+  },
+  "metadata": {
+    "has_tables": false,
+    "table_count": 0,
+    "confidence_score": 0.0
+  }
+}
