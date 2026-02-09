@@ -1,0 +1,30 @@
+{
+  "document_type": "unknown",
+  "extraction_timestamp": "2026-02-09T13:22:16.432884",
+  "entities": {
+    "persons": [
+      "Knan Untverlty Hanpitet Nohobl",
+      "huthttt Chun",
+      "Untun Rord",
+      "Aoatn Ea",
+      "Elmraliuko",
+      "IHAT Oa\nDunetn\ncladiCthoRCC\nAoraodtanT\nseule3ieta\nLon"
+    ],
+    "organizations": [
+      "IadOunat",
+      "PuxIbndz"
+    ]
+  },
+  "extracted_text_preview": "T4404 Knan Untverlty Hanpitet Nohobl\nId PuxIbndz AuenV\nUntun Rord\nApbobi\nkoln\n+254 (0)\nH1n\nImot7448tULEapltaL 6to \nHOSnALu*L\nNo043\nOttn 07121\nDlPeo\nL itC\n4e\nQBAMWuAUIOKIt\nTted atenaton\n[uuaLIIE\nHantofTitextDottr\"\nUa84F JukFD\nLed\nIHAT Oa\nDunetn\ncladiCthoRCC\nAoraodtanT\nseule3ieta\nLon\nedaL\nSELNEE@\n4rt t\n#Ti.\nAoatn Ea\nHure\nChattS\nIadOunat\nM Fha Aankinllan Guante\nExuUmIEtEIOUE\nInectimncha\nElmraliuko\n\"inat\nItnm\nIcu HnkeUott \ntco0\n[e\nAll Emanenant\nEkedInnthen\nAcKNmtTk Groc\n4kckZ\n71E22716n1\nSuleeonUan\nMrhieni\nhuthttt Chun ut\nLced centndmoter\nDonltntchioz>\nSotuwi Dund\nAnslo\nBoo\nOnY L \"\nOuna",
+  "metadata": {
+    "has_entities": true,
+    "has_tables": false,
+    "has_key_value_pairs": false,
+    "total_entities": 8,
+    "table_count": 0,
+    "text_length": 588,
+    "language": "en",
+    "language_name": "English",
+    "language_confidence": 100.0
+  }
+}

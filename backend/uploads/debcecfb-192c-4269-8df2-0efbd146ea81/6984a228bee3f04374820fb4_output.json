@@ -1,0 +1,126 @@
+{
+  "document_type": "bank_statement",
+  "extraction_timestamp": "2026-02-05T14:03:32.148601",
+  "fields": {
+    "bank_name": "Sunrise Community Bank (Fictional)",
+    "branch": "Westlands, Nairobi",
+    "statement_period": "01 Jan 2026 – 31 Jan 2026",
+    "account_holder": "Diana J. Olulo",
+    "account_number": "1234567890",
+    "account_type": "Savings Account (KES)",
+    "closing_balance": "KES 89,800.00"
+  },
+  "entities": {
+    "persons": [
+      "Bill BIL-889123",
+      "Diana J. Olulo",
+      "EFT-778921 40,000.00 - 79,800.00",
+      "Maintenance Fee"
+    ],
+    "organizations": [
+      "Bank Name: Sunrise Community Bank (Fictional",
+      "Salary Deposit",
+      "SAMPLE BANK"
+    ],
+    "locations": [
+      "Nairobi"
+    ],
+    "invoice_numbers": [
+      "Debit",
+      "sit",
+      "SES",
+      "S-447812"
+    ]
+  },
+  "tables": [
+    {
+      "page": 1,
+      "table_number": 1,
+      "headers": [
+        "Date",
+        "Description",
+        "Reference",
+        "Debit (KES)",
+        "Credit (KES)",
+        "Balance (KES)"
+      ],
+      "rows": [
+        [
+          "01-01-2026",
+          "Opening Balance",
+          "OB-20260101",
+          "-",
+          "-",
+          "45,000.00"
+        ],
+        [
+          "03-01-2026",
+          "Salary Deposit",
+          "SAL-983241",
+          "-",
+          "80,000.00",
+          "125,000.00"
+        ],
+        [
+          "06-01-2026",
+          "Supermarket Purchase",
+          "POS-447812",
+          "5,200.00",
+          "-",
+          "119,800.00"
+        ],
+        [
+          "10-01-2026",
+          "Rent Payment",
+          "EFT-778921",
+          "40,000.00",
+          "-",
+          "79,800.00"
+        ],
+        [
+          "15-01-2026",
+          "Mobile Money Transfer",
+          "MMT-112309",
+          "8,500.00",
+          "-",
+          "71,300.00"
+        ],
+        [
+          "20-01-2026",
+          "Freelance Payment",
+          "FRL-665432",
+          "-",
+          "25,000.00",
+          "96,300.00"
+        ],
+        [
+          "25-01-2026",
+          "Electricity Bill",
+          "BIL-889123",
+          "6,200.00",
+          "-",
+          "90,100.00"
+        ],
+        [
+          "31-01-2026",
+          "Account Maintenance Fee",
+          "FEE-202601",
+          "300.00",
+          "-",
+          "89,800.00"
+        ]
+      ],
+      "row_count": 8,
+      "column_count": 6
+    }
+  ],
+  "extracted_text_preview": "SAMPLE BANK STATEMENT\nnn FOR DEMONSTRATION PURPOSES ONLY – NOT A REAL BANK DOCUMENT nn\nBank Name: Sunrise Community Bank (Fictional)\nBranch: Westlands, Nairobi\nStatement Period: 01 Jan 2026 – 31 Jan 2026\nAccount Holder: Diana J. Olulo\nAccount Number: 1234567890\nAccount Type: Savings Account (KES)\nDate Description Reference Debit (KES) Credit (KES) Balance (KES)\n01-01-2026 Opening Balance OB-20260101 - - 45,000.00\n03-01-2026 Salary Deposit SAL-983241 - 80,000.00 125,000.00\n06-01-2026 Supermarket Purchase POS-447812 5,200.00 - 119,800.00\n10-01-2026 Rent Payment EFT-778921 40,000.00 - 79,800.00\n15-01-2026 Mobile Money Transfer MMT-112309 8,500.00 - 71,300.00\n20-01-2026 Freelance Payment FRL-665432 - 25,000.00 96,300.00\n25-01-2026 Electricity Bill BIL-889123 6,200.00 - 90,100.00\n31-01-2026 Account Maintenance Fee FEE-202601 300.00 - 89,800.00\nClosing Balance: KES 89,800.00",
+  "metadata": {
+    "has_entities": true,
+    "has_tables": true,
+    "has_key_value_pairs": true,
+    "total_entities": 12,
+    "table_count": 1,
+    "text_length": 881
+  }
+}

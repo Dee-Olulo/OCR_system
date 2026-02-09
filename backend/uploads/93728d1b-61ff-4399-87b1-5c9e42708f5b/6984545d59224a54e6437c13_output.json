@@ -1,0 +1,33 @@
+{
+  "document_type": "form",
+  "extraction_timestamp": "2026-02-05T08:27:14.813638",
+  "fields": {
+    "cotectons": "uses, proper, bookings, ||"
+  },
+  "entities": {
+    "organizations": [
+      "Routing - State Management",
+      "SendGrid/SMTP",
+      "Validation - File Handing\n\n- External",
+      "TypeScript",
+      "DATALAYER",
+      "Components -Services - Guards",
+      "Map Services"
+    ],
+    "monetary_values": [
+      "3"
+    ],
+    "invoice_numbers": [
+      "nents"
+    ]
+  },
+  "extracted_text_preview": "PRESENTATION LAYER |\n\nAngular Frontend (TypeScript)\n= Components -Services - Guards\n= Routing - State Management\n\n: HTTPHHTTPS: ]\n\nAPPLICATION LAYER 1\n\nFlask REST API (Python)\n\n- Authentication - Business Logie\nValidation - File Handing\n\n- External APIs - Scheduled Tasks\n\nMongo |\n\nDATALAYER |\n\n‘ongoD® Database\nCotectons: uses, proper, bookings, ||\nevmerts. nations\n\nEXTERNAL SERVICES.\n\n- Payment Gateway (Stripe/PayPal) |\n~ Map Services (Google Maps)\n\n- Email Service (SendGrid/SMTP) |\n\n- SMS Service (Twilio) |\n\n- Cloud Storage (AWS $3/Cloudinary) |",
+  "metadata": {
+    "has_entities": true,
+    "has_tables": false,
+    "has_key_value_pairs": true,
+    "total_entities": 9,
+    "table_count": 0,
+    "text_length": 552
+  }
+}

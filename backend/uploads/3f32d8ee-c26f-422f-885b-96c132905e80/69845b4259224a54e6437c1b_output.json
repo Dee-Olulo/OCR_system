@@ -1,0 +1,43 @@
+{
+  "document_type": "invoice",
+  "extraction_timestamp": "2026-02-05T08:57:14.694139",
+  "fields": {
+    "your_client_issue_date": "19/7/2022",
+    "100_harris_st_due_date": "3/8/2022",
+    "australia_reference": "2022435",
+    "subtotal": "$2,100.00",
+    "total_aud": "$2,510.00"
+  },
+  "entities": {
+    "organizations": [
+      "AUD",
+      "PDF",
+      "Description Quantity Unit"
+    ],
+    "locations": [
+      "Business Name",
+      "Australia"
+    ],
+    "monetary_values": [
+      "2,100.00",
+      "$100.00 $",
+      "2,510.00",
+      "10.00",
+      "$2,000.00 $",
+      "400.00"
+    ],
+    "invoice_numbers": [
+      "Your",
+      "2022435"
+    ]
+  },
+  "extracted_text_preview": "Invoice 2022435\n\nA Tax invoice\nYour Business\nBILL TO\nYour Client Issue date: 19/7/2022\n100 Harris St Due date: 3/8/2022\nSydney NSW NSW 2009\nAustralia Reference: 2022435\n\nTotal due (AUD)\n$2,510.00\nDescription Quantity Unit price ($) Amount ($)\nServices & products 1 100.00 100.00\nMore services & products 1 2,000.00 2,000.00\nSubtotal: $2,100.00\nGST 10% from $100.00 $10.00\nGST 20% from $2,000.00 $400.00\nTotal (AUD): $2,510.00\nIssued by, signature:\n\n&. +61200000000 @ www. yourbusinessname.com.au A emailg\nYour Business Name\n5 Martin Pl\nSydney NSW 2000\nAustralia\n\nPDF",
+  "metadata": {
+    "has_entities": true,
+    "has_tables": false,
+    "has_key_value_pairs": true,
+    "total_entities": 13,
+    "table_count": 0,
+    "text_length": 566
+  }
+}

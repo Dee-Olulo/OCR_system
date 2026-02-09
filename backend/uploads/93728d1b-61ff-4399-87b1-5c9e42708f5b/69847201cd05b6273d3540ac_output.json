@@ -1,0 +1,135 @@
+{
+  "document_type": "invoice",
+  "extraction_timestamp": "2026-02-05T10:33:39.540940",
+  "fields": {
+    "tel": "+254 711 555 222 | Email: accounts@greenfieldacademy.ac.ke",
+    "invoice_no": "SCH-INV-2026-014",
+    "invoice_date": "05 February 2026",
+    "term": "Term 1 - 2026",
+    "due_date": "15 February 2026",
+    "student_name": "Brian Otieno",
+    "admission_number": "GF/2023/118",
+    "class": "Grade 6 Blue",
+    "academic_year": "2026",
+    "payment_method": "Bank Transfer",
+    "bank": "Equity Bank Kenya",
+    "account_name": "Greenfield Academy",
+    "account_number": "0123456789012",
+    "payment_status": "UNPAID",
+    "prepared_by": "Mary Wanjiku",
+    "signature": "___________________________"
+  },
+  "entities": {
+    "persons": [
+      "Mary Wanjiku\nAccounts Office",
+      "Grade 6 Blue\nAcademic Year:",
+      "Brian Otieno\nAdmission"
+    ],
+    "organizations": [
+      "Student Information\nStudent Name",
+      "Sports & Activities",
+      "Tuition Fees",
+      "GREENFIELD ACADEMY\nExcellence",
+      "Total Payable",
+      "Greenfield Academy\nAccount Number:",
+      "Invoice Date",
+      "ICT & E-Learning"
+    ],
+    "locations": [
+      "Kenya",
+      "Nairobi"
+    ],
+    "emails": [
+      "accounts@greenfieldacademy.ac.ke"
+    ],
+    "invoice_numbers": [
+      "rt",
+      "rts",
+      "-2026-014",
+      "Date",
+      "SCH-INV-2026-014",
+      "No"
+    ]
+  },
+  "tables": [
+    {
+      "page": 1,
+      "table_number": 1,
+      "headers": [
+        "Invoice No: SCH-INV-2026-014"
+      ],
+      "rows": [
+        [
+          "Invoice Date: 05 February 2026\nTerm: Term 1 - 2026\nDue Date: 15 February 2026"
+        ]
+      ],
+      "row_count": 1,
+      "column_count": 1
+    },
+    {
+      "page": 1,
+      "table_number": 2,
+      "headers": [
+        "Fee Description",
+        "Amount (KES)"
+      ],
+      "rows": [
+        [
+          "Tuition Fees",
+          "45,000"
+        ],
+        [
+          "Examination Fees",
+          "5,500"
+        ],
+        [
+          "Library Fees",
+          "2,000"
+        ],
+        [
+          "ICT & E-Learning",
+          "3,500"
+        ],
+        [
+          "Sports & Activities",
+          "4,000"
+        ],
+        [
+          "Transport Fees",
+          "12,000"
+        ]
+      ],
+      "row_count": 6,
+      "column_count": 2
+    },
+    {
+      "page": 1,
+      "table_number": 3,
+      "headers": [
+        "Subtotal",
+        "72,000"
+      ],
+      "rows": [
+        [
+          "Discount",
+          "2,000"
+        ],
+        [
+          "Total Payable",
+          "70,000"
+        ]
+      ],
+      "row_count": 2,
+      "column_count": 2
+    }
+  ],
+  "extracted_text_preview": "GREENFIELD ACADEMY\nExcellence in Education\nP.O. Box 67890-00200, Nairobi, Kenya\nTel: +254 711 555 222 | Email: accounts@greenfieldacademy.ac.ke\nInvoice No: SCH-INV-2026-014\nInvoice Date: 05 February 2026\nTerm: Term 1 - 2026\nDue Date: 15 February 2026\nStudent Information\nStudent Name: Brian Otieno\nAdmission Number: GF/2023/118\nClass: Grade 6 Blue\nAcademic Year: 2026\nFee Description Amount (KES)\nTuition Fees 45,000\nExamination Fees 5,500\nLibrary Fees 2,000\nICT & E-Learning 3,500\nSports & Activities 4,000\nTransport Fees 12,000\nSubtotal 72,000\nDiscount 2,000\nTotal Payable 70,000\nPayment Details\nPayment Method: Bank Transfer\nBank: Equity Bank Kenya\nAccount Name: Greenfield Academy\nAccount Number: 0123456789012\nPayment Status: UNPAID\nPrepared By: Mary Wanjiku\nAccounts Office\nSignature: ___________________________",
+  "metadata": {
+    "has_entities": true,
+    "has_tables": true,
+    "has_key_value_pairs": true,
+    "total_entities": 20,
+    "table_count": 3,
+    "text_length": 818
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "document_type": "unknown",
+  "extraction_timestamp": "2026-02-09T13:20:33.166757",
+  "entities": {
+    "persons": [
+      "Bod Tranaien",
+      "Farge",
+      "Rod",
+      "Homptia",
+      "Ken",
+      "NOOSE"
+    ],
+    "organizations": [
+      "3rd Parkins Ave",
+      "Blood Varafion Adibctos",
+      "Ea 080",
+      "Fos",
+      "MOU"
+    ],
+    "locations": [
+      "sia"
+    ],
+    "monetary_values": [
+      "20"
+    ]
+  },
+  "extracted_text_preview": "Ea 080 cree University Homptia eions\n\n3rd Parkins Ave, ary Rod. Noli, Ken.\n\n“s254 (0) 20367 2010\ninfopapeinaneri. og\n\nWOSPITAL amLL\npaneoes ul tegen\ney ELLY 6, NOOSE dete\ndoeen, PBK HED ARUSHA TANNA\n\nine To eetson ET AY zt 1830 MOU\n\name of eating Doctor_MORENE SES JONES THAR pyparene SAADIOTHORADL,\n\nDecoemsotaian yoe__seuenuats. _ noon o_108\n\narrets Fos surat\n\n2s cha 50 7\n5 [aa\n4 [We Fle eran aT cm =\n5 [Blood Varafion Adibctos arms $20 ca\n5 — [ction Cs co =\n7 sia cscs Raa\na eure 32100 Emo\nPRCT oes 3300 Eo\n5 Perm aes a 2a\n1 [W fade horns rion aE\n5 [Bod Tranaien knee Garp Ea =\n5 [jen Cages\n\neee rin\n\n3 [surgeon harp ro na\n2 [anata ange\n\n3 [eiealPrectonner Farge ro me\n1 [era charge\n\nRosse 00\n\nBlend\n\nones ae",
+  "metadata": {
+    "has_entities": true,
+    "has_tables": false,
+    "has_key_value_pairs": false,
+    "total_entities": 13,
+    "table_count": 0,
+    "text_length": 712,
+    "language": "en",
+    "language_name": "English",
+    "language_confidence": 100.0
+  }
+}

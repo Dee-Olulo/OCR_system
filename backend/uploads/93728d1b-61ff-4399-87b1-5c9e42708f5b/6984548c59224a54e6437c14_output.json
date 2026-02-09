@@ -1,0 +1,13 @@
+{
+  "document_type": "unknown",
+  "extraction_timestamp": "2026-02-05T08:28:08.196913",
+  "extracted_text_preview": "\n=== Sheet: covid19_patient_data ===\n\n=== Sheet: data_dictionary ===\n",
+  "metadata": {
+    "has_entities": false,
+    "has_tables": false,
+    "has_key_value_pairs": false,
+    "total_entities": 0,
+    "table_count": 0,
+    "text_length": 69
+  }
+}

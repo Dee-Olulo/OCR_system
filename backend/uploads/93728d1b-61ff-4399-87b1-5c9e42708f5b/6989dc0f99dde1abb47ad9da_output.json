@@ -1,0 +1,32 @@
+{
+  "document_type": "invoice",
+  "extraction_timestamp": "2026-02-09T13:07:31.236958",
+  "fields": {
+    "setrncn_diecraron_ok__aaioeios_15": "39"
+  },
+  "entities": {
+    "persons": [
+      "Diecraron Ok",
+      "Gxes",
+      "Bat"
+    ],
+    "organizations": [
+      "ROHS"
+    ],
+    "invoice_numbers": [
+      "Ps"
+    ]
+  },
+  "extracted_text_preview": "INPATIENT INVOICE\n\nPs ecw oe ROHS\nae ao. o, 34204\n\name Bat fo 5\n\n2 Sermon be 1O/OAFROL 16328\nsetrncn Diecraron Ok, = AAIOEIOS 15:39\n\npitivo Gxes © MEDICAL GENERA\n\na\n\nToa Gash\nCARDELOSY 49,460.09 29,580.00\n3,010.00 3.U20.09\n53,560.08 32,890.08\n12:040.00. 12,049.00",
+  "metadata": {
+    "has_entities": true,
+    "has_tables": false,
+    "has_key_value_pairs": true,
+    "total_entities": 5,
+    "table_count": 0,
+    "text_length": 263,
+    "language": "en",
+    "language_name": "English",
+    "language_confidence": 100.0
+  }
+}

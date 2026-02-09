@@ -1,0 +1,97 @@
+{
+  "document_type": "unknown",
+  "extraction_timestamp": "2026-02-05T14:08:15.579563",
+  "fields": {
+    "sheet": "Bank Statement ==="
+  },
+  "tables": [
+    {
+      "sheet_name": "Bank Statement",
+      "headers": [
+        "Date",
+        "Description",
+        "Reference",
+        "Debit (KES)",
+        "Credit (KES)",
+        "Balance (KES)"
+      ],
+      "rows": [
+        [
+          "01-01-2026",
+          "Opening Balance",
+          "OB-20260101",
+          "",
+          "",
+          "45000"
+        ],
+        [
+          "03-01-2026",
+          "Salary Deposit",
+          "SAL-983241",
+          "",
+          "80000",
+          "125000"
+        ],
+        [
+          "06-01-2026",
+          "Supermarket Purchase",
+          "POS-447812",
+          "5200",
+          "",
+          "119800"
+        ],
+        [
+          "10-01-2026",
+          "Rent Payment",
+          "EFT-778921",
+          "40000",
+          "",
+          "79800"
+        ],
+        [
+          "15-01-2026",
+          "Mobile Money Transfer",
+          "MMT-112309",
+          "8500",
+          "",
+          "71300"
+        ],
+        [
+          "20-01-2026",
+          "Freelance Payment",
+          "FRL-665432",
+          "",
+          "25000",
+          "96300"
+        ],
+        [
+          "25-01-2026",
+          "Electricity Bill",
+          "BIL-889123",
+          "6200",
+          "",
+          "90100"
+        ],
+        [
+          "31-01-2026",
+          "Account Maintenance Fee",
+          "FEE-202601",
+          "300",
+          "",
+          "89800"
+        ]
+      ],
+      "row_count": 8,
+      "column_count": 6
+    }
+  ],
+  "extracted_text_preview": "\n=== Sheet: Bank Statement ===\n",
+  "metadata": {
+    "has_entities": false,
+    "has_tables": true,
+    "has_key_value_pairs": true,
+    "total_entities": 0,
+    "table_count": 1,
+    "text_length": 31
+  }
+}

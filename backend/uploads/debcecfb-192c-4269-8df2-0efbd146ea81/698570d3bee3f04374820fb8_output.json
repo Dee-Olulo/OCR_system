@@ -1,0 +1,58 @@
+{
+  "document_type": "unknown",
+  "extraction_timestamp": "2026-02-06T04:40:58.925393",
+  "fields": {
+    "tel": "01234 / 567890 BeispielstraBe 5",
+    "email": "info@musterfirma.de 54321 Beispielstadt",
+    "rechnungsnummer": "2022-0456",
+    "rechnungsdatum": "15.01.2022",
+    "kundennummer": "123456",
+    "zwischensumme": "1,400,00 €",
+    "gesamtbetrag": "1.666,00 €",
+    "iban": "DE12 3456 7890 1234 56",
+    "bic": "MUSBDEXX",
+    "bei_fragen_kontaktieren_sie_uns_gerne": "info@musterfirma.de / TeL: 01234 / 567890"
+  },
+  "entities": {
+    "persons": [
+      "Einzelpreis Gesamtpreis",
+      "Musterstadt Max Beispiel\nTel:",
+      "Vielen Dank",
+      "Bitte",
+      "kontaktieren Sie",
+      "Leistungen 8 Std",
+      "Musterfirma GmbH"
+    ],
+    "organizations": [
+      "Musterbank",
+      "Sie den Gesamtbetrag",
+      "IBAN"
+    ],
+    "locations": [
+      "Konto"
+    ],
+    "monetary_values": [
+      "€ 560,00 €",
+      "1.666,00 €",
+      "€ 500,00 €\n",
+      "€\n\nGesamtbetrag",
+      "€ 300,00 €",
+      "1,400,00 €"
+    ],
+    "emails": [
+      "info@musterfirma.de"
+    ],
+    "invoice_numbers": [
+      "s"
+    ]
+  },
+  "extracted_text_preview": "Musterfirma GmbH\n\nMusterstraBe 12\n\n12345 Musterstadt Max Beispiel\nTel: 01234 / 567890 BeispielstraBe 5\nEmail: info@musterfirma.de 54321 Beispielstadt\n\nRechnungsnummer: 2022-0456\nRechnungsdatum: 15.01.2022\nKundennummer: 123456\n\nPos. Beschreibung Menge Einzelpreis Gesamtpreis\n1 Webdesign Leistungen 8 Std. | 70,00 € 560,00 €\n2 | Grafikdesign 5 Std. | 60,00 € 300,00 €\n3 Texterstellung 10 Std. 50,00 € 500,00 €\n4 | Fahrtkostenpauschale 1 40,00 € 40,00 €\n\nZwischensumme: 1,400,00 €\nzzgl. 19% MwSt; 266,00 €\n\nGesamtbetrag: 1.666,00 €\n\nZahlungsbedingungen:\n\nBitte liberweisef Sie den Gesamtbetrag innerhaib von 14 Tagen auf unser unten stehendes Konto.\nVielen Dank fiir thr Vertrauen!\n\nBankverbindung:\nMusterbank\n\nIBAN: DE12 3456 7890 1234 56\nBIC: MUSBDEXX\n\nBei Fragen kontaktieren Sie uns gerne: info@musterfirma.de / TeL: 01234 / 567890\n\n- —_$—_—_———",
+  "metadata": {
+    "has_entities": true,
+    "has_tables": false,
+    "has_key_value_pairs": true,
+    "total_entities": 19,
+    "table_count": 0,
+    "text_length": 847
+  }
+}

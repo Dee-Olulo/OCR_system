@@ -1,0 +1,13 @@
+{
+  "document_type": "unknown",
+  "extraction_timestamp": "2026-02-05T07:37:37.314807",
+  "extracted_text_preview": "THE CATHOLIC UNIVERSITY OF EASTERN AFRICA\nFACULTY OF SCIENCE\nDEPARTMENT OF COMPUTER SCIENCE\nUNIT: CMT 429\nUNIT TITLE: INTRODUCTION TO DATA SCIENCE\nLECTURER:\nMr. David Gichohi Maina\nSTUDENT:\nDIANA OLULO - 1046050\nISAAC KINYANJUI NGUGI - 1049049\nJOSPHINE WERE - 1049083\nESTHER TAIFA - 1049093\nBRAYAN MWANGI -1049399\nABIGAEL KIRIMI 1049507\n11/21/25, 12:02 PM DS_Avengers - Phase 3\nPhase 3 Project\nDomain: Business (Bank Marketing)\nDataset: Bank Marketing Dataset (UCI Machine Learning Repository)\nGithub: DS_Avengers_Bank_Marketing\nProject Overview\nThis project focuses on using classification and regression techniques to analyze the Bank\nMarketing dataset from a Portuguese banking institution. The dataset captures results of\ndirect marketing campaigns (via phone calls) where the main goal was to determine\nwhether a client would subscribe to a term deposit. Using the R programming language,\nwe aim to build predictive models that will support decision-making in future marketing\ncampaigns.\nBusines... (truncated)",
+  "metadata": {
+    "has_entities": false,
+    "has_tables": false,
+    "has_key_value_pairs": false,
+    "total_entities": 0,
+    "table_count": 0,
+    "text_length": 71433
+  }
+}

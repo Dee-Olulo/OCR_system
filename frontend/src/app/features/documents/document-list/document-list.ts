@@ -2,7 +2,7 @@
 
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
 import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
@@ -28,8 +28,9 @@ import { Document } from '../../../core/models/document.model';
     MatChipsModule,
     MatProgressSpinnerModule,
     MatSnackBarModule,
-    MatTooltipModule
-  ],
+    MatTooltipModule,
+    RouterLink
+],
   templateUrl: './document-list.html',
   styleUrls: ['./document-list.scss']
 })

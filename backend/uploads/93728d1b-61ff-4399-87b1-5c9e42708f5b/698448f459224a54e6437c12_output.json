@@ -1,0 +1,91 @@
+{
+  "document_type": "form",
+  "extraction_timestamp": "2026-02-05T07:43:31.289732",
+  "fields": {
+    "path": "| frontend/sre/app/app.routes.ts",
+    "import_statement": "| from routes.analytics routes import analytics bp",
+    "register": "lapp.register_Mueprint(analytics_bp, wrl_prefix=\"/analytios\"}]",
+    "e_add_analytics_route": "(/admin/analyiics |",
+    "step_1": "Backend Setup",
+    "step_2": "Frontend Setup",
+    "step_3": "Testing",
+    "3_navigate_to": "(http: //lecalhost:4200/admin/analyties |}",
+    "bar_charts": "Horizontal bars with percentage-based widths",
+    "line_charts": "Daily trends with hover effects",
+    "data_tables": "Sortable tables with hover states",
+    "summary_cards": "Large numbers with growth indicators",
+    "metric_cards": "Quick stats overview",
+    "days_optional": "Number of days for analysis (default: 30}",
+    "url": "| htip:Mocalhast dmin/analytics |",
+    "1_moengodb_aggregation": "Ensure your MongoDB version supports the aggregation operators used",
+    "date_handling": "Al! dates use UTC timezone",
+    "performance": "Large datasets may require pagination or caching",
+    "4_browser_compatibility": "Charts use CSS for visualization (no external libraries}",
+    "print_styles": "Custom print media queries included for PDF expert",
+    "e_admin_dashboard": "| /admin/dashboard |",
+    "user_management": "| /admin/users )",
+    "moderation_queue": "| /admin/moderation |",
+    "analytics_dashboard": "|"
+  },
+  "entities": {
+    "persons": [
+      "Bookings Tab",
+      "Verify JWT",
+      "Geography Tab",
+      "Tab",
+      "Restart Angular",
+      "Daily",
+      "Analytics Template",
+      "Analytics Styles",
+      "Mocalhast",
+      "Liser",
+      "¢ Tab",
+      "Overview Tab",
+      "Users Tab"
+    ],
+    "organizations": [
+      "Jandlords",
+      "APTealls",
+      "PDF",
+      "Cheek Flask",
+      "routes.analytics",
+      "Analytics Service",
+      "TypeScript",
+      "CSW",
+      "Google Sheets",
+      "Modify Time Periods\n\nUpdate",
+      "CSS",
+      "API",
+      "UTC",
+      "Chart",
+      "Register",
+      "Export Functionality",
+      "Conversion"
+    ],
+    "locations": [
+      "Mast"
+    ],
+    "invoice_numbers": [
+      "rts",
+      "ints",
+      "graphy",
+      "nsive",
+      "nents",
+      "rtant",
+      "int",
+      "s",
+      "pular",
+      "rt",
+      "nent"
+    ]
+  },
+  "extracted_text_preview": "[ul] Analytics Dashboard Implementation Guide\n(7 File Structure & Paths\n\nBackend Files\n\n1. Analvties Routes (NEW)\n\nPath: | backend/routes/analytics routes py\n\n« User engagement metrics\n\n« Property performance analytics\n« Geographic distribution\n\n« Booking trends\n\n« Summary statistics\n\n2. Updated app.py\n\nPath:\n\nbackend/app.py |\n\n« Register analytics blueprint\n\n« Import statement: | from routes.analytics routes import analytics bp\n\n« Register: lapp.register_Mueprint(analytics_bp, wrl_prefix=\"/analytios\"}]\n\nFrontend Files\n\n3. Analytics Service (NEW)\n\nfrontend/sre/app/services/amalytics.service.ts\n\n« APTealls for all analytics endpoints\n«+ Expart te CSW functionality\n« Export to PDF functionality\n\n« TypeScript interfaces for data models\n\n4. Analytics Component (NEW)\n\nPath: | frontend/sre/app/admin/analytics-dashboard/analytics-dashbeard.component.ts |\n\n« Main component logic\n\n« Data loading and state management\n¢ Tab navigation\n\n« Export handlers\n\n§. Analytics Template (NEW)\n\nPath: | front... (truncated)",
+  "metadata": {
+    "has_entities": true,
+    "has_tables": false,
+    "has_key_value_pairs": true,
+    "total_entities": 42,
+    "table_count": 0,
+    "text_length": 6787
+  }
+}

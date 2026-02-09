@@ -1,0 +1,23 @@
+{
+  "document_type": "form",
+  "extraction_timestamp": "2026-02-04T13:07:18.643771",
+  "fields": {
+    "cc_domain_1": "Security Principles",
+    "issued_on": "15/10/2025",
+    "learner_id": "f6bb3d9e-11b0-4996-b66d-21d0ea6882e9"
+  },
+  "entities": {
+    "persons": [
+      "Diana Olulo"
+    ]
+  },
+  "extracted_text_preview": "This certificate validates that\nDiana Olulo\nhas successfully completed all requirements for\nCC Domain 1: Security Principles\nNon-transferable, valid for 3 years from the date of issue\nIssued on: 15/10/2025\nLearner ID: f6bb3d9e-11b0-4996-b66d-21d0ea6882e9",
+  "metadata": {
+    "has_entities": true,
+    "has_tables": false,
+    "has_key_value_pairs": true,
+    "total_entities": 1,
+    "table_count": 0,
+    "text_length": 254
+  }
+}

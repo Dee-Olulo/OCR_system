@@ -1,0 +1,21 @@
+{
+  "document_type": "unknown",
+  "extraction_timestamp": "2026-02-09T07:21:11.857697",
+  "entities": {
+    "organizations": [
+      "Deutsche\nWelle\n\nJournalism Traineeship"
+    ]
+  },
+  "extracted_text_preview": "Deutsche\nWelle\n\nJournalism Traineeship",
+  "metadata": {
+    "has_entities": true,
+    "has_tables": false,
+    "has_key_value_pairs": false,
+    "total_entities": 1,
+    "table_count": 0,
+    "text_length": 38,
+    "language": "de",
+    "language_name": "German",
+    "language_confidence": 100.0
+  }
+}

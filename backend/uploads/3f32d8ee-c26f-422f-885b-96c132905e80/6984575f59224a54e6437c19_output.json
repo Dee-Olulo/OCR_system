@@ -1,0 +1,97 @@
+{
+  "document_type": "invoice",
+  "extraction_timestamp": "2026-02-05T08:40:02.072774",
+  "fields": {
+    "phone": "+254 700 123 456 | Email: billing@sunrisehospital.co.ke",
+    "invoice_number": "INV-2026-001",
+    "invoice_date": "05-Feb-2026",
+    "patient_name": "Diana Olulo",
+    "patient_id": "PT-458921",
+    "gender": "Female",
+    "age": "28",
+    "admission_date": "01-Feb-2026",
+    "discharge_date": "04-Feb-2026",
+    "total_amount": "KES 19,700",
+    "payment_method": "Cash",
+    "payment_status": "PAID",
+    "authorized_by": "John Mwangi",
+    "signature": "____________________"
+  },
+  "entities": {
+    "persons": [
+      "John Mwangi",
+      "billing@sunrisehospital.co.ke",
+      "Email",
+      "Diana Olulo\nPatient",
+      "Gender"
+    ],
+    "organizations": [
+      "Hospital Bed",
+      "Invoice Date",
+      "Admission Date"
+    ],
+    "locations": [
+      "Nairobi",
+      "Kenya"
+    ],
+    "emails": [
+      "billing@sunrisehospital.co.ke"
+    ],
+    "invoice_numbers": [
+      "Sunrise",
+      "Date",
+      "Number",
+      "-2026-001",
+      "INV-2026-001"
+    ]
+  },
+  "tables": [
+    {
+      "page": 1,
+      "table_number": 1,
+      "headers": [
+        "Service Description",
+        "Quantity",
+        "Unit Price (KES)",
+        "Total (KES)"
+      ],
+      "rows": [
+        [
+          "Doctor Consultation",
+          "1",
+          "3,000",
+          "3,000"
+        ],
+        [
+          "Laboratory Tests",
+          "1",
+          "4,500",
+          "4,500"
+        ],
+        [
+          "Medication",
+          "1",
+          "6,200",
+          "6,200"
+        ],
+        [
+          "Hospital Bed (3 Days)",
+          "3",
+          "2,000",
+          "6,000"
+        ]
+      ],
+      "row_count": 4,
+      "column_count": 4
+    }
+  ],
+  "extracted_text_preview": "HOSPITAL INVOICE\nSunrise General Hospital\nP.O. Box 12345-00100, Nairobi, Kenya\nPhone: +254 700 123 456 | Email: billing@sunrisehospital.co.ke\nInvoice Number: INV-2026-001\nInvoice Date: 05-Feb-2026\nPatient Details\nPatient Name: Diana Olulo\nPatient ID: PT-458921\nGender: Female\nAge: 28\nAdmission Date: 01-Feb-2026\nDischarge Date: 04-Feb-2026\nService Description Quantity Unit Price (KES) Total (KES)\nDoctor Consultation 1 3,000 3,000\nLaboratory Tests 1 4,500 4,500\nMedication 1 6,200 6,200\nHospital Bed (3 Days) 3 2,000 6,000\nTotal Amount: KES 19,700\nPayment Method: Cash\nPayment Status: PAID\nAuthorized By: John Mwangi\nBilling Officer\nSignature: ____________________",
+  "metadata": {
+    "has_entities": true,
+    "has_tables": true,
+    "has_key_value_pairs": true,
+    "total_entities": 16,
+    "table_count": 1,
+    "text_length": 665
+  }
+}

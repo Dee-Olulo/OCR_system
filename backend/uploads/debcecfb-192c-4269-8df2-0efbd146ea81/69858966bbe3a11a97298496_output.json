@@ -1,0 +1,63 @@
+{
+  "document_type": "unknown",
+  "extraction_timestamp": "2026-02-06T06:25:56.021289",
+  "fields": {
+    "tel": "01234 / 567890 Beispielstraße 5",
+    "email": "info@musterfirma.de 54321 Beispietstadt",
+    "rechnungsnummer": "2022-0456",
+    "rechnungsdatum": "15.01.2022",
+    "kundennummer": "123456",
+    "zwischensumme": "1.400,00 €",
+    "gesamtbetrag": "1.666,00 €",
+    "iban": "DE12 3456 7890 1234 56",
+    "bic": "MUSBDEXX",
+    "bei_fragen_kontaktieren_sie_uns_gerne": "info@musterfirma.de / TeL: 01234 / 567890"
+  },
+  "entities": {
+    "persons": [
+      "Musterfirma GmbH",
+      "Einzelpreis Gesamtpreis",
+      "Sie",
+      "Vielen Dank",
+      "Ihr Vertrauen",
+      "Leistungen 8 Std",
+      "Bitte",
+      "Rechnungsnummer",
+      "Musterstadt Max Beispiel\nTel:",
+      "kontaktieren Sie"
+    ],
+    "organizations": [
+      "IBAN",
+      "Musterbank"
+    ],
+    "locations": [
+      "Konto"
+    ],
+    "monetary_values": [
+      "1.666,00 €",
+      "€ 560,00 €",
+      "1.400,00 €",
+      "€\n\nGesamtbetrag",
+      "€ 500,00 €\n",
+      "€ 300,00 €"
+    ],
+    "emails": [
+      "info@musterfirma.de"
+    ],
+    "invoice_numbers": [
+      "s"
+    ]
+  },
+  "extracted_text_preview": "Musterfirma GmbH\n\nMusterstraße 12\n\n12345 Musterstadt Max Beispiel\nTel: 01234 / 567890 Beispielstraße 5\nEmail: info@musterfirma.de 54321 Beispietstadt\n\nRechnungsnummer: 2022-0456\nRechnungsdatum: 15.01.2022\nKundennummer: 123456\n\nPos. Beschreibung Menge Einzelpreis Gesamtpreis\n1 Webdesign Leistungen 8 Std. | 70,00 € 560,00 €\n2 | Grafikdesign 5 Std. | 60,00 € 300,00 €\n3 Texterstellung 10 Std. 50,00 € 500,00 €\n4 | Fahrtkostenpauschale 1 40,00€ 40,00€\n\nZwischensumme: 1.400,00 €\nzzel. 19% MwSt; 266,00 €\n\nGesamtbetrag: 1.666,00 €\n\nZahlungsbedingungen:\n\nBitte überweisef Sie den Gesamtbetrag innerhaib von 14 Tagen auf unser unten stehendes Konto,\nVielen Dank für Ihr Vertrauen!\n\nBankverbindung:\nMusterbank\n\nIBAN: DE12 3456 7890 1234 56\nBIC: MUSBDEXX\n\nBei Fragen kontaktieren Sie uns gerne: info@musterfirma.de / TeL: 01234 / 567890\n\n- ——",
+  "metadata": {
+    "has_entities": true,
+    "has_tables": false,
+    "has_key_value_pairs": true,
+    "total_entities": 21,
+    "table_count": 0,
+    "text_length": 835,
+    "language": "de",
+    "language_name": "German",
+    "language_confidence": 100.0
+  }
+}

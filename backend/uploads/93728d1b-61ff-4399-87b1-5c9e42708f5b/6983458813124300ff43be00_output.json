@@ -1,0 +1,78 @@
+{
+  "document_type": "receipt",
+  "extraction_timestamp": "2026-02-04T13:11:53.640369",
+  "fields": {
+    "term_of_importance_to_this_debate": "generally accepted accounting practice; or GAAP.",
+    "chapter_1": "The objective of general-purpose financial reporting Chapter 2:",
+    "the_reporting_entity_to_be_issued_chapter_3": "Qualitative characteristics of useful financial",
+    "information_chapter_4": "Remaining text of the 1989 Framework:",
+    "subjective_area_and_there_are_other_difficulties": "others, not the intended users, may gain a",
+    "there_are_four_main_conventions_in_practice_in_accounting": "conservatism; consistency; full"
+  },
+  "entities": {
+    "persons": [
+      "Conceptual Framework",
+      "Conceptual Framework\n2"
+    ],
+    "organizations": [
+      "the Conceptual Framework for Financial Reporting",
+      "The IASB Framework for the Preparation and Presentation of Financial Statements",
+      "The Conceptual Framework",
+      "Board",
+      "5.3.1 Comparability\nComparability",
+      "5.3.3 Timeliness\nTimeliness",
+      "CAC",
+      "IFRS",
+      "The Conceptual Framework for Financial Reporting",
+      "the Conceptual\nFramework",
+      "EPS",
+      "the “Generally Accepted Accounting Principles",
+      "IASB",
+      "Generally Accepted Accounting Practice",
+      "FASB",
+      "IAS 1"
+    ],
+    "monetary_values": [
+      "5.1 Relevance\nRelevance"
+    ],
+    "invoice_numbers": [
+      "estments",
+      "estment",
+      "sition",
+      "to",
+      "nent",
+      "rtant",
+      "ints",
+      "se",
+      "tential",
+      "litical",
+      "ssible",
+      "olving",
+      "ses",
+      "rting",
+      "estors",
+      "nding",
+      "rtantly",
+      "sed",
+      "licy",
+      "rtance",
+      "rts",
+      "ssibility",
+      "olve",
+      "rt",
+      "rted",
+      "licies",
+      "for",
+      "ested"
+    ]
+  },
+  "extracted_text_preview": "CAC 111 BASIC ACCOUNTING\nCONCEPTUAL FRAMEWORK AND GAAP\nA conceptual framework, in the field we are concerned with, is a statement of generally accepted\ntheoretical principles which form the frame of reference for financial reporting.\nThese theoretical principles provide the basis for the development of new accounting standards and the\nevaluation of those already in existence. The financial reporting process is concerned with providing\ninformation that is useful in the business and economic decision-making process. Therefore, a conceptual\nframework will form the theoretical basis for determining which events should be accounted for, how they\nshould be measured and how they should be communicated to the user. Although it is theoretical in nature,\na conceptual framework for financial reporting has highly practical final aims.\nThe danger of not having a conceptual framework is demonstrated in the way some countries' standards\nhave developed over recent years; standards tend to be produced ... (truncated)",
+  "metadata": {
+    "has_entities": true,
+    "has_tables": false,
+    "has_key_value_pairs": true,
+    "total_entities": 47,
+    "table_count": 0,
+    "text_length": 29424
+  }
+}
