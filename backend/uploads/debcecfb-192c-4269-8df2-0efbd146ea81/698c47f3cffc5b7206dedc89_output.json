@@ -1,0 +1,159 @@
+{
+  "document_type": "invoice",
+  "extraction_timestamp": "2026-02-11T09:12:22.551133",
+  "fields": {
+    "phone": "(217) 555-0100 | Fax: (217) 555-0101",
+    "insurance_provider": "Blue Cross Blue Shield of Illinois",
+    "policy_number": "BCBS-IL-7829456",
+    "group_number": "GRP-44582",
+    "due_date": "March 13, 2026",
+    "name": "Sarah M. Johnson",
+    "date_of_birth": "03/15/1985",
+    "patient_id": "MGH-458392",
+    "address": "742 Evergreen Terrace",
+    "invoice_number": "INV-2026-003847",
+    "invoice_date": "February 11, 2026",
+    "service_date": "February 08, 2026",
+    "provider": "Dr. Michael Chen, MD",
+    "department": "Emergency Medicine",
+    "subtotal": "$1,300.00",
+    "insurance_payment": "$1,040.00",
+    "insurance_adjustment": "$210.00",
+    "patient_balance": "$50.00"
+  },
+  "entities": {
+    "persons": [
+      "Michael Chen",
+      "Sarah M. Johnson"
+    ],
+    "organizations": [
+      "IL 62704",
+      "CBC",
+      "IL 62701\nPhone",
+      "Invoice Date",
+      "Evergreen",
+      "Mercy General Hospital\nPATIENT",
+      "Patient Financial Services",
+      "Healthcare Boulevard"
+    ],
+    "locations": [
+      "Springfield",
+      "MD"
+    ],
+    "monetary_values": [
+      "45.00",
+      "285.00",
+      "850.00",
+      "1\n$285.00\n$",
+      "210.00",
+      "50.00",
+      "95.00",
+      "1,300.00",
+      "1,040.00",
+      "25.00"
+    ],
+    "emails": [
+      "billing@mercygeneralhospital.org"
+    ],
+    "phone_numbers": [
+      "(217) 555-0101",
+      "(217) 555-0150",
+      "(217) 555-0155"
+    ],
+    "invoice_numbers": [
+      "Date",
+      "-2026-003847",
+      "on",
+      "INV-2026-003847",
+      "licy",
+      "number",
+      "Number",
+      "DETAILS",
+      "INSURANCE",
+      "oice"
+    ]
+  },
+  "tables": [
+    {
+      "table_number": 1,
+      "headers": [
+        "PATIENT INFORMATION\nName: Sarah M. Johnson\nDate of Birth: 03/15/1985\nPatient ID: MGH-458392\nAddress: 742 Evergreen Terrace\nSpringfield, IL 62704",
+        "INVOICE DETAILS\nInvoice Number: INV-2026-003847\nInvoice Date: February 11, 2026\nService Date: February 08, 2026\nProvider: Dr. Michael Chen, MD\nDepartment: Emergency Medicine"
+      ],
+      "rows": [],
+      "row_count": 0,
+      "column_count": 2
+    },
+    {
+      "table_number": 2,
+      "headers": [
+        "Code",
+        "Service Description",
+        "Qty",
+        "Unit Price",
+        "Amount"
+      ],
+      "rows": [
+        [
+          "99284",
+          "Emergency Department Visit - Level 4",
+          "1",
+          "$850.00",
+          "$850.00"
+        ],
+        [
+          "71020",
+          "Chest X-Ray, 2 views",
+          "1",
+          "$285.00",
+          "$285.00"
+        ],
+        [
+          "85025",
+          "Complete Blood Count (CBC) with Differential",
+          "1",
+          "$95.00",
+          "$95.00"
+        ],
+        [
+          "36415",
+          "Routine Venipuncture for Collection of Specimen",
+          "1",
+          "$25.00",
+          "$25.00"
+        ],
+        [
+          "J1200",
+          "Injection, Diphenhydramine HCl, 50mg",
+          "1",
+          "$45.00",
+          "$45.00"
+        ]
+      ],
+      "row_count": 5,
+      "column_count": 5
+    },
+    {
+      "table_number": 3,
+      "headers": [
+        "",
+        "Subtotal:                    $1,300.00\nInsurance Payment:   $1,040.00\nInsurance Adjustment: $210.00\nPatient Balance:        $50.00"
+      ],
+      "rows": [],
+      "row_count": 0,
+      "column_count": 2
+    }
+  ],
+  "extracted_text_preview": "MERCY GENERAL HOSPITAL\n1250 Healthcare Boulevard, Suite 100\nSpringfield, IL 62701\nPhone: (217) 555-0100 | Fax: (217) 555-0101\nwww.mercygeneralhospital.org\nPATIENT INVOICE\nINSURANCE INFORMATION\nInsurance Provider: Blue Cross Blue Shield of Illinois\nPolicy Number: BCBS-IL-7829456\nGroup Number: GRP-44582\nSERVICES PROVIDED\nPAYMENT INFORMATION\nDue Date: March 13, 2026\nPayment can be made online at www.mercygeneralhospital.org/billing or by calling our billing department at (217) 555-0150.\nFor payment plans or financial assistance, please contact Patient Financial Services at (217) 555-0155.\nPlease include your invoice number on all payments. If you have questions about this invoice, please contact our billing office at billing@mercygeneralhospital.org or call (217) 555-0150.\nThank you for choosing Mercy General Hospital\nPATIENT INFORMATION\nName: Sarah M. Johnson\nDate of Birth: 03/15/1985\nPatient ID: MGH-458392\nAddress: 742 Evergreen Terrace\nSpringfield, IL 62704\nINVOICE DETAILS\nInvoice Numb... (truncated)",
+  "metadata": {
+    "has_entities": true,
+    "has_tables": true,
+    "has_key_value_pairs": true,
+    "total_entities": 36,
+    "table_count": 3,
+    "text_length": 1626,
+    "language": "en",
+    "language_name": "English",
+    "language_confidence": 100.0
+  }
+}

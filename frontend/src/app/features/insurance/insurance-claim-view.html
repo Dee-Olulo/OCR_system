@@ -1,0 +1,316 @@
+<!-- frontend/src/app/features/insurance/insurance-claim-view.component.html -->
+
+<div class="insurance-container">
+  <!-- Loading State -->
+  <div *ngIf="loading" class="loading-container">
+    <mat-spinner></mat-spinner>
+    <p>Loading insurance claim data...</p>
+  </div>
+
+  <!-- Error State -->
+  <div *ngIf="error && !loading" class="error-container">
+    <mat-icon color="warn">error</mat-icon>
+    <h2>Unable to Load Claim</h2>
+    <p>{{ error }}</p>
+    <button mat-raised-button color="primary" (click)="goBack()">
+      <mat-icon>arrow_back</mat-icon>
+      Back to Documents
+    </button>
+  </div>
+
+  <!-- Insurance Claim View -->
+  <div *ngIf="claimData && !loading" class="claim-view">
+    
+    <!-- Header with Actions -->
+    <div class="claim-header">
+      <div class="header-title">
+        <button mat-icon-button (click)="goBack()" matTooltip="Back to documents">
+          <mat-icon>arrow_back</mat-icon>
+        </button>
+        <div>
+          <h1>Insurance Claim View</h1>
+          <p class="subtitle">Standardized view for insurance processing</p>
+        </div>
+      </div>
+      
+      <div class="header-actions">
+        <button mat-raised-button (click)="viewFullDocument()">
+          <mat-icon>description</mat-icon>
+          Full Document
+        </button>
+        <button mat-raised-button color="primary" (click)="exportToPDF()">
+          <mat-icon>picture_as_pdf</mat-icon>
+          Export PDF
+        </button>
+        <button mat-raised-button color="accent" (click)="submitToClearinghouse()">
+          <mat-icon>send</mat-icon>
+          Submit Claim
+        </button>
+      </div>
+    </div>
+
+    <!-- Quality Indicator -->
+    <mat-card class="quality-card">
+      <div class="quality-indicator">
+        <mat-icon [color]="getQualityColor()">{{ getQualityIcon() }}</mat-icon>
+        <div class="quality-info">
+          <h3>Extraction Quality: {{ claimData.raw_confidence.extraction_quality | titlecase }}</h3>
+          <p>
+            {{ claimData.raw_confidence.critical_fields_found }} of 
+            {{ claimData.raw_confidence.critical_fields_total }} critical fields found
+            ({{ claimData.raw_confidence.completeness_percentage }}% complete)
+          </p>
+        </div>
+        <mat-chip-set *ngIf="getMissingFieldsCount() > 0">
+          <mat-chip color="warn" selected>
+            <mat-icon>warning</mat-icon>
+            {{ getMissingFieldsCount() }} fields missing
+          </mat-chip>
+        </mat-chip-set>
+      </div>
+    </mat-card>
+
+    <!-- Patient Information -->
+    <mat-card class="section-card">
+      <mat-card-header>
+        <mat-icon mat-card-avatar>person</mat-icon>
+        <mat-card-title>Patient Information</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="info-grid">
+          <div class="info-item">
+            <label>Full Name</label>
+            <span [class.missing]="!hasValue(claimData.patient_info.full_name)">
+              {{ claimData.patient_info.full_name || 'Not found' }}
+            </span>
+          </div>
+          <div class="info-item">
+            <label>Patient ID</label>
+            <span [class.missing]="!hasValue(claimData.patient_info.patient_id)">
+              {{ claimData.patient_info.patient_id || 'Not found' }}
+            </span>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Provider Information -->
+    <mat-card class="section-card">
+      <mat-card-header>
+        <mat-icon mat-card-avatar>local_hospital</mat-icon>
+        <mat-card-title>Healthcare Provider</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="info-grid">
+          <div class="info-item">
+            <label>Hospital/Facility Name</label>
+            <span [class.missing]="!hasValue(claimData.provider_info.hospital_name)">
+              {{ claimData.provider_info.hospital_name || 'Not found' }}
+            </span>
+          </div>
+          <div class="info-item">
+            <label>Provider NPI</label>
+            <span [class.missing]="!hasValue(claimData.provider_info.provider_npi)">
+              {{ claimData.provider_info.provider_npi || 'Not found' }}
+            </span>
+          </div>
+          <div class="info-item">
+            <label>Department</label>
+            <span [class.missing]="!hasValue(claimData.provider_info.department)">
+              {{ claimData.provider_info.department || 'Not found' }}
+            </span>
+          </div>
+          <div class="info-item">
+            <label>Attending Physician</label>
+            <span [class.missing]="!hasValue(claimData.provider_info.doctor_name)">
+              {{ claimData.provider_info.doctor_name || 'Not found' }}
+            </span>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Financial Information -->
+    <mat-card class="section-card financial-card">
+      <mat-card-header>
+        <mat-icon mat-card-avatar>attach_money</mat-icon>
+        <mat-card-title>Financial Details</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="info-grid">
+          <div class="info-item">
+            <label>Invoice Number</label>
+            <span [class.missing]="!hasValue(claimData.financial_info.invoice_number)">
+              {{ claimData.financial_info.invoice_number || 'Not found' }}
+            </span>
+          </div>
+          <div class="info-item">
+            <label>Invoice Date</label>
+            <span [class.missing]="!hasValue(claimData.financial_info.invoice_date)">
+              {{ claimData.financial_info.invoice_date || 'Not found' }}
+            </span>
+          </div>
+          <div class="info-item">
+            <label>Currency</label>
+            <span>{{ claimData.financial_info.currency || 'KES' }}</span>
+          </div>
+          <div class="info-item">
+            <label>Total Amount</label>
+            <span [class.missing]="!hasValue(claimData.financial_info.total_amount)">
+              {{ claimData.financial_info.total_amount || 'Not found' }}
+            </span>
+          </div>
+          <div class="info-item total-amount" *ngIf="hasValue(claimData.financial_info.amount_due)">
+            <label>Amount Due</label>
+            <span class="amount">
+              {{ claimData.financial_info.amount_due }}
+            </span>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Clinical Information -->
+    <mat-card class="section-card">
+      <mat-card-header>
+        <mat-icon mat-card-avatar>medical_services</mat-icon>
+        <mat-card-title>Clinical Information</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="info-grid">
+          <div class="info-item">
+            <label>Admission Date</label>
+            <span [class.missing]="!hasValue(claimData.clinical_info.admission_date)">
+              {{ formatDate(claimData.clinical_info.admission_date) }}
+            </span>
+          </div>
+          <div class="info-item">
+            <label>Discharge Date</label>
+            <span [class.missing]="!hasValue(claimData.clinical_info.discharge_date)">
+              {{ formatDate(claimData.clinical_info.discharge_date) }}
+            </span>
+          </div>
+          <div class="info-item full-width">
+            <label>Diagnosis</label>
+            <span [class.missing]="!hasValue(claimData.clinical_info.diagnosis)">
+              {{ claimData.clinical_info.diagnosis || 'Not found' }}
+            </span>
+          </div>
+          <div class="info-item" *ngIf="claimData.clinical_info.diagnosis_codes && claimData.clinical_info.diagnosis_codes.length > 0">
+            <label>ICD-10 Codes</label>
+            <mat-chip-set>
+              <mat-chip *ngFor="let code of claimData.clinical_info.diagnosis_codes">
+                {{ code }}
+              </mat-chip>
+            </mat-chip-set>
+          </div>
+          <div class="info-item" *ngIf="claimData.clinical_info.procedure_codes && claimData.clinical_info.procedure_codes.length > 0">
+            <label>CPT Codes</label>
+            <mat-chip-set>
+              <mat-chip *ngFor="let code of claimData.clinical_info.procedure_codes">
+                {{ code }}
+              </mat-chip>
+            </mat-chip-set>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Service Line Items -->
+    <mat-card class="section-card" *ngIf="claimData.line_items && claimData.line_items.length > 0">
+      <mat-card-header>
+        <mat-icon mat-card-avatar>list</mat-icon>
+        <mat-card-title>Services & Charges</mat-card-title>
+        <mat-card-subtitle>{{ claimData.line_items.length }} line items</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <table mat-table [dataSource]="claimData.line_items" class="line-items-table">
+          
+          <!-- Description Column -->
+          <ng-container matColumnDef="description">
+            <th mat-header-cell *matHeaderCellDef>Service Description</th>
+            <td mat-cell *matCellDef="let item">{{ item.description }}</td>
+          </ng-container>
+
+          <!-- Quantity Column -->
+          <ng-container matColumnDef="quantity">
+            <th mat-header-cell *matHeaderCellDef>Qty</th>
+            <td mat-cell *matCellDef="let item">{{ item.quantity || '-' }}</td>
+          </ng-container>
+
+          <!-- Unit Price Column -->
+          <ng-container matColumnDef="unit_price">
+            <th mat-header-cell *matHeaderCellDef>Unit Price</th>
+            <td mat-cell *matCellDef="let item">{{ item.unit_price || '-' }}</td>
+          </ng-container>
+
+          <!-- Total Column -->
+          <ng-container matColumnDef="total">
+            <th mat-header-cell *matHeaderCellDef>Total</th>
+            <td mat-cell *matCellDef="let item" class="amount-cell">{{ item.total || '-' }}</td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Document Metadata -->
+    <mat-card class="section-card metadata-card" *ngIf="claimData.document_info">
+      <mat-card-header>
+        <mat-icon mat-card-avatar>info</mat-icon>
+        <mat-card-title>Document Information</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="info-grid">
+          <div class="info-item">
+            <label>Filename</label>
+            <span>{{ claimData.document_info.filename }}</span>
+          </div>
+          <div class="info-item">
+            <label>Upload Date</label>
+            <span>{{ formatDate(claimData.document_info.upload_date) }}</span>
+          </div>
+          <div class="info-item">
+            <label>Processed Date</label>
+            <span>{{ formatDate(claimData.document_info.processed_date) }}</span>
+          </div>
+          <div class="info-item">
+            <label>OCR Engine</label>
+            <span>{{ claimData.document_info.ocr_engine }}</span>
+          </div>
+          <div class="info-item" *ngIf="claimData.language">
+            <label>Language</label>
+            <span>{{ claimData.language }}</span>
+          </div>
+          <div class="info-item">
+            <label>Document Type</label>
+            <span>{{ claimData.document_type || 'unknown' }}</span>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Missing Fields Alert -->
+    <mat-card class="section-card alert-card" *ngIf="getMissingFieldsCount() > 0">
+      <mat-card-header>
+        <mat-icon mat-card-avatar color="warn">warning</mat-icon>
+        <mat-card-title>Missing Critical Fields</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <p>The following critical fields were not found in the document:</p>
+        <mat-chip-set>
+          <mat-chip *ngFor="let field of claimData.raw_confidence.missing_critical_fields" color="warn" selected>
+            {{ field }}
+          </mat-chip>
+        </mat-chip-set>
+        <p class="help-text">
+          <mat-icon>info</mat-icon>
+          You may need to manually enter these fields or re-scan the document for better quality.
+        </p>
+      </mat-card-content>
+    </mat-card>
+
+  </div>
+</div>

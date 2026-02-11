@@ -44,6 +44,16 @@ export const routes: Routes = [
         path: 'upload',
         loadComponent: () => import('./features/documents/document-upload/document-upload')
           .then(m => m.DocumentUploadComponent)
+      },
+        {
+        path: 'insurance/claims',
+        loadComponent: () => import('./features/insurance/insurance-batch-view')
+          .then(m => m.InsuranceBatchViewComponent)
+      },
+      {
+        path: 'insurance/claim/:id',
+        loadComponent: () => import('./features/insurance/insurance-claim-view')
+          .then(m => m.InsuranceClaimViewComponent)
       }
     ]
   },

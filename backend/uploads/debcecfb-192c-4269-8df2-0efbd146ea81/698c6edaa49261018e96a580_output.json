@@ -1,0 +1,40 @@
+{
+  "document_type": "unknown",
+  "extraction_timestamp": "2026-02-11T12:00:22.643869",
+  "fields": {
+    "tel": "0732-175 2301 234 e",
+    "name": "ZAYNA ALPHA GTIENO Bil Beprc-384997 e",
+    "reg_no": "14-654059-28 Bil OB/0SPR3",
+    "opvisit_no": "| 14277°858 \\ e",
+    "bill_amount": "2,891.00 ©",
+    "served_by": "R.WANJIRU :"
+  },
+  "entities": {
+    "persons": [
+      "ena de\nbs",
+      "Reg",
+      "Kenya Shilling"
+    ],
+    "organizations": [
+      "AHG",
+      "RHESUS",
+      "TEL",
+      "Hospital - Garden Gity Clinic"
+    ],
+    "monetary_values": [
+      "858 \\"
+    ]
+  },
+  "extracted_text_preview": "e 2.\no °\ndl avenue Hospital - Garden Gity Clinic bd\n, TEL: 0732-175 2301 234 e\nName: ZAYNA ALPHA GTIENO Bil Beprc-384997 e\nReg. No: 14-654059-28 Bil OB/0SPR3\nOPVisit No: | 14277°858 \\ e\nS.No Description ay Rate Amount ©\n3 AHG-MALARIA TEST SMEAR AND ANTIGEN 4 950.00 950.00\n2. AHG- HAEMOGRAM - CBC PLUS DIFF 1 4,250.00 4250.00 @\n3 AHC- 8.000 GROUP AND RHESUS 4 650.00 650.00\n4 PARACETAMOL 125MG SUPP. [DENK] \\ 1 40.74 40.74 @\n5 Dispensing Fee & 4 0.00 0.00\nBill Amount: 2,891.00 ©\no\n\nCredit Number:\nREB11TOEPS\n\ns Two Thousand Eight Hundred Ninety,\n\nKenya Shilling:\n\nServed By: R.WANJIRU :\nena de\nbs]",
+  "metadata": {
+    "has_entities": true,
+    "has_tables": false,
+    "has_key_value_pairs": true,
+    "total_entities": 8,
+    "table_count": 0,
+    "text_length": 598,
+    "language": "en",
+    "language_name": "English",
+    "language_confidence": 100.0
+  }
+}

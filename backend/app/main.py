@@ -87,7 +87,7 @@ from contextlib import asynccontextmanager
 from app.config import settings
 from app.database import connect_to_mongo, close_mongo_connection
 from app.routes import auth, documents, ocr
-from app.routes import folder_routes, websocket_routes, task_routes
+from app.routes import folder_routes, websocket_routes, task_routes, insurance_view
 from app.services.folder_monitor_service import folder_monitor_service
 from app.utils.error_tracking import error_tracker, logger
 import time
@@ -197,6 +197,7 @@ app.include_router(ocr.router, prefix="/api/v1")
 app.include_router(folder_routes.router, prefix="/api/v1")
 app.include_router(task_routes.router, prefix="/api/v1")
 app.include_router(websocket_routes.router)
+app.include_router(insurance_view.router, prefix="/api/v1")
 
 
 # Shutdown event (keep for compatibility)

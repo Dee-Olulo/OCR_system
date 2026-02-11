@@ -1,0 +1,311 @@
+{
+  "document_type": "invoice",
+  "extraction_timestamp": "2026-02-11T11:31:32.519243",
+  "fields": {
+    "tel": "+254 (020) 366 2000 | Email: info@akhnairobi.org",
+    "admission_date": "8th February 2025, 14:30 hrs",
+    "discharge_date": "10th February 2025, 10:00 hrs",
+    "attending_physician": "Dr. David Mwangi, MBChB, MMed (Surgery)",
+    "department": "General Surgery",
+    "wardroom": "Private Room - Ward 3A, Room 305",
+    "diagnosis": "Acute Cholecystitis - Laparoscopic Cholecystectomy",
+    "business_number": "329329",
+    "account_number": "0102345678900",
+    "bank": "Standard Chartered Bank Kenya",
+    "account_name": "Aga Khan University Hospital",
+    "reference": "INV-AKH/INV/2025/002347",
+    "for_billing_inquiries": "billing@akhnairobi.org or call Ext. 2500",
+    "invoice_no": "AKH/INV/2025/002347",
+    "invoice_date": "11th February 2025",
+    "payment_due": "25th February 2025",
+    "receipt_no": "Not Yet Paid",
+    "account_no": "PAT-KE-089234",
+    "name": "Wanjiru Kamau",
+    "patient_id": "AKH-2025-45678",
+    "id_number": "23456789",
+    "phone": "+254 722 345 678",
+    "email": "wkamau@email.com",
+    "insurance_provider": "AAR Healthcare Kenya",
+    "member_number": "AAR/2024/567890",
+    "principal_member": "Wanjiru Kamau",
+    "scheme": "Gold Plus Plan",
+    "preauthorization_no": "PRE-2025-234567"
+  },
+  "entities": {
+    "persons": [
+      "Laparoscopic Cholecystectomy",
+      "David Mwangi",
+      "Email",
+      "Wanjiru Kamau",
+      "Discharge Date",
+      "Mwangi"
+    ],
+    "organizations": [
+      "AKH",
+      "the Accounts Office",
+      "• Medical",
+      "Theatre Charges & Equipment",
+      "P.O. Box",
+      "Wanjiru Kamau\nPatient ID",
+      "IV Fluids & Electrolytes",
+      "Standard Chartered Bank",
+      "Post-Operative Review",
+      "Antibiotics - IV",
+      "INV-AKH/INV/2025/002347\n",
+      "Invoice Date",
+      "The Aga Khan University Hospital",
+      "CBC",
+      "Aga Khan University Hospital\n   Account Number: 0102345678900",
+      "Ext",
+      "A. ACCOMMODATION & NURSING",
+      "• Please",
+      "Admission Date",
+      "Finance Office",
+      "Account",
+      "Bank Transfer\n   ",
+      "Anaesthesia Services",
+      "MMed"
+    ],
+    "locations": [
+      "Nairobi",
+      "Kenya",
+      "NAIROBI"
+    ],
+    "emails": [
+      "billing@akhnairobi.org",
+      "info@akhnairobi.org",
+      "wkamau@email.com"
+    ],
+    "phone_numbers": [
+      "+254 722 345 678"
+    ],
+    "invoice_numbers": [
+      "n",
+      "rts",
+      "AKH",
+      "with",
+      "RTANT",
+      "INV-AKH",
+      "st-Operative",
+      "INSURANCE",
+      "st-Op",
+      "DETAILS",
+      "number",
+      "No",
+      "within",
+      "Date",
+      "-AKH"
+    ]
+  },
+  "tables": [
+    {
+      "table_number": 1,
+      "headers": [
+        ""
+      ],
+      "rows": [],
+      "row_count": 0,
+      "column_count": 1
+    },
+    {
+      "table_number": 2,
+      "headers": [
+        "INVOICE DETAILS",
+        "PATIENT DETAILS"
+      ],
+      "rows": [
+        [
+          "Invoice No: AKH/INV/2025/002347\nInvoice Date: 11th February 2025\nPayment Due: 25th February 2025\nReceipt No: Not Yet Paid\nAccount No: PAT-KE-089234",
+          "Name: Wanjiru Kamau\nPatient ID: AKH-2025-45678\nID Number: 23456789\nPhone: +254 722 345 678\nEmail: wkamau@email.com"
+        ]
+      ],
+      "row_count": 1,
+      "column_count": 2
+    },
+    {
+      "table_number": 3,
+      "headers": [
+        "Insurance Provider: AAR Healthcare Kenya\nMember Number: AAR/2024/567890\nPrincipal Member: Wanjiru Kamau\nScheme: Gold Plus Plan\nPre-authorization No: PRE-2025-234567"
+      ],
+      "rows": [],
+      "row_count": 0,
+      "column_count": 1
+    },
+    {
+      "table_number": 4,
+      "headers": [
+        "Description",
+        "Qty",
+        "Rate (KSh)",
+        "Amount (KSh)"
+      ],
+      "rows": [
+        [
+          "A. ACCOMMODATION & NURSING",
+          "",
+          "",
+          ""
+        ],
+        [
+          "Private Room - Per Day",
+          "2",
+          "12,500.00",
+          "25,000.00"
+        ],
+        [
+          "Nursing Care & Monitoring",
+          "2",
+          "3,500.00",
+          "7,000.00"
+        ],
+        [
+          "B. SURGICAL PROCEDURES",
+          "",
+          "",
+          ""
+        ],
+        [
+          "Laparoscopic Cholecystectomy",
+          "1",
+          "185,000.00",
+          "185,000.00"
+        ],
+        [
+          "Theatre Charges & Equipment",
+          "1",
+          "45,000.00",
+          "45,000.00"
+        ],
+        [
+          "Anaesthesia Services",
+          "1",
+          "35,000.00",
+          "35,000.00"
+        ],
+        [
+          "C. DIAGNOSTIC SERVICES",
+          "",
+          "",
+          ""
+        ],
+        [
+          "Ultrasound - Abdomen",
+          "1",
+          "6,500.00",
+          "6,500.00"
+        ],
+        [
+          "Complete Blood Count (CBC)",
+          "1",
+          "1,200.00",
+          "1,200.00"
+        ],
+        [
+          "Liver Function Tests",
+          "1",
+          "2,800.00",
+          "2,800.00"
+        ],
+        [
+          "Chest X-Ray",
+          "1",
+          "2,500.00",
+          "2,500.00"
+        ],
+        [
+          "D. PHARMACY & MEDICATIONS",
+          "",
+          "",
+          ""
+        ],
+        [
+          "Antibiotics - IV (Ceftriaxone)",
+          "6",
+          "850.00",
+          "5,100.00"
+        ],
+        [
+          "Pain Management (Tramadol)",
+          "8",
+          "250.00",
+          "2,000.00"
+        ],
+        [
+          "IV Fluids & Electrolytes",
+          "4",
+          "600.00",
+          "2,400.00"
+        ],
+        [
+          "Post-Op Medications (Take-home)",
+          "1",
+          "3,200.00",
+          "3,200.00"
+        ],
+        [
+          "E. CONSULTATION & REVIEW",
+          "",
+          "",
+          ""
+        ],
+        [
+          "Surgeon's Fee (Dr. Mwangi)",
+          "1",
+          "75,000.00",
+          "75,000.00"
+        ],
+        [
+          "Post-Operative Review",
+          "1",
+          "2,500.00",
+          "2,500.00"
+        ]
+      ],
+      "row_count": 20,
+      "column_count": 4
+    },
+    {
+      "table_number": 5,
+      "headers": [
+        "",
+        "SUBTOTAL:",
+        "KSh 395,200.00"
+      ],
+      "rows": [
+        [
+          "",
+          "Insurance Cover:",
+          "KSh 350,000.00"
+        ],
+        [
+          "",
+          "BALANCE DUE:",
+          "KSh 45,200.00"
+        ]
+      ],
+      "row_count": 2,
+      "column_count": 3
+    },
+    {
+      "table_number": 6,
+      "headers": [
+        ""
+      ],
+      "rows": [],
+      "row_count": 0,
+      "column_count": 1
+    }
+  ],
+  "extracted_text_preview": "THE AGA KHAN UNIVERSITY HOSPITAL, NAIROBI\nThird Parklands Avenue, P.O. Box 30270-00100\nNairobi, Kenya\nTel: +254 (020) 366 2000 | Email: info@akhnairobi.org\n\nPATIENT MEDICAL INVOICE\n\nINSURANCE INFORMATION\n\nADMISSION & TREATMENT DETAILS\nAdmission Date: 8th February 2025, 14:30 hrs\nDischarge Date: 10th February 2025, 10:00 hrs\nAttending Physician: Dr. David Mwangi, MBChB, MMed (Surgery)\nDepartment: General Surgery\nWard/Room: Private Room - Ward 3A, Room 305\nDiagnosis: Acute Cholecystitis - Laparoscopic Cholecystectomy\nITEMIZED CHARGES\n\n\nPAYMENT INSTRUCTIONS\nPlease settle this invoice within 14 days. The following payment methods are accepted:\n1. M-PESA Paybill\n   Business Number: 329329\n   Account Number: AKH-2025-45678 (Your Patient ID)\n2. Bank Transfer\n   Bank: Standard Chartered Bank Kenya\n   Account Name: Aga Khan University Hospital\n   Account Number: 0102345678900\n   Reference: INV-AKH/INV/2025/002347\n3. Card Payment\n   Visit the Accounts Office or call +254 (020) 366 2000 Ext. 2500... (truncated)",
+  "metadata": {
+    "has_entities": true,
+    "has_tables": true,
+    "has_key_value_pairs": true,
+    "total_entities": 52,
+    "table_count": 6,
+    "text_length": 2776,
+    "language": "en",
+    "language_name": "English",
+    "language_confidence": 100.0
+  }
+}

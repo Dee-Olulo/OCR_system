@@ -259,6 +259,9 @@ export class DocumentDetailComponent implements OnInit {
       }
     });
   }
+  viewInsuranceClaim(): void {
+    this.router.navigate(['/insurance/claim', this.document!.id]);
+  }
   
   goBack(): void {
     this.router.navigate(['/documents']);

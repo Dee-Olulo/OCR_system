@@ -378,3 +378,20 @@ mat-tab-group {
     }
   }
 }
+.insurance-claim {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  
+  .summary-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    
+    h2 {
+      margin: 0;
+      font-size: 24px;
+      color: #333;
+    } 
+  }
+}

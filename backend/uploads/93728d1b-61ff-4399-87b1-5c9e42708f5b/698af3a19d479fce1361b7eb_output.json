@@ -1,0 +1,56 @@
+{
+  "document_type": "unknown",
+  "extraction_timestamp": "2026-02-10T09:00:28.079100",
+  "fields": {
+    "bal_no": "047 Bill Bateososz071",
+    "bate__time_of_admisslon_gth_may_2921_18": "39 HOURS,",
+    "mame_of_treating_doctor__wunene_janes_jones": "THAKKAR Department.CARDIDTHORACGIC,",
+    "diagnosis": "CARDLAG SURGERY",
+    "cade": "etiling #031"
+  },
+  "entities": {
+    "persons": [
+      "Accommodation Typa",
+      "Bill Bateososz071\nHare of Patient",
+      "Mame"
+    ],
+    "organizations": [
+      "HOSPITAL",
+      "CARDLAG",
+      "TF\nAddress",
+      "NDOSL",
+      "Above\n\nTotal Room RentServtces",
+      "TOU Rent\n\nTCU Rursing Expenses\n\n",
+      "T Fluids Administration Charges",
+      "Blood Transfusion Administration Charges",
+      "THAKKAR Department"
+    ],
+    "locations": [
+      "Nairobi",
+      "Limury Rood",
+      "Kenya"
+    ],
+    "monetary_values": [
+      "031",
+      "920"
+    ],
+    "emails": [
+      "infom@agakhanhospitat.oeg"
+    ],
+    "invoice_numbers": [
+      "nsas"
+    ]
+  },
+  "extracted_text_preview": "«G » The Aga Khan University Hospital, Nairobi\n\n3ed Perklontis Avenue, Limury Rood, Nairobi, Kenya:\n+251 (0) 20 367 2020\ninfom@agakhanhospitat.oeg\nHOSPITAL BILL\n\nBal No:047 Bill Bateososz071\nHare of Patient, ELLY E, NDOSL wagaten TF\nAddress_ P OROX 460, ARUSHA TANZANIA.\n\nBate / Time of Admisslon_GTH MAY 2921 18:39 HOURS,\n\nMame of Treating Doctor__WUNENE JANES JONES: THAKKAR Department.CARDIDTHORACGIC,\n\nAccommodation Typa, SEMLERIVATE, Room No. 305\nDiagnosis: CARDLAG SURGERY\n\nCade |: etiling #031\nRoom Rent\nNursing Charges\n\nTV Fluids Administration Charges\n\nBlood Transfusion Adimivistration Charges\nTlojection Chsrges\n\nSimilar expenses a5 Above\n\nTotal Room RentServtces__——_\nTOU Rent\n\nTCU Rursing Expenses\n\nTEU RMO charges.\n\nT Fluids Administration Charges.\nBlood Transfusion Administration Charges\ninjection Charges\n\n‘Similar axponsas as Above:\nTotal wu Services\n\n‘Surgeon Charges\n\nAnesthetist Charges\n\nMadizal Prastitionns Charges $920 2 920\nConsultants Chamnes\nSnecmlist Charges suo\nTotal Pro... (truncated)",
+  "metadata": {
+    "has_entities": true,
+    "has_tables": false,
+    "has_key_value_pairs": true,
+    "total_entities": 19,
+    "table_count": 0,
+    "text_length": 1072,
+    "language": "en",
+    "language_name": "English",
+    "language_confidence": 100.0
+  }
+}

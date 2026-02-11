@@ -1,0 +1,405 @@
+// frontend/src/app/features/insurance/insurance-claim-view.component.scss
+
+.insurance-container {
+  padding: 24px;
+  max-width: 1400px;
+  margin: 0 auto;
+  background: #f5f5f5;
+  min-height: calc(100vh - 64px);
+}
+
+.loading-container,
+.error-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+  text-align: center;
+
+  mat-icon {
+    font-size: 64px;
+    width: 64px;
+    height: 64px;
+    margin-bottom: 16px;
+  }
+
+  h2 {
+    margin: 16px 0 8px 0;
+    font-size: 24px;
+    font-weight: 500;
+  }
+
+  p {
+    color: #666;
+    margin-bottom: 24px;
+  }
+}
+
+.claim-view {
+  animation: fadeIn 0.3s ease-in;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.claim-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 24px;
+  background: white;
+  padding: 24px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+  .header-title {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+
+    h1 {
+      margin: 0;
+      font-size: 28px;
+      font-weight: 500;
+      color: #1976d2;
+    }
+
+    .subtitle {
+      margin: 4px 0 0 0;
+      color: #666;
+      font-size: 14px;
+    }
+  }
+
+  .header-actions {
+    display: flex;
+    gap: 12px;
+
+    button {
+      mat-icon {
+        margin-right: 8px;
+      }
+    }
+  }
+}
+
+.quality-card {
+  margin-bottom: 24px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+
+  .quality-indicator {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 8px;
+
+    mat-icon {
+      font-size: 48px;
+      width: 48px;
+      height: 48px;
+    }
+
+    .quality-info {
+      flex: 1;
+
+      h3 {
+        margin: 0 0 4px 0;
+        font-size: 20px;
+        font-weight: 500;
+      }
+
+      p {
+        margin: 0;
+        font-size: 14px;
+        opacity: 0.9;
+      }
+    }
+
+    mat-chip-set {
+      mat-chip {
+        background: rgba(255, 255, 255, 0.2) !important;
+        color: white !important;
+
+        mat-icon {
+          font-size: 18px;
+          width: 18px;
+          height: 18px;
+        }
+      }
+    }
+  }
+}
+
+.section-card {
+  margin-bottom: 24px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  transition: box-shadow 0.3s ease;
+
+  &:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  mat-card-header {
+    background: #f8f9fa;
+    padding: 16px;
+    border-radius: 8px 8px 0 0;
+
+    mat-icon[mat-card-avatar] {
+      background: #1976d2;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      width: 40px;
+      height: 40px;
+    }
+
+    mat-card-title {
+      font-size: 20px;
+      font-weight: 500;
+      color: #333;
+    }
+
+    mat-card-subtitle {
+      color: #666;
+      font-size: 14px;
+    }
+  }
+
+  mat-card-content {
+    padding: 24px;
+  }
+}
+
+.financial-card {
+  mat-card-header {
+    background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+
+    mat-icon[mat-card-avatar] {
+      background: white;
+      color: #11998e;
+    }
+
+    mat-card-title {
+      color: white;
+    }
+  }
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+
+  .info-item {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    &.full-width {
+      grid-column: 1 / -1;
+    }
+
+    &.total-amount {
+      grid-column: 1 / -1;
+      background: #f0f8ff;
+      padding: 16px;
+      border-radius: 8px;
+      border: 2px solid #1976d2;
+    }
+
+    label {
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      color: #666;
+      letter-spacing: 0.5px;
+    }
+
+    span {
+      font-size: 16px;
+      color: #333;
+      word-break: break-word;
+
+      &.missing {
+        color: #f44336;
+        font-style: italic;
+      }
+
+      &.amount {
+        font-size: 24px;
+        font-weight: 600;
+        color: #1976d2;
+      }
+    }
+
+    mat-chip-set {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+
+      mat-chip {
+        font-size: 13px;
+      }
+    }
+  }
+}
+
+.line-items-table {
+  width: 100%;
+  background: white;
+  border-radius: 4px;
+  overflow: hidden;
+
+  th {
+    background: #f5f5f5;
+    font-weight: 600;
+    color: #333;
+    padding: 16px !important;
+  }
+
+  td {
+    padding: 12px 16px !important;
+    border-bottom: 1px solid #e0e0e0;
+  }
+
+  tr:hover {
+    background: #fafafa;
+  }
+
+  .amount-cell {
+    font-weight: 500;
+    color: #1976d2;
+  }
+}
+
+.metadata-card {
+  background: #fafafa;
+  border: 1px solid #e0e0e0;
+
+  mat-card-header {
+    background: #e0e0e0;
+
+    mat-icon[mat-card-avatar] {
+      background: #757575;
+    }
+  }
+}
+
+.alert-card {
+  background: #fff3e0;
+  border: 2px solid #ff9800;
+
+  mat-card-header {
+    background: #ffe0b2;
+
+    mat-card-title {
+      color: #e65100;
+    }
+  }
+
+  mat-card-content {
+    p {
+      margin: 0 0 16px 0;
+      color: #e65100;
+      font-weight: 500;
+    }
+
+    .help-text {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 16px;
+      padding: 12px;
+      background: white;
+      border-radius: 4px;
+      color: #666;
+      font-size: 14px;
+
+      mat-icon {
+        color: #ff9800;
+        font-size: 20px;
+        width: 20px;
+        height: 20px;
+      }
+    }
+
+    mat-chip-set {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+
+      mat-chip {
+        font-size: 13px;
+      }
+    }
+  }
+}
+
+// Responsive Design
+@media (max-width: 768px) {
+  .insurance-container {
+    padding: 16px;
+  }
+
+  .claim-header {
+    flex-direction: column;
+    gap: 16px;
+
+    .header-actions {
+      width: 100%;
+      flex-direction: column;
+
+      button {
+        width: 100%;
+      }
+    }
+  }
+
+  .info-grid {
+    grid-template-columns: 1fr;
+
+    .info-item {
+      &.total-amount {
+        grid-column: 1;
+      }
+    }
+  }
+
+  .quality-card {
+    .quality-indicator {
+      flex-direction: column;
+      text-align: center;
+    }
+  }
+}
+
+// Print Styles
+@media print {
+  .claim-header .header-actions,
+  button {
+    display: none !important;
+  }
+
+  .insurance-container {
+    background: white;
+  }
+
+  .section-card {
+    page-break-inside: avoid;
+    box-shadow: none;
+    border: 1px solid #ddd;
+  }
+}

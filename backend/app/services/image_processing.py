@@ -80,3 +80,4 @@ class ImageProcessor:
     def get_pil_image(image_path: str) -> Image.Image:
         """Get PIL Image object"""
         return Image.open(image_path)
+

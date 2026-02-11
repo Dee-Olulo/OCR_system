@@ -158,6 +158,15 @@
                 </div>
               </div>
             </mat-tab>
+            <!-- insurance claim button -->
+            <mat-tab label="Insurance Claim" *ngIf="document.document_type === 'insurance_claim'">
+              <div class="tab-content">
+                <button mat-raised-button color="accent" (click)="viewInsuranceClaim()">
+                  <mat-icon>visibility</mat-icon>
+                  View Insurance Claim
+                </button>
+              </div>
+            </mat-tab>
             
             <!-- Text -->
             <mat-tab label="Raw Text">

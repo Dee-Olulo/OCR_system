@@ -1,0 +1,309 @@
+// frontend/src/app/features/insurance/insurance-batch-view.component.scss
+
+.batch-container {
+  padding: 24px;
+  max-width: 1400px;
+  margin: 0 auto;
+  min-height: calc(100vh - 64px);
+}
+
+.batch-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  padding: 24px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+  h1 {
+    margin: 0;
+    font-size: 28px;
+    font-weight: 500;
+    color: #1976d2;
+  }
+
+  .subtitle {
+    margin: 4px 0 0 0;
+    color: #666;
+    font-size: 14px;
+  }
+
+  button {
+    mat-icon {
+      margin-right: 8px;
+    }
+  }
+}
+
+.loading-container,
+.error-container,
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+  text-align: center;
+  background: white;
+  border-radius: 8px;
+  padding: 48px;
+
+  mat-icon {
+    font-size: 64px;
+    width: 64px;
+    height: 64px;
+    margin-bottom: 16px;
+    color: #999;
+  }
+
+  h2 {
+    margin: 16px 0 8px 0;
+    font-size: 24px;
+    font-weight: 500;
+    color: #333;
+  }
+
+  p {
+    color: #666;
+    margin-bottom: 24px;
+  }
+}
+
+.claims-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 24px;
+  margin-bottom: 24px;
+}
+
+.claim-card {
+  position: relative;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border-radius: 12px;
+  overflow: visible;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+  }
+
+  .quality-badge {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 12px;
+    border-radius: 16px;
+    font-size: 12px;
+    font-weight: 600;
+    z-index: 1;
+    
+    &.excellent {
+      background: #e8f5e9;
+      color: #2e7d32;
+
+      mat-icon {
+        color: #2e7d32;
+      }
+    }
+
+    &.good {
+      background: #e3f2fd;
+      color: #1565c0;
+
+      mat-icon {
+        color: #1565c0;
+      }
+    }
+
+    &.fair {
+      background: #fff3e0;
+      color: #ef6c00;
+
+      mat-icon {
+        color: #ef6c00;
+      }
+    }
+
+    &.poor {
+      background: #ffebee;
+      color: #c62828;
+
+      mat-icon {
+        color: #c62828;
+      }
+    }
+
+    mat-icon {
+      font-size: 18px;
+      width: 18px;
+      height: 18px;
+    }
+  }
+
+  mat-card-header {
+    padding: 16px 16px 8px 16px;
+
+    mat-icon[mat-card-avatar] {
+      background: #1976d2;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    mat-card-title {
+      font-size: 16px;
+      font-weight: 500;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    mat-card-subtitle {
+      font-size: 13px;
+      color: #666;
+      margin-top: 4px;
+    }
+  }
+
+  mat-card-content {
+    padding: 16px;
+
+    .claim-summary {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 16px;
+
+      .summary-row {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+
+        mat-icon {
+          font-size: 20px;
+          width: 20px;
+          height: 20px;
+          color: #1976d2;
+        }
+
+        .summary-info {
+          flex: 1;
+          min-width: 0;
+
+          label {
+            display: block;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            color: #999;
+            letter-spacing: 0.5px;
+            margin-bottom: 2px;
+          }
+
+          span {
+            display: block;
+            font-size: 14px;
+            color: #333;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+
+            &.amount {
+              font-weight: 600;
+              color: #2e7d32;
+              font-size: 15px;
+            }
+          }
+        }
+      }
+    }
+
+    mat-divider {
+      margin: 16px 0;
+    }
+
+    .claim-stats {
+      mat-chip-set {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+
+        mat-chip {
+          font-size: 12px;
+          height: 28px;
+
+          mat-icon {
+            font-size: 16px;
+            width: 16px;
+            height: 16px;
+            margin-right: 4px;
+          }
+        }
+      }
+    }
+  }
+
+  mat-card-actions {
+    padding: 8px 16px 16px 16px;
+    display: flex;
+    justify-content: flex-end;
+
+    button {
+      mat-icon {
+        font-size: 18px;
+        width: 18px;
+        height: 18px;
+        margin-right: 4px;
+      }
+    }
+  }
+}
+
+mat-paginator {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+// Responsive Design
+@media (max-width: 768px) {
+  .batch-container {
+    padding: 16px;
+  }
+
+  .batch-header {
+    flex-direction: column;
+    gap: 16px;
+    align-items: flex-start;
+
+    button {
+      width: 100%;
+    }
+  }
+
+  .claims-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .claim-card {
+    .quality-badge {
+      font-size: 10px;
+      padding: 2px 8px;
+
+      mat-icon {
+        font-size: 14px;
+        width: 14px;
+        height: 14px;
+      }
+    }
+  }
+}

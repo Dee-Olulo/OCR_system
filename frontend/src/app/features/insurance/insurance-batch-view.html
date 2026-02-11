@@ -1,0 +1,126 @@
+<!-- frontend/src/app/features/insurance/insurance-batch-view.component.html -->
+
+<div class="batch-container">
+  <div class="batch-header">
+    <div>
+      <h1>Insurance Claims Review</h1>
+      <p class="subtitle">Review multiple claims at once for faster processing</p>
+    </div>
+    <button mat-raised-button color="primary" (click)="exportAll()">
+      <mat-icon>download</mat-icon>
+      Export All
+    </button>
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="loading" class="loading-container">
+    <mat-spinner></mat-spinner>
+    <p>Loading insurance claims...</p>
+  </div>
+
+  <!-- Error State -->
+  <div *ngIf="error && !loading" class="error-container">
+    <mat-icon color="warn">error</mat-icon>
+    <h2>Unable to Load Claims</h2>
+    <p>{{ error }}</p>
+  </div>
+
+  <!-- Claims Grid -->
+  <div *ngIf="!loading && !error && claims.length > 0" class="claims-grid">
+    <mat-card *ngFor="let claim of claims" class="claim-card" (click)="viewClaim(claim)">
+      
+      <!-- Quality Badge -->
+      <div class="quality-badge" [class]="claim.raw_confidence.extraction_quality">
+        <mat-icon [color]="getQualityColor(claim)">{{ getQualityIcon(claim) }}</mat-icon>
+        <span>{{ claim.raw_confidence.extraction_quality | titlecase }}</span>
+      </div>
+
+      <mat-card-header>
+        <mat-icon mat-card-avatar>description</mat-icon>
+        <mat-card-title>{{ claim.document_info?.filename || 'Untitled' }}</mat-card-title>
+        <mat-card-subtitle>
+          Invoice #{{ claim.financial_info.invoice_number || 'N/A' }}
+        </mat-card-subtitle>
+      </mat-card-header>
+
+      <mat-card-content>
+        <div class="claim-summary">
+          <div class="summary-row">
+            <mat-icon>person</mat-icon>
+            <div class="summary-info">
+              <label>Patient</label>
+              <span>{{ claim.patient_info.full_name || 'Not found' }}</span>
+            </div>
+          </div>
+
+          <div class="summary-row">
+            <mat-icon>local_hospital</mat-icon>
+            <div class="summary-info">
+              <label>Hospital</label>
+              <span>{{ claim.provider_info.hospital_name || 'Not found' }}</span>
+            </div>
+          </div>
+
+          <div class="summary-row">
+            <mat-icon>attach_money</mat-icon>
+            <div class="summary-info">
+              <label>Total Amount</label>
+              <span class="amount">{{ claim.financial_info.total_amount || 'Not found' }}</span>
+            </div>
+          </div>
+
+          <div class="summary-row">
+            <mat-icon>calendar_today</mat-icon>
+            <div class="summary-info">
+              <label>Invoice Date</label>
+              <span>{{ formatDate(claim.financial_info.invoice_date) }}</span>
+            </div>
+          </div>
+        </div>
+
+        <mat-divider></mat-divider>
+
+        <div class="claim-stats">
+          <mat-chip-set>
+            <mat-chip>
+              <mat-icon>check_circle</mat-icon>
+              {{ claim.raw_confidence.critical_fields_found || 0 }}/{{ claim.raw_confidence.critical_fields_total || 6 }} fields
+            </mat-chip>
+            <mat-chip *ngIf="claim.line_items && claim.line_items.length > 0">
+              <mat-icon>list</mat-icon>
+              {{ claim.line_items.length }} items
+            </mat-chip>
+          </mat-chip-set>
+        </div>
+      </mat-card-content>
+
+      <mat-card-actions>
+        <button mat-button color="primary">
+          <mat-icon>visibility</mat-icon>
+          View Details
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+
+  <!-- Empty State -->
+  <div *ngIf="!loading && !error && claims.length === 0" class="empty-state">
+    <mat-icon>inbox</mat-icon>
+    <h2>No Claims Found</h2>
+    <p>Process some documents first to see them here</p>
+    <button mat-raised-button color="primary" routerLink="/documents">
+      Go to Documents
+    </button>
+  </div>
+
+  <!-- Pagination -->
+  <mat-paginator
+    *ngIf="!loading && !error && claims.length > 0"
+    [length]="totalClaims"
+    [pageSize]="pageSize"
+    [pageIndex]="pageIndex"
+    [pageSizeOptions]="[5, 10, 25, 50]"
+    (page)="onPageChange($event)"
+    showFirstLastButtons>
+  </mat-paginator>
+</div>

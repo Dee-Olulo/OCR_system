@@ -1,0 +1,224 @@
+{
+  "document_type": "invoice",
+  "extraction_timestamp": "2026-02-11T07:23:23.212837",
+  "fields": {
+    "springfield_il_62701__phone": "(217) 555-8900 | Fax: (217) 555-8901",
+    "online": "Visit www.stmaryshospital.com/billing",
+    "phone": "(217) 555-3421",
+    "mail": "St. Mary's General Hospital, Billing Dept, PO Box 4521, Springfield, IL 62705",
+    "invoice_number": "INV-2025-004872",
+    "invoice_date": "February 11, 2025",
+    "patient_id": "PAT-289456",
+    "account_number": "ACC-78942315",
+    "due_date": "March 13, 2025",
+    "medical_record": "MR-654789",
+    "patient_name": "Johnson, Emily Marie",
+    "date_of_birth": "June 15, 1987",
+    "address": "1847 Oakwood Avenue, Springfield, IL 62704",
+    "insurance_provider": "BlueCross BlueShield",
+    "policy_number": "BCBS-45789621",
+    "date_of_service": "January 28, 2025",
+    "admission_date": "January 28, 2025 at 10:45 AM",
+    "discharge_date": "January 30, 2025 at 2:30 PM",
+    "attending_physician": "Dr. Robert Chen, MD",
+    "department": "Emergency Department / Inpatient Care",
+    "diagnosis": "Acute Appendicitis (ICD-10: K35.80)"
+  },
+  "entities": {
+    "persons": [
+      "Suite",
+      "Robert Chen",
+      "Emily Marie\nDate",
+      "Johnson"
+    ],
+    "organizations": [
+      "GENERAL HOSPITAL\n",
+      "Date of Service",
+      "Discharge Date",
+      "Admission Date",
+      "IL 62705",
+      "Hospital Inpatient Care per Day",
+      "Anesthesia Services",
+      "General Hospital",
+      "Billing Dept",
+      "Invoice Date",
+      "Patient Financial Services",
+      "Medical Supplies and Materials",
+      "IL 62704\nPhone",
+      "Billing Department",
+      "MARY"
+    ],
+    "locations": [
+      "Springfield",
+      "PAYMENT INFORMATION",
+      "MD",
+      "St. Mary's",
+      "ST"
+    ],
+    "monetary_values": [
+      "3,600.00",
+      "2,450.00",
+      "2,100.00",
+      "845.00",
+      "125.00",
+      "625.00",
+      "1\n$15,800.00",
+      "1,875.00",
+      "5,484.00",
+      "1\n$"
+    ],
+    "emails": [
+      "billing@stmaryshospital.com"
+    ],
+    "phone_numbers": [
+      "(217) 555-8905",
+      "(217) 555-8901"
+    ],
+    "invoice_numbers": [
+      "Box",
+      "Date",
+      "Number",
+      "INV-2025-004872",
+      "date",
+      "licy",
+      "nsibility",
+      "with",
+      "-2025-004872",
+      "number",
+      "PAYMENT"
+    ]
+  },
+  "tables": [
+    {
+      "table_number": 1,
+      "headers": [
+        "Invoice Number: INV-2025-004872\nInvoice Date: February 11, 2025\nPatient ID: PAT-289456",
+        "Account Number: ACC-78942315\nDue Date: March 13, 2025\nMedical Record #: MR-654789"
+      ],
+      "rows": [],
+      "row_count": 0,
+      "column_count": 2
+    },
+    {
+      "table_number": 2,
+      "headers": [
+        "PATIENT INFORMATION"
+      ],
+      "rows": [
+        [
+          "Patient Name: Johnson, Emily Marie\nDate of Birth: June 15, 1987\nAddress: 1847 Oakwood Avenue, Springfield, IL 62704\nPhone: (217) 555-3421\nInsurance Provider: BlueCross BlueShield\nPolicy Number: BCBS-45789621"
+        ]
+      ],
+      "row_count": 1,
+      "column_count": 1
+    },
+    {
+      "table_number": 3,
+      "headers": [
+        "SERVICE DETAILS"
+      ],
+      "rows": [
+        [
+          "Date of Service: January 28, 2025\nAdmission Date: January 28, 2025 at 10:45 AM\nDischarge Date: January 30, 2025 at 2:30 PM\nAttending Physician: Dr. Robert Chen, MD\nDepartment: Emergency Department / Inpatient Care\nDiagnosis: Acute Appendicitis (ICD-10: K35.80)"
+        ]
+      ],
+      "row_count": 1,
+      "column_count": 1
+    },
+    {
+      "table_number": 4,
+      "headers": [
+        "Code",
+        "Description",
+        "Qty",
+        "Amount"
+      ],
+      "rows": [
+        [
+          "99284",
+          "Emergency Department Visit - Level 4",
+          "1",
+          "$2,450.00"
+        ],
+        [
+          "70450",
+          "CT Scan Abdomen without Contrast",
+          "1",
+          "$1,875.00"
+        ],
+        [
+          "85025",
+          "Complete Blood Count (CBC)",
+          "1",
+          "$125.00"
+        ],
+        [
+          "44970",
+          "Laparoscopic Appendectomy",
+          "1",
+          "$15,800.00"
+        ],
+        [
+          "00840",
+          "Anesthesia Services",
+          "1",
+          "$2,100.00"
+        ],
+        [
+          "99232",
+          "Hospital Inpatient Care per Day",
+          "2",
+          "$3,600.00"
+        ],
+        [
+          "J2175",
+          "Medications and Pharmacy Services",
+          "1",
+          "$845.00"
+        ],
+        [
+          "99070",
+          "Medical Supplies and Materials",
+          "1",
+          "$625.00"
+        ]
+      ],
+      "row_count": 8,
+      "column_count": 4
+    },
+    {
+      "table_number": 5,
+      "headers": [
+        "",
+        "Subtotal:",
+        "$27,420.00"
+      ],
+      "rows": [
+        [
+          "",
+          "Insurance Payment:",
+          "-$21,936.00"
+        ],
+        [
+          "",
+          "Patient Responsibility:",
+          "$5,484.00"
+        ]
+      ],
+      "row_count": 2,
+      "column_count": 3
+    }
+  ],
+  "extracted_text_preview": "ST. MARY'S GENERAL HOSPITAL\n2450 Medical Center Drive, Suite 100\nSpringfield, IL 62701 | Phone: (217) 555-8900 | Fax: (217) 555-8901\nPATIENT INVOICE\n\n\n\n\n\nPAYMENT INFORMATION\nPayment is due within 30 days of invoice date. Please include your invoice number with payment.\nPayment Options:\n• Online: Visit www.stmaryshospital.com/billing\n• Phone: Call (217) 555-8905 (Billing Department)\n• Mail: St. Mary's General Hospital, Billing Dept, PO Box 4521, Springfield, IL 62705\n\nQuestions about your bill?\nContact our Patient Financial Services team at (217) 555-8905 or email billing@stmaryshospital.com\n\nThank you for choosing St. Mary's General Hospital for your healthcare needs.\nInvoice Number: INV-2025-004872\nInvoice Date: February 11, 2025\nPatient ID: PAT-289456\nAccount Number: ACC-78942315\nDue Date: March 13, 2025\nMedical Record #: MR-654789\nPATIENT INFORMATION\nPatient Name: Johnson, Emily Marie\nDate of Birth: June 15, 1987\nAddress: 1847 Oakwood Avenue, Springfield, IL 62704\nPhone: (217) 555-3... (truncated)",
+  "metadata": {
+    "has_entities": true,
+    "has_tables": true,
+    "has_key_value_pairs": true,
+    "total_entities": 48,
+    "table_count": 5,
+    "text_length": 1846,
+    "language": "en",
+    "language_name": "English",
+    "language_confidence": 100.0
+  }
+}

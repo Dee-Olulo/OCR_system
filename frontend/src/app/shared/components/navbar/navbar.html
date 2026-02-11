@@ -20,6 +20,10 @@
         <mat-icon>cloud_upload</mat-icon>
         Upload
       </a>
+      <a mat-button routerLink="/insurance/claims" routerLinkActive="active">
+        <mat-icon>medical_services</mat-icon>
+        Insurance Claims
+      </a>
     </div>
     
     <div class="navbar-right" *ngIf="currentUser$ | async as user">

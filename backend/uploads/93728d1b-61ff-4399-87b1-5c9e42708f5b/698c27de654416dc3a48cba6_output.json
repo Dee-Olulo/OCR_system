@@ -1,0 +1,83 @@
+{
+  "document_type": "invoice",
+  "extraction_timestamp": "2026-02-11T06:55:32.296919",
+  "fields": {
+    "invoice_no": "INV-001",
+    "date": "09 February 2026",
+    "patient_name": "Jane Doe",
+    "hospital": "City Care Hospital",
+    "doctor": "Dr. John Smith"
+  },
+  "entities": {
+    "persons": [
+      "Jane Doe\nHospital",
+      "John Smith"
+    ],
+    "organizations": [
+      "City Care Hospital"
+    ],
+    "invoice_numbers": [
+      "-001",
+      "INV-001",
+      "Invoice"
+    ]
+  },
+  "tables": [
+    {
+      "page": 1,
+      "table_number": 1,
+      "headers": [
+        "Description",
+        "Quantity",
+        "Unit Price",
+        "Total"
+      ],
+      "rows": [
+        [
+          "Consultation",
+          "1",
+          "50.00",
+          "50.00"
+        ],
+        [
+          "Laboratory Tests",
+          "1",
+          "120.00",
+          "120.00"
+        ],
+        [
+          "Medication",
+          "1",
+          "80.00",
+          "80.00"
+        ],
+        [
+          "Hospital Stay (1 day)",
+          "1",
+          "150.00",
+          "150.00"
+        ],
+        [
+          "",
+          "",
+          "Grand Total",
+          "400.00"
+        ]
+      ],
+      "row_count": 5,
+      "column_count": 4
+    }
+  ],
+  "extracted_text_preview": "HOSPITAL INVOICE\nInvoice No: INV-001\nDate: 09 February 2026\nPatient Name: Jane Doe\nHospital: City Care Hospital\nDoctor: Dr. John Smith\nDescription Quantity Unit Price Total\nConsultation 1 50.00 50.00\nLaboratory Tests 1 120.00 120.00\nMedication 1 80.00 80.00\nHospital Stay (1 day) 1 150.00 150.00\nGrand Total 400.00\nThank you for choosing City Care Hospital.\nGet well soon!",
+  "metadata": {
+    "has_entities": true,
+    "has_tables": true,
+    "has_key_value_pairs": true,
+    "total_entities": 6,
+    "table_count": 1,
+    "text_length": 372,
+    "language": "en",
+    "language_name": "English",
+    "language_confidence": 100.0
+  }
+}
