@@ -1,9 +1,11 @@
 # /backend/app/services/entity_extraction_service.py
 
+from html import entities
 import spacy
 import re
 from typing import Dict, List
 from datetime import datetime
+import json
 
 class EntityExtractionService:
     """Service for extracting entities from text using NLP"""
@@ -14,12 +16,13 @@ class EntityExtractionService:
         except:
             print("⚠️  SpaCy model not loaded. Run: python -m spacy download en_core_web_sm")
             self.nlp = None
-    
+
     def extract_entities(self, text: str) -> Dict:
         """
         Extract named entities and key information from text
         Returns dictionary with extracted entities
         """
+
         entities = {
             "persons": [],
             "organizations": [],
@@ -30,42 +33,75 @@ class EntityExtractionService:
             "phone_numbers": [],
             "invoice_numbers": [],
             "amounts": [],
-            "key_value_pairs": {}
+            "key_value_pairs": {},
+            "line_items": []
         }
-        
-        # Extract using SpaCy NER
+
+        # -------------------------
+        # 1️⃣ SpaCy Named Entity Recognition
+        # -------------------------
         if self.nlp and text:
             doc = self.nlp(text)
-            
+
             for ent in doc.ents:
                 if ent.label_ == "PERSON":
-                    entities["persons"].append(ent.text)
+                    entities["persons"].append(ent.text.strip())
+
                 elif ent.label_ == "ORG":
-                    # Filter out single letters and very short orgs
-                    if len(ent.text) > 2 and not ent.text.isdigit():
-                        entities["organizations"].append(ent.text)
+                    if len(ent.text.strip()) > 2 and not ent.text.strip().isdigit():
+                        entities["organizations"].append(ent.text.strip())
+
                 elif ent.label_ in ["GPE", "LOC"]:
-                    entities["locations"].append(ent.text)
+                    entities["locations"].append(ent.text.strip())
+
                 elif ent.label_ == "DATE":
-                    # Only add if it looks like a real date
                     if self._is_valid_date_format(ent.text):
-                        entities["dates"].append(ent.text)
+                        entities["dates"].append(ent.text.strip())
+
                 elif ent.label_ == "MONEY":
-                    entities["money"].append(ent.text)
-        
-        # Extract using regex patterns (more accurate)
-        entities["emails"] = self._extract_emails(text)
-        entities["phone_numbers"] = self._extract_phone_numbers(text)  # Improved!
-        entities["invoice_numbers"] = self._extract_invoice_numbers(text)
-        entities["amounts"] = self._extract_amounts(text)
-        entities["key_value_pairs"] = self._extract_key_value_pairs_dynamic(text)  # New dynamic extraction!
-        
-        # Remove duplicates
+                    entities["money"].append(ent.text.strip())
+
+        # -------------------------
+        # 2️⃣ Regex-Based Extraction
+        # -------------------------
+        if text:
+            entities["emails"] = self._extract_emails(text)
+            entities["phone_numbers"] = self._extract_phone_numbers(text)
+            entities["invoice_numbers"] = self._extract_invoice_numbers(text)
+            entities["amounts"] = self._extract_amounts(text)
+            entities["key_value_pairs"] = self._extract_key_value_pairs_dynamic(text)
+            entities["line_items"] = self._extract_table_fields(text)
+
+        # -------------------------
+        # 3️⃣ Safe Deduplication
+        # -------------------------
+        def deduplicate_list(items):
+            if not items:
+                return items
+
+            # If list contains dictionaries (e.g., line_items)
+            if isinstance(items[0], dict):
+                seen = set()
+                unique_items = []
+
+                for item in items:
+                    # Create a hashable signature
+                    signature = str(sorted(item.items()))
+                    if signature not in seen:
+                        seen.add(signature)
+                        unique_items.append(item)
+
+                return unique_items
+
+            # If list contains strings or primitives
+            return list(set(items))
+
         for key in entities:
             if isinstance(entities[key], list):
-                entities[key] = list(set(entities[key]))
-        
+                entities[key] = deduplicate_list(entities[key])
+
         return entities
+
     
     def _is_valid_date_format(self, text: str) -> bool:
         """Strict date validation to avoid postal codes & random numbers"""
@@ -192,29 +228,86 @@ class EntityExtractionService:
         
         return kv_pairs
     
-    def _extract_table_fields(self, text: str) -> Dict[str, str]:
-        """Extract multiple line items from tables"""
-        table_fields = {}
+    # def _extract_table_fields(self, text: str) -> Dict[str, str]:
+    #     """Extract multiple line items from tables"""
+    #     table_fields = {}
 
+    #     lines = [l.strip() for l in text.split('\n') if l.strip()]
+
+    #     headers = None
+    #     items = []
+
+    #     for i, line in enumerate(lines):
+    #         if re.search(r'description.*quantity.*price.*amount', line, re.IGNORECASE):
+    #             headers = i
+    #             continue
+
+    #         if headers is not None and i > headers:
+    #             row = re.split(r'\s{2,}', line)
+    #             if len(row) >= 3 and any(char.isdigit() for char in row[-1]):
+    #                 items.append(row)
+
+    #     for idx, row in enumerate(items, 1):
+    #         table_fields[f'item_{idx}'] = " | ".join(row)
+        
+    #     return table_fields
+    def _extract_table_fields(self, text: str) -> List[Dict]:
+        """
+        Universal table extraction using numeric-pattern detection.
+        Works for:
+        - Space-separated tables
+        - No borders
+        - No headers
+        - Different document types
+        """
+
+        table_rows = []
         lines = [l.strip() for l in text.split('\n') if l.strip()]
 
-        headers = None
-        items = []
+        for line in lines:
 
-        for i, line in enumerate(lines):
-            if re.search(r'description.*quantity.*price.*amount', line, re.IGNORECASE):
-                headers = i
+            # Skip obvious non-table lines
+            if len(line) < 5:
                 continue
 
-            if headers is not None and i > headers:
-                row = re.split(r'\s{2,}', line)
-                if len(row) >= 3 and any(char.isdigit() for char in row[-1]):
-                    items.append(row)
+            # Extract numeric values in line
+            numbers = re.findall(r'\d+\.\d{2}|\d+', line)
 
-        for idx, row in enumerate(items, 1):
-            table_fields[f'item_{idx}'] = " | ".join(row)
-        
-        return table_fields
+            # Heuristic:
+            # If line contains at least 2 numeric values, it might be a table row
+            if len(numbers) >= 2:
+
+                # Extract description (text before first number)
+                first_number_match = re.search(r'\d', line)
+                if not first_number_match:
+                    continue
+
+                description = line[:first_number_match.start()].strip()
+
+                # Avoid capturing totals/subtotals as table rows
+                if re.search(r'subtotal|total|tax|balance', description, re.IGNORECASE):
+                    continue
+
+                # Try to intelligently map structure
+                row_data = {
+                    "raw_line": line,
+                    "description": description,
+                    "numbers": numbers
+                }
+
+                # If looks like invoice row (qty + price + total)
+                if len(numbers) >= 3:
+                    try:
+                        row_data["quantity"] = int(numbers[0])
+                        row_data["unit_price"] = float(numbers[1])
+                        row_data["line_total"] = float(numbers[2])
+                    except:
+                        pass
+
+                table_rows.append(row_data)
+
+        return table_rows   
+
     
     def _clean_key(self, key: str) -> str:
         """Clean and normalize key names"""

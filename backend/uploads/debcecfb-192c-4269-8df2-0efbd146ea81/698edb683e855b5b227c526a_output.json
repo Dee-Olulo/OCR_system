@@ -1,0 +1,114 @@
+{
+  "document_type": "invoice",
+  "extraction_timestamp": "2026-02-13T08:06:03.053755",
+  "fields": {
+    "phone": "(555) 123-4567",
+    "invoice": "098765",
+    "date": "02/13/2026",
+    "patient": "John Smith",
+    "subtotal": "1625.00",
+    "tax": "81.25",
+    "total_due": "1706.25"
+  },
+  "entities": {
+    "persons": [
+      "John Smith"
+    ],
+    "organizations": [
+      "City General Hospital",
+      "Health St.\nMetropolis"
+    ],
+    "invoice_numbers": [
+      "lis",
+      "098765",
+      "--------------------------------------------------"
+    ]
+  },
+  "tables_detected": true,
+  "line_items": [
+    {
+      "raw_line": "Phone: (555) 123-4567",
+      "description": "Phone: (",
+      "numbers": [
+        "555",
+        "123",
+        "4567"
+      ],
+      "quantity": 555,
+      "unit_price": 123.0,
+      "line_total": 4567.0
+    },
+    {
+      "raw_line": "Date: 02/13/2026",
+      "description": "Date:",
+      "numbers": [
+        "02",
+        "13",
+        "2026"
+      ],
+      "quantity": 2,
+      "unit_price": 13.0,
+      "line_total": 2026.0
+    },
+    {
+      "raw_line": "Room Charges 3 400.00 1200.00",
+      "description": "Room Charges",
+      "numbers": [
+        "3",
+        "400.00",
+        "1200.00"
+      ],
+      "quantity": 3,
+      "unit_price": 400.0,
+      "line_total": 1200.0
+    },
+    {
+      "raw_line": "X-Ray 1 150.00 150.00",
+      "description": "X-Ray",
+      "numbers": [
+        "1",
+        "150.00",
+        "150.00"
+      ],
+      "quantity": 1,
+      "unit_price": 150.0,
+      "line_total": 150.0
+    },
+    {
+      "raw_line": "Lab Tests 1 200.00 200.00",
+      "description": "Lab Tests",
+      "numbers": [
+        "1",
+        "200.00",
+        "200.00"
+      ],
+      "quantity": 1,
+      "unit_price": 200.0,
+      "line_total": 200.0
+    },
+    {
+      "raw_line": "Medications 1 75.00 75.00",
+      "description": "Medications",
+      "numbers": [
+        "1",
+        "75.00",
+        "75.00"
+      ],
+      "quantity": 1,
+      "unit_price": 75.0,
+      "line_total": 75.0
+    }
+  ],
+  "extracted_text_preview": "CITY GENERAL HOSPITAL\n1234 Health St.\nMetropolis, NY 10001\nPhone: (555) 123-4567\n--------------------------------------------------\nHOSPITAL INVOICE\n--------------------------------------------------\nInvoice #: 098765\nDate: 02/13/2026\nPatient: John Smith\nDescription Qty Price Total\nRoom Charges 3 400.00 1200.00\nX-Ray 1 150.00 150.00\nLab Tests 1 200.00 200.00\nMedications 1 75.00 75.00\nSubtotal: 1625.00\nTax: 81.25\n--------------------------------------------------\nTOTAL DUE: 1706.25\n--------------------------------------------------\nPlease make payment to:\nCity General Hospital\nThank you for your prompt payment!",
+  "metadata": {
+    "has_entities": true,
+    "has_tables": true,
+    "has_key_value_pairs": true,
+    "total_entities": 6,
+    "table_count": 0,
+    "text_length": 617,
+    "language": "en",
+    "language_name": "English",
+    "language_confidence": 100.0
+  }
+}

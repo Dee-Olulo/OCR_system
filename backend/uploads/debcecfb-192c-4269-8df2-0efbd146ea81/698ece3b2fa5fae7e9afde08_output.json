@@ -1,0 +1,33 @@
+{
+  "document_type": "unknown",
+  "extraction_timestamp": "2026-02-13T07:10:30.133434",
+  "entities": {
+    "persons": [
+      "Sriarl"
+    ],
+    "organizations": [
+      "KES",
+      "Slip Service Point Y-RAY"
+    ],
+    "locations": [
+      "NAIROBI",
+      "CE",
+      "Petrino"
+    ],
+    "invoice_numbers": [
+      "int"
+    ]
+  },
+  "extracted_text_preview": "Meee | (ee\n\nspital\n\ni ' ae. z\" Magisters of Mercy\nP Ma\n| N\n\na lé\n\nNumber 11028442\n\n? Category General\nAge 58 Years 7 Months\nStaff No. CKO! 8476-00\n\nSriarl.\n\nPayer(s) If Slip Service Point Y-RAY\n33 ry\nae BW 504485 00200. NAIROBI\n\nCE -CHAT SACC aagig:\n8),¥2INB 250802394, 2INB2508 an\n\nfete, Petrino iy - :\n\n(KES)\n\nwa = pa cA",
+  "metadata": {
+    "has_entities": true,
+    "has_tables": false,
+    "has_key_value_pairs": false,
+    "total_entities": 7,
+    "table_count": 0,
+    "text_length": 322,
+    "language": "en",
+    "language_name": "English",
+    "language_confidence": 100.0
+  }
+}

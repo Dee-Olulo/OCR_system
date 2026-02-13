@@ -1,5 +1,7 @@
 # /backend/app/services/json_output_service.py
 
+from html import entities
+from html import entities
 from typing import Dict, Any, List, Optional
 from datetime import datetime
 import json
@@ -66,6 +68,10 @@ class JSONOutputService:
         
         if entities_output:
             output["entities"] = entities_output
+
+        if entities.get("line_items"):
+            output["tables_detected"] = True
+            output["line_items"] = entities["line_items"]   
         
         # Add tables if available
         if tables:
@@ -81,7 +87,7 @@ class JSONOutputService:
         # Add metadata
         output["metadata"] = {
             "has_entities": len(entities_output) > 0,
-            "has_tables": len(tables) > 0,
+            "has_tables": bool(entities.get("line_items")) or len(tables) > 0,
             "has_key_value_pairs": len(kv_pairs) > 0,
             "total_entities": sum(len(v) if isinstance(v, list) else 0 for v in entities_output.values()),
             "table_count": len(tables),

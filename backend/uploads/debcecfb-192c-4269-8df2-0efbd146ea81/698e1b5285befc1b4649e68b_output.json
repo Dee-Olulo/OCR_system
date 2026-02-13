@@ -1,0 +1,30 @@
+{
+  "document_type": "unknown",
+  "extraction_timestamp": "2026-02-12T18:27:05.734176",
+  "fields": {
+    "178_52301_289": ".",
+    "vi_as_2": ":",
+    "i_3": "AHC-BLOOD GROUP.AND RHESUS” ~~ ;",
+    "seryed_by": "R. WANJIRU"
+  },
+  "entities": {
+    "persons": [
+      "Bill Amount"
+    ],
+    "organizations": [
+      "TEE"
+    ]
+  },
+  "extracted_text_preview": "Garden 6h\n\nsy atinio TEE\n178. 5.2301 289 : .\n\nDp oe avetius’ Hospital -\n\nvi AS 2 > : :\n\n{ “2. AHC - ne OGRAM.- - GBC. 7\n\nI 3  AHC-BLOOD GROUP.AND RHESUS” ~~ ;\n4. PARACETAMOL 425MG SUPP. [DENK] aN o 40.7\n\n1 0.00\n\n5 Dispensing Fee le\nrae \\ Bill Amount:\n\n+\nwe\n\nmPEsAAmount aaa\n\nSeryed By: R. WANJIRU",
+  "metadata": {
+    "has_entities": true,
+    "has_tables": false,
+    "has_key_value_pairs": true,
+    "total_entities": 2,
+    "table_count": 0,
+    "text_length": 296,
+    "language": "en",
+    "language_name": "English",
+    "language_confidence": 100.0
+  }
+}

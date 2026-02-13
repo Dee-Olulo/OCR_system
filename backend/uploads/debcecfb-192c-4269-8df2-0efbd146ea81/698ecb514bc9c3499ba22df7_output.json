@@ -1,0 +1,15 @@
+{
+  "document_type": "unknown",
+  "extraction_timestamp": "2026-02-13T06:57:27.007777",
+  "metadata": {
+    "has_entities": false,
+    "has_tables": false,
+    "has_key_value_pairs": false,
+    "total_entities": 0,
+    "table_count": 0,
+    "text_length": 0,
+    "language": "en",
+    "language_name": "English",
+    "language_confidence": 0.0
+  }
+}

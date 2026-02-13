@@ -1,0 +1,47 @@
+{
+  "document_type": "invoice",
+  "extraction_timestamp": "2026-02-12T18:42:49.599832",
+  "fields": {
+    "phone": "(655) 12",
+    "patient_ot_ane": "Yohn Smith |"
+  },
+  "entities": {
+    "persons": [
+      "Metropol",
+      "Yohn Smith"
+    ],
+    "organizations": [
+      "Aeetws",
+      "F\n\n4"
+    ],
+    "locations": [
+      "cont",
+      "Healt\n\nt.",
+      "Yen"
+    ],
+    "monetary_values": [
+      "81.2",
+      "200",
+      "150",
+      "1",
+      "76",
+      "75"
+    ],
+    "invoice_numbers": [
+      "l",
+      "o"
+    ]
+  },
+  "extracted_text_preview": "Sy ce Pear\n\na\n\nSN\n\ni]\n\nSy\n\n‘Ss\n\npes\n\nmcd\n\naf\n\nyn\n\noie\n\nvg\n\n\\\n\ni\n\ni@\n\nSe\n\n—\n\nE\n\nwoe\n\nwe\n\n1234 F\n\n4 Healt\n\nt.\n\n*\n\naos\n\n_ Metropol\n\niS\n\nNY 4\n\nPhone: (655) 12\n\n367\n\nYen\n\ncont eae\n\n—\n\nrape ns\n\noe\n\n—\n\nro\n\n=\n\ncae\n\nwest\n\nee\n\né\n\nHOSPITAL INV\n\n@\n\nise\n\n&\n\n«\n\na]\n\ninvo\n\n@ #: 098765\n\nO1/\n\nPatient ot ane: Yohn Smith |\n\nDh\n\nee\n\n——\n\n———\n\n—\n\n_\n\nameter\n\n=\n\ns\n\nvi\n\npti\n\non\n\n_aty\n\nPrice ‘\n\nTotal\n\nSs\n\neer\n\nRoom Charges\n\n3 5a 10.00 $1, 20\n\na\n\nq\n\nx\n\nay\n\n1\n\n$150 00 $150\n\n00\n\nas\n\nf.\n\n&)\n\n4\n\nLa\n\nTests\n\n—\n\n$200. 00\n\n$200.\n\nfe\n\neae\n\nSEBEL\n\nEa\n\n$76. 00\n\n$75, 00\n\nMedications\n\na\n\nere\n\n&\n\na\n\nSubtotal\n\n1\n\n625,00\n\nOm\n\n:\n\nSp\n\nnage\n\n$81.2\n\ni\n\n;\n\nTOTAL\n\n3\n\nkat\n\n=)\n\nor\n\n‘\n\ni\n\nPle\n\nba\n\naS\n\nhe\n\n@ make paymen\n\nSe\n\n4\n\noie\n\noe\n\n&\n\nGeneral Hospital\n\nee\n\nFt\n\nSg ine\n\nSee\n\na\n\nes\n\nThank you for\n\nprompt pz\n\nty\n\nOS)\n\n‘SG\n\no\n\n“a\n\n&\n\nral\n\n“Ui\n\nep:\n\n»\n\npyr ie\n\ni.\n\noe\n\ncea\n\nAeetws\n\nweet c\n\nay",
+  "metadata": {
+    "has_entities": true,
+    "has_tables": false,
+    "has_key_value_pairs": true,
+    "total_entities": 15,
+    "table_count": 0,
+    "text_length": 849,
+    "language": "en",
+    "language_name": "English",
+    "language_confidence": 100.0
+  }
+}

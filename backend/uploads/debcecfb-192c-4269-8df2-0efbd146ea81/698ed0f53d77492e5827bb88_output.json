@@ -1,0 +1,35 @@
+{
+  "document_type": "unknown",
+  "extraction_timestamp": "2026-02-13T07:22:53.207198",
+  "fields": {
+    "nugig": "y\"",
+    "payers": "|",
+    "other_invatoes": "250802394, 2INB2508q33m%"
+  },
+  "entities": {
+    "organizations": [
+      "SS\n\nPatiest KLLJ",
+      "KES",
+      "Merc"
+    ],
+    "locations": [
+      "SpIROBI"
+    ],
+    "invoice_numbers": [
+      "int",
+      "atoe"
+    ]
+  },
+  "extracted_text_preview": "Wein 2S\n\npital a . |\nters of Merc ) J\n\nMATER } SS\n\nPatiest KLLJ, OLULOd aN er Vv\nNugig: y\"\nAge 58 Yvers 7 Months , | ;\nStaff No. CK018476.00 .\n| cx. Slip $ Point X-RAY\nPayer(s) | , : |\nC0033 CIC INJURANCE -CHAT SACO Mog scanty oon SpIROBI\n\nOther invatoe(s): 250802394, 2INB2508q33m%\n\nRef. No. Description! Amount\ni - i? (KES) (KES)\nXDRIG394989 US16 PROSENSE 5,300.00\n\nXDR 94989 MATER @@giOU\n\n. ' .\nvoy? ‘ode i\n‘\n\nat | have received THOPAREEaNe bafvites.”",
+  "metadata": {
+    "has_entities": true,
+    "has_tables": false,
+    "has_key_value_pairs": true,
+    "total_entities": 6,
+    "table_count": 0,
+    "text_length": 454,
+    "language": "en",
+    "language_name": "English",
+    "language_confidence": 100.0
+  }
+}

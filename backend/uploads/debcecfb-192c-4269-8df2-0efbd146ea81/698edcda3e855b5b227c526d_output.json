@@ -1,0 +1,143 @@
+{
+  "document_type": "invoice",
+  "extraction_timestamp": "2026-02-13T08:12:11.748864",
+  "fields": {
+    "invoice_no": "INV-001",
+    "date": "09 February 2026",
+    "patient_name": "Jane Doe",
+    "hospital": "City Care Hospital",
+    "doctor": "Dr. John Smith"
+  },
+  "entities": {
+    "persons": [
+      "Jane Doe\nHospital",
+      "John Smith"
+    ],
+    "organizations": [
+      "City Care Hospital"
+    ],
+    "invoice_numbers": [
+      "INV-001",
+      "Invoice",
+      "-001"
+    ]
+  },
+  "tables_detected": true,
+  "line_items": [
+    {
+      "raw_line": "Date: 09 February 2026",
+      "description": "Date:",
+      "numbers": [
+        "09",
+        "2026"
+      ]
+    },
+    {
+      "raw_line": "Consultation 1 50.00 50.00",
+      "description": "Consultation",
+      "numbers": [
+        "1",
+        "50.00",
+        "50.00"
+      ],
+      "quantity": 1,
+      "unit_price": 50.0,
+      "line_total": 50.0
+    },
+    {
+      "raw_line": "Laboratory Tests 1 120.00 120.00",
+      "description": "Laboratory Tests",
+      "numbers": [
+        "1",
+        "120.00",
+        "120.00"
+      ],
+      "quantity": 1,
+      "unit_price": 120.0,
+      "line_total": 120.0
+    },
+    {
+      "raw_line": "Medication 1 80.00 80.00",
+      "description": "Medication",
+      "numbers": [
+        "1",
+        "80.00",
+        "80.00"
+      ],
+      "quantity": 1,
+      "unit_price": 80.0,
+      "line_total": 80.0
+    },
+    {
+      "raw_line": "Hospital Stay (1 day) 1 150.00 150.00",
+      "description": "Hospital Stay (",
+      "numbers": [
+        "1",
+        "1",
+        "150.00",
+        "150.00"
+      ],
+      "quantity": 1,
+      "unit_price": 1.0,
+      "line_total": 150.0
+    }
+  ],
+  "tables": [
+    {
+      "page": 1,
+      "table_number": 1,
+      "headers": [
+        "Description",
+        "Quantity",
+        "Unit Price",
+        "Total"
+      ],
+      "rows": [
+        [
+          "Consultation",
+          "1",
+          "50.00",
+          "50.00"
+        ],
+        [
+          "Laboratory Tests",
+          "1",
+          "120.00",
+          "120.00"
+        ],
+        [
+          "Medication",
+          "1",
+          "80.00",
+          "80.00"
+        ],
+        [
+          "Hospital Stay (1 day)",
+          "1",
+          "150.00",
+          "150.00"
+        ],
+        [
+          "",
+          "",
+          "Grand Total",
+          "400.00"
+        ]
+      ],
+      "row_count": 5,
+      "column_count": 4
+    }
+  ],
+  "extracted_text_preview": "HOSPITAL INVOICE\nInvoice No: INV-001\nDate: 09 February 2026\nPatient Name: Jane Doe\nHospital: City Care Hospital\nDoctor: Dr. John Smith\nDescription Quantity Unit Price Total\nConsultation 1 50.00 50.00\nLaboratory Tests 1 120.00 120.00\nMedication 1 80.00 80.00\nHospital Stay (1 day) 1 150.00 150.00\nGrand Total 400.00\nThank you for choosing City Care Hospital.\nGet well soon!",
+  "metadata": {
+    "has_entities": true,
+    "has_tables": true,
+    "has_key_value_pairs": true,
+    "total_entities": 6,
+    "table_count": 1,
+    "text_length": 372,
+    "language": "en",
+    "language_name": "English",
+    "language_confidence": 100.0
+  }
+}

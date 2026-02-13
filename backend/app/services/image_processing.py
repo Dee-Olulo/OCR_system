@@ -81,3 +81,4 @@ class ImageProcessor:
         """Get PIL Image object"""
         return Image.open(image_path)
 
+

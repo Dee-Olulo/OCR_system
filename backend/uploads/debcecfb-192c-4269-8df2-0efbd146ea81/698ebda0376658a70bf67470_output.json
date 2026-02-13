@@ -1,0 +1,61 @@
+{
+  "document_type": "unknown",
+  "extraction_timestamp": "2026-02-13T05:59:06.300273",
+  "fields": {
+    "papesa": "sAmounts”",
+    "tel": "07325 an"
+  },
+  "entities": {
+    "persons": [
+      "\\p",
+      "SeresttRy ce",
+      "Shillings Tier Thonscing",
+      "Dakar"
+    ],
+    "organizations": [
+      "ANC",
+      "El Moneta Z",
+      "RHESUS",
+      "TEL",
+      "WARD"
+    ]
+  },
+  "tables": [
+    {
+      "table_number": 1,
+      "headers": [
+        "Field",
+        "Value"
+      ],
+      "rows": [
+        [
+          "- =paPESA",
+          "sAmounts”"
+        ],
+        [
+          "\\ “TEL",
+          "07325 an"
+        ],
+        [
+          "950",
+          "00 |"
+        ]
+      ],
+      "row_count": 3,
+      "column_count": 2,
+      "extraction_method": "text_keyvalue"
+    }
+  ],
+  "extracted_text_preview": "er\n\neg. No:\n\nre ‘q ve\n\nNO,\ni ANC sated\nie HAEMO*\n\ncrear Uber\n\n- =paPESA: sAmounts”\nPESA Number\n\nkenya Shillings Tier Thonscing El Moneta Z\n\nrenner RSET SAAN CHY CNY\n\n\\ “TEL: 07325 an\npe\n\nZYNA AL PHA TENE\n\n1A-654059-25\n\neseriptlony.\n\nA TEST SMEAR AND ANTIGENY\nGRAM - CBG PLUS DIF\nGRGUP AND RHESUS\n\nSeresttRy ce WARD\n\n( t\n. Te a\n\nMN _ Dakar 08105129\" \\p '\n\neam amour\n950:00 |\n\necw é\n\ny\n\naoa ZEEM a\n\n\\ )",
+  "metadata": {
+    "has_entities": true,
+    "has_tables": true,
+    "has_key_value_pairs": true,
+    "total_entities": 9,
+    "table_count": 1,
+    "text_length": 400,
+    "language": "en",
+    "language_name": "English",
+    "language_confidence": 100.0
+  }
+}

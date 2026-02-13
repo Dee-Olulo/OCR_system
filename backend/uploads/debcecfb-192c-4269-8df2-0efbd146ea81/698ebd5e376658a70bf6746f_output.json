@@ -1,0 +1,91 @@
+{
+  "document_type": "receipt",
+  "extraction_timestamp": "2026-02-13T05:58:01.378742",
+  "fields": {
+    "ia": "7 oN a",
+    "prene": "(655) 129-4567,",
+    "patient_name": "John Sinith, ,",
+    "wotaldue": "$1;708. 254 5"
+  },
+  "entities": {
+    "persons": [
+      "al",
+      "John Sinith",
+      "O98765",
+      "X-Ray"
+    ],
+    "organizations": [
+      "Health St.",
+      "NY 10004",
+      "City General Hospital",
+      "OULY.GENERAL HOSPITAL\n\n"
+    ],
+    "monetary_values": [
+      "81.2",
+      "150",
+      "200",
+      "1;708",
+      "1 $180.00 $",
+      "254 5\n Dlesserrtake"
+    ]
+  },
+  "tables": [
+    {
+      "table_number": 1,
+      "headers": [
+        "~~ Description Qty—Price Total ("
+      ],
+      "rows": [
+        [
+          "“Room Charges’ '3._$400.00°$1,200. 200.00,"
+        ],
+        [
+          "X-Ray, 1 $180.00 $150. 00,"
+        ]
+      ],
+      "row_count": 2,
+      "column_count": 1,
+      "extraction_method": "text_aligned"
+    },
+    {
+      "table_number": 1,
+      "headers": [
+        "Field",
+        "Value"
+      ],
+      "rows": [
+        [
+          "ia",
+          "7 oN a"
+        ],
+        [
+          "_prene",
+          "(655) 129-4567,"
+        ],
+        [
+          "Patient Name",
+          "John Sinith, ,"
+        ],
+        [
+          "WOTALDUE",
+          "$1;708. 254 5"
+        ]
+      ],
+      "row_count": 4,
+      "column_count": 2,
+      "extraction_method": "text_keyvalue"
+    }
+  ],
+  "extracted_text_preview": "pe SE SS, Ae“\n\nia : 7 oN a\n\n_ OULY.GENERAL HOSPITAL\n\n1234 Health St.\nicon NY 10004,\n_prene: (655) 129-4567,\n\n“HOSRITATINNGICE”\n\nMe\n\n: pete O98765 ate OITTSTRED\nPatient Name: John Sinith, ,\n»»,, 7\n\n~~ Description Qty—Price Total (\n“Room Charges’ '3._$400.00°$1,200. 200.00,\nX-Ray, 1 $180.00 $150. 00,\n\n~ $200, 00—= =$200. 00”\n\ni\n1\n“Medications _ A\ni\n\n| ; 75.00._$75.00, al\n: “gubtotaly b=G\n: Taxi $81.2 /\nWOTALDUE: $1;708. 254 5\n Dlesserrtake” paymiont i\nCity General Hospital \\\n\no=Thank you for your, prommpt-paymentt”",
+  "metadata": {
+    "has_entities": true,
+    "has_tables": true,
+    "has_key_value_pairs": true,
+    "total_entities": 14,
+    "table_count": 2,
+    "text_length": 518,
+    "language": "en",
+    "language_name": "English",
+    "language_confidence": 100.0
+  }
+}
