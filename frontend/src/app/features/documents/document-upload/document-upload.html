@@ -19,7 +19,7 @@
           <p>or</p>
           <input type="file"
                  #fileInput
-                 accept=".jpg,.jpeg,.png,.tiff,.tif"
+                 accept=".jpg,.jpeg,.png,.tiff,.tif, .pdf,.docx,.doc,.xlsx,.xls"
                  (change)="onFileSelected($event)"
                  style="display: none;">
           <button mat-raised-button color="primary" (click)="fileInput.click()">
@@ -63,8 +63,8 @@
     </mat-card-header>
     <mat-card-content>
       <ul>
-        <li>Supported formats: JPG, JPEG, PNG, TIFF</li>
-        <li>Maximum file size: 10 MB</li>
+        <li>Supported formats: JPG, JPEG, PNG, TIFF, PDF, DOCX, DOC, XLSX, XLS</li>
+        <li>Maximum file size: 50 MB</li>
         <li>For best results, upload clear, high-quality images</li>
         <li>Avoid blurry or low-resolution images</li>
         <li>Documents will be processed automatically after upload</li>

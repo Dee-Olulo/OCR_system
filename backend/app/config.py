@@ -21,8 +21,8 @@ class Settings(BaseModel):
     
     # File Upload
     UPLOAD_DIR: str = "uploads"
-    MAX_FILE_SIZE: int = 10 * 1024 * 1024  # 10MB
-    ALLOWED_EXTENSIONS: list = [".jpg", ".jpeg", ".png", ".tiff", ".tif"]
+    MAX_FILE_SIZE: int = 52428800  # 50MB
+    ALLOWED_EXTENSIONS: list = [".jpg", ".jpeg", ".png", ".tiff", ".tif", ".pdf", ".docx", ".doc", ".xlsx", ".xls"]
     
     # CORS
     CORS_ORIGINS: list = ["http://localhost:4200"]

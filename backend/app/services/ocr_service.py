@@ -7,6 +7,7 @@ import numpy as np
 from typing import Tuple, Optional
 from app.services.image_processing import ImageProcessor
 
+
 class OCRService:
     """OCR service supporting multiple engines"""
     

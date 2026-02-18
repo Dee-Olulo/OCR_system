@@ -1,0 +1,175 @@
+{
+  "document_type": "form",
+  "extraction_timestamp": "2026-02-17T09:14:38.494239",
+  "fields": {
+    "mas": "AU AMOUNT",
+    "madieal_aig_society_of_matowi": "HiP Masm                 7201439",
+    "po_box_1254_blantyre_malawi_tel": "0111 820 298/111 820 370/111 820 217           |                                    :    ]",
+    "email": "management@masm.mw                                    DATE STAMP",
+    "a_web": "www.masm.mw                                                 Neocpen lanemnmaineiiaas               *",
+    "medical_aid_claim_form": "| ACCOUNTS      |",
+    "use_black_ink_only": "'",
+    "section_in_red_to_be_completed_by_memberpatient": ";            | 3 0  SEP  wok                5              |",
+    "section_in_black_to_be_completed_by_doctor": "_—                                      E             j              Stoswart                  i               }",
+    "principal_member": "~i) J a    at     Kantp WE                               PC Poe asia ANTYRE",
+    "rosvaavoness__po_ico_ps": "VIARTVEE | TE us pen Brug asana",
+    "name_of_employer": "{i                                      ALPS |                                                                cae eet E THIS TREATMENT (S DUE TO AN ACCIDENT                   |",
+    "scheme_type": "EXEUA HVE | wemsensno | 2             at        SUFFIX               (1 Roan Trarric AcciDEeNT        |",
+    "relationship_to": "PATIENT'S                             (D) Accwenr ar work                          .",
+    "patients_name": "MEMBER                .                              OATE OF BIRTH                                                                  .",
+    "ly_f": "fa     Cun WE                     r\\   SEL                                    23    oJ  th       ge              (D omner speciry",
+    "be_made_for_this_treatment_unless_contributions_are_received_in_respect_of_the_period_of_treatment": "‘",
+    "the_signature_above_ts_for_consent_to_treatment_and_masm_terms_only_it_does_not_confirm_treatment_or_bill": ")  \\",
+    "1_if_you_sign_this_claim_for_any_treatment_which_has_not_been_provided_you_may_well_be_committing_an_offence": "BECOME  AWAGE? THAT  Ge  GAIN 1S",
+    "submitted_for_services_which_have_not_been_provided_you_must_contact_masm": "\\ to           ~                      4",
+    "2_if_this_treatment_has_not_been_paid_for_then_you_must_either_sign_each_day_the_treatment_s_received_or_once_only_saree_ca_proyoer_of": "‘las",
+    "inserted_all_his_charges": "\\ 72          ©          rf   “s tk",
+    "3_claim_forms_which_are_signed_before_the_day_on_which_the_treatment_s_to_be_received_or_before_the_bill_is_indicated": "rere.        ce. M        —",
+    "4_if_treatment_has_been_paid_for__you_should_sign_the_form_once_only_before_sending_ti_to_the_masm_attach_your__brat_apne": "EQ “ob",
+    "are_claiming_in_the_appropriate_box_alongside_your_signature": "t\\  re oN                      Be Bt",
+    "doctors_no": "INVOICE No.              DATE CLAIM CLOSED.                   REF. DOG No.                ES ec  i",
+    "line": "CODE                         DESCRIPTION                       QTY | YR | MTH | DAY       FEE CHG           AWARD       SHORTFAL!      SANENTS.      .",
+    "diagnosises": "QW                                                                   ICD 10 CODE/S _— Kol. Oo",
+    "practitioners_name": "A.                              Tite KEUY. signature                          Council Reg # wom L&E / IES",
+    "date": "05 -2F SEP"
+  },
+  "entities": {
+    "persons": [
+      "DESCRIPTION                       QTY",
+      "Penn Ble"
+    ],
+    "organizations": [
+      "MALMEG",
+      "MEDICAL",
+      "PRINCIPAL",
+      "PS&  VIARTVEE",
+      "TE us pen",
+      "Roan Trarric",
+      "RELATIONSHIP",
+      "OO 2022",
+      "NG Die",
+      "Council Reg",
+      "Society"
+    ],
+    "emails": [
+      "management@masm.mw",
+      "claimsfeedback@masm.mw"
+    ]
+  },
+  "tables_detected": true,
+  "line_items": [
+    {
+      "raw_line": "SECTION IN RED TO BE COMPLETED BY MEMBER/PATIENT               :                                ;            | 3 0  SEP  wok                5              |",
+      "description": "SECTION IN RED TO BE COMPLETED BY MEMBER/PATIENT               :                                ;            |",
+      "numbers": [
+        "3",
+        "0",
+        "5"
+      ],
+      "quantity": 3,
+      "unit_price": 0.0,
+      "line_total": 5.0
+    }
+  ],
+  "tables": [
+    {
+      "table_type": "aligned_text_table",
+      "headers": [
+        "SECTION IN RED TO BE COMPLETED BY MEMBER/PATIENT",
+        ":",
+        ";",
+        "| 3 0",
+        "SEP",
+        "wok",
+        "5",
+        "|"
+      ],
+      "rows": [
+        [
+          "SECTION IN BLACK TO BE COMPLETED BY DOCTOR",
+          "_—",
+          "E",
+          "j",
+          "Stoswart",
+          "i",
+          "}"
+        ]
+      ],
+      "row_count": 1,
+      "column_count": 8
+    },
+    {
+      "table_type": "aligned_text_table",
+      "headers": [
+        "SCHEME TYPE",
+        "EXEUA HVE | wemsensno | 2",
+        "at",
+        "SUFFIX",
+        "(1 Roan Trarric AcciDEeNT",
+        "|"
+      ],
+      "rows": [
+        [
+          "PATIENT'S NAME",
+          "MEMBER",
+          ".",
+          "OATE OF BIRTH",
+          "."
+        ],
+        [
+          "Ly f",
+          "fa",
+          "Cun WE",
+          "r\\",
+          "SEL",
+          "23",
+          "oJ",
+          "th",
+          "ge",
+          "(D omner speciry"
+        ]
+      ],
+      "row_count": 2,
+      "column_count": 6
+    },
+    {
+      "table_type": "aligned_text_table",
+      "headers": [
+        "OATE _",
+        "SIGNATURE",
+        "y",
+        "”",
+        ":"
+      ],
+      "rows": [
+        [
+          "1, IF YOU SIGN THIS CLAIM FOR ANY TREATMENT WHICH HAS NOT BEEN PROVIDED YOU MAY WELL BE COMMITTING AN OFFENCE",
+          "BECOME",
+          "AWAGE? THAT",
+          "Ge",
+          "GAIN 1S"
+        ],
+        [
+          "SUBMITTED FOR SERVICES WHICH HAVE NOT BEEN PROVIDED YOU MUST CONTACT MASM.",
+          "\\ to",
+          "~",
+          "4"
+        ]
+      ],
+      "row_count": 2,
+      "column_count": 5
+    }
+  ],
+  "extracted_text_preview": ",                                       S                   2                                      .           = a\n.                                                           ,             °              °                                                                      (Hoi              Ten\nMAS                      AU AMOUNT\n‘Madieal Aig Society of Matowi                                                                HiP Masm                 7201439\nP.O. Box 1254, BLANTYRE, MALAWI, Tel: 0111 820 298/111 820 370/111 820 217           |                                    :    ]\nE-mail: management@masm.mw                                    DATE STAMP\na                                         Web: www.masm.mw                                                 Neocpen lanemnmaineiiaas               *\n;                                                                                                      t MALMEG HEAL M-CARE SERVICE |\nMEDICAL AID CLAIM FORM       | ACCOUNTS      |\n{USE BLACK... (truncated)",
+  "metadata": {
+    "has_entities": true,
+    "has_tables": true,
+    "has_key_value_pairs": true,
+    "total_entities": 15,
+    "table_count": 3,
+    "text_length": 5950,
+    "language": "en",
+    "language_name": "English",
+    "language_confidence": 100.0
+  }
+}
