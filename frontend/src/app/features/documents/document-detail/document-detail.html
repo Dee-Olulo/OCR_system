@@ -1,4 +1,4 @@
-<!-- frontend/src/app/features/documents/document-detail/document-detail.component.html -->
+<!-- frontend/src/app/features/documents/document-detail/document-detail.html -->
 
 <div class="detail-container" *ngIf="!loading; else loadingTpl">
 
@@ -16,10 +16,9 @@
     </button>
   </div>
 
-  <!-- Pipeline Steps -->
   <div class="pipeline">
 
-    <!-- ── STEP 1: OCR ──────────────────────────────────── -->
+    <!-- ── STEP 1: OCR ─────────────────────────────────────────────────── -->
     <mat-card class="step-card">
       <mat-card-header>
         <mat-icon mat-card-avatar [class.done]="rawText">
@@ -39,7 +38,6 @@
           </mat-select>
         </div>
 
-        <!-- Raw text preview -->
         <div class="text-preview" *ngIf="rawText">
           <h4>Extracted Raw Text</h4>
           <pre>{{ rawText }}</pre>
@@ -52,9 +50,7 @@
       </mat-card-content>
 
       <mat-card-actions>
-        <button mat-raised-button color="primary"
-          (click)="runOCR()"
-          [disabled]="processingOCR">
+        <button mat-raised-button color="primary" (click)="runOCR()" [disabled]="processingOCR">
           <mat-spinner diameter="18" *ngIf="processingOCR"></mat-spinner>
           <mat-icon *ngIf="!processingOCR">document_scanner</mat-icon>
           {{ processingOCR ? 'Extracting...' : (rawText ? 'Re-run OCR' : 'Run OCR') }}
@@ -62,93 +58,129 @@
       </mat-card-actions>
     </mat-card>
 
-    <!-- Arrow -->
-    <div class="pipeline-arrow">
-      <mat-icon>arrow_downward</mat-icon>
-    </div>
+    <div class="pipeline-arrow"><mat-icon>arrow_downward</mat-icon></div>
 
-    <!-- ── STEP 2: LLM ──────────────────────────────────── -->
+    <!-- ── STEP 2+3: LLM + MAPPING ────────────────────────────────────── -->
     <mat-card class="step-card" [class.disabled-card]="!rawText">
       <mat-card-header>
-        <mat-icon mat-card-avatar [class.done]="llmResult">
-          {{ llmResult ? 'check_circle' : 'psychology' }}
+        <mat-icon mat-card-avatar [class.done]="hasLLMResult">
+          {{ hasLLMResult ? 'check_circle' : 'psychology' }}
         </mat-icon>
-        <mat-card-title>Step 2 — AI Field Extraction</mat-card-title>
-        <mat-card-subtitle>Ollama + Mistral converts raw text into structured JSON</mat-card-subtitle>
+        <mat-card-title>Step 2 — AI Field Extraction & Schema Mapping</mat-card-title>
+        <mat-card-subtitle>LLM extracts fields → normalized → mapped to insurer schema</mat-card-subtitle>
       </mat-card-header>
 
       <mat-card-content>
 
-        <!-- LLM Results -->
-        <div class="llm-results" *ngIf="llmResult && !llmResult.error">
+        <!-- ── Results ─────────────────────────────────────────────────── -->
+        <div *ngIf="hasLLMResult">
 
-          <!-- Top Fields -->
-          <div class="fields-grid">
-            <div class="field-item" *ngFor="let key of llmKeys">
-              <span class="field-label">{{ key | titlecase }}</span>
-              <span class="field-value">{{ formatValue(llmResult[key]) }}</span>
+          <!-- Insurer badge + validation status -->
+          <div class="result-header">
+            <div class="insurer-badge" *ngIf="insurerDisplayName">
+              <mat-icon>business</mat-icon>
+              <span>{{ insurerDisplayName }}</span>
+            </div>
+            <div class="validation-badge" [class.complete]="extractionComplete" [class.incomplete]="!extractionComplete">
+              <!-- <mat-icon>{{ extractionComplete ? 'verified' : 'warning' }}</mat-icon> -->
+              <!-- <span>{{ extractionComplete ? 'All required fields found' : missingRequiredFields.length + ' required field(s) missing' }}</span> -->
             </div>
           </div>
 
-          <!-- Patient block -->
-          <div class="patient-block" *ngIf="llmResult.patient">
-            <h4>Patient</h4>
+          <!-- Missing fields warning
+          <div class="missing-fields" *ngIf="missingRequiredFields.length > 0">
+            <mat-icon>warning_amber</mat-icon>
+            <div>
+              <strong>Missing required fields:</strong>
+              <span class="missing-list">{{ missingRequiredFields.join(', ') }}</span>
+            </div>
+          </div> -->
+
+          <!-- Mapped Fields (insurer-specific names) -->
+          <div class="section" *ngIf="mappedFields">
+            <h4 class="section-title">
+              <mat-icon>swap_horiz</mat-icon>
+              Mapped Fields
+              <span class="section-hint">insurer-specific field names</span>
+            </h4>
             <div class="fields-grid">
-              <div class="field-item">
-                <span class="field-label">Name</span>
-                <span class="field-value">{{ formatValue(llmResult.patient?.name) }}</span>
-              </div>
-              <div class="field-item">
-                <span class="field-label">Age</span>
-                <span class="field-value">{{ formatValue(llmResult.patient?.age) }}</span>
-              </div>
-              <div class="field-item">
-                <span class="field-label">Gender</span>
-                <span class="field-value">{{ formatValue(llmResult.patient?.gender) }}</span>
+              <div class="field-item" *ngFor="let key of mappedKeys">
+                <span class="field-label">{{ formatKey(key) }}</span>
+                <span class="field-value" [class.null-value]="mappedFields[key] === null || mappedFields[key] === undefined">
+                  {{ formatValue(mappedFields[key]) }}
+                </span>
               </div>
             </div>
           </div>
 
-          <!-- Line Items Table -->
-          <div class="line-items" *ngIf="lineItems.length > 0">
-            <h4>Line Items</h4>
-            <table class="items-table">
-              <thead>
-                <tr>
-                  <th>Description</th>
-                  <th>Qty</th>
-                  <th>Unit Price</th>
-                  <th>Amount</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr *ngFor="let item of lineItems">
-                  <td>{{ formatValue(item.description) }}</td>
-                  <td>{{ formatValue(item.quantity) }}</td>
-                  <td>{{ formatValue(item.unit_price) }}</td>
-                  <td>{{ formatValue(item.amount) }}</td>
-                </tr>
-              </tbody>
-            </table>
+          <!-- Line Items -->
+          <div class="section" *ngIf="lineItems.length > 0">
+            <h4 class="section-title">
+              <mat-icon>receipt_long</mat-icon>
+              Line Items
+            </h4>
+            <div class="table-wrapper">
+              <table class="items-table">
+                <thead>
+                  <tr>
+                    <th>Description</th>
+                    <th>Tariff Code</th>
+                    <th>Date</th>
+                    <th>Qty</th>
+                    <th>Unit Price</th>
+                    <th>Amount</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of lineItems">
+                    <td>{{ formatValue(item.description) }}</td>
+                    <td>{{ formatValue(item.tariff_code) }}</td>
+                    <td>{{ formatValue(item.date) }}</td>
+                    <td>{{ formatValue(item.quantity) }}</td>
+                    <td>{{ formatValue(item.unit_price) }}</td>
+                    <td class="amount-cell">{{ formatValue(item.amount) }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
 
-          <!-- Raw JSON toggle -->
-          <details class="raw-json">
-            <summary>View Raw JSON</summary>
-            <pre>{{ llmResult | json }}</pre>
-          </details>
-        </div>
+          <!-- Pipeline debug accordion -->
+          <div class="debug-section">
+            <details>
+              <summary>
+                <mat-icon>code</mat-icon>
+                View pipeline data (canonical → normalized → mapped)
+              </summary>
+              <mat-tab-group class="debug-tabs">
+                <mat-tab label="Canonical (LLM output)">
+                  <pre>{{ canonicalFields | json }}</pre>
+                </mat-tab>
+                <mat-tab label="Normalized">
+                  <pre>{{ normalizedFields | json }}</pre>
+                </mat-tab>
+                <mat-tab label="Mapped (insurer)">
+                  <pre>{{ mappedFields | json }}</pre>
+                </mat-tab>
+              </mat-tab-group>
+            </details>
+          </div>
 
-        <!-- Error state -->
-        <div class="error-result" *ngIf="llmResult?.error">
-          <mat-icon color="warn">error</mat-icon>
-          <span>{{ llmResult.error }}</span>
         </div>
 
         <!-- Empty state -->
-        <div class="no-result" *ngIf="!llmResult">
+        <div class="no-result" *ngIf="!hasLLMResult && !processingLLM">
           <mat-icon>psychology</mat-icon>
           <span>{{ rawText ? 'Run AI extraction to get structured fields.' : 'Complete Step 1 first.' }}</span>
+        </div>
+
+        <!-- Processing state -->
+        <div class="processing-state" *ngIf="processingLLM">
+          <mat-spinner diameter="32"></mat-spinner>
+          <div class="processing-text">
+            <strong>AI extraction in progress...</strong>
+            <span>This takes 2–4 minutes on CPU. Please wait.</span>
+          </div>
         </div>
 
       </mat-card-content>
@@ -159,7 +191,7 @@
           [disabled]="!rawText || processingLLM">
           <mat-spinner diameter="18" *ngIf="processingLLM"></mat-spinner>
           <mat-icon *ngIf="!processingLLM">psychology</mat-icon>
-          {{ processingLLM ? 'Extracting with AI...' : (llmResult ? 'Re-run AI Extraction' : 'Extract with AI') }}
+          {{ processingLLM ? 'Extracting...' : (hasLLMResult ? 'Re-run AI Extraction' : 'Extract with AI') }}
         </button>
       </mat-card-actions>
     </mat-card>
@@ -167,7 +199,6 @@
   </div>
 </div>
 
-<!-- Loading -->
 <ng-template #loadingTpl>
   <div class="loading-center">
     <mat-spinner></mat-spinner>

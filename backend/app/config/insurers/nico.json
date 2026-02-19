@@ -1,0 +1,24 @@
+{
+  "version": "1.0",
+  "display_name": "NICO Life Insurance",
+  "aliases": ["NICO", "NICO LIFE", "NICO LIFE INSURANCE", "NICO GENERAL"],
+  "currency": "MWK",
+  "date_format": "%d/%m/%Y",
+  "output_schema": {
+    "insured_name":    "patient_name",
+    "policy_no":       "policy_number",
+    "invoice_no":      "invoice_number",
+    "treatment_date":  "invoice_date",
+    "facility_name":   "hospital_name",
+    "billed_amount":   "total_amount",
+    "insurer_name":    "insurer",
+    "line_items":      "line_items"
+  },
+  "required_fields": [
+    "insured_name",
+    "policy_no",
+    "invoice_no",
+    "treatment_date",
+    "billed_amount"
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "version": "1.0",
+  "display_name": "Medical Aid Society of Malawi",
+  "aliases": ["MASM", "MEDICAL AID SOCIETY OF MALAWI", "MEDICAL AID SOCIETY"],
+  "currency": "MWK",
+  "date_format": "%d/%m/%Y",
+  "output_schema": {
+    "beneficiary_name":     "patient_name",
+    "member_number":        "policy_number",
+    "claim_reference":      "invoice_number",
+    "date_of_service":      "invoice_date",
+    "provider_name":        "hospital_name",
+    "total_claimed_amount": "total_amount",
+    "medical_aid_society":  "insurer",
+    "attending_doctor":     "doctor_name",
+    "diagnosis_code":       "icd_code",
+    "line_items":           "line_items"
+  },
+  "required_fields": [
+    "beneficiary_name",
+    "member_number",
+    "claim_reference",
+    "date_of_service",
+    "provider_name",
+    "total_claimed_amount"
+  ]
+}
