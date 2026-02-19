@@ -1,126 +1,176 @@
 <!-- frontend/src/app/features/documents/document-detail/document-detail.component.html -->
 
-<div class="document-detail-container">
-  <div class="header">
+<div class="detail-container" *ngIf="!loading; else loadingTpl">
+
+  <!-- Header -->
+  <div class="detail-header">
     <button mat-icon-button (click)="goBack()">
       <mat-icon>arrow_back</mat-icon>
     </button>
-    <h1>Document Details</h1>
+    <div class="header-info">
+      <h1>{{ document?.filename }}</h1>
+      <mat-chip [class]="'status-' + document?.status">{{ document?.status }}</mat-chip>
+    </div>
+    <button mat-icon-button color="warn" (click)="deleteDocument()" matTooltip="Delete document">
+      <mat-icon>delete</mat-icon>
+    </button>
   </div>
-  
-  <div *ngIf="loading" class="loading-container">
-    <mat-spinner></mat-spinner>
-  </div>
-  
-  <div *ngIf="!loading && document" class="content">
-    <mat-card class="info-card">
+
+  <!-- Pipeline Steps -->
+  <div class="pipeline">
+
+    <!-- ── STEP 1: OCR ──────────────────────────────────── -->
+    <mat-card class="step-card">
       <mat-card-header>
-        <mat-card-title>
-          <mat-icon>insert_drive_file</mat-icon>
-          <span>{{ document.filename }}</span>
-        </mat-card-title>
+        <mat-icon mat-card-avatar [class.done]="rawText">
+          {{ rawText ? 'check_circle' : 'document_scanner' }}
+        </mat-icon>
+        <mat-card-title>Step 1 — OCR Text Extraction</mat-card-title>
+        <mat-card-subtitle>Tesseract / EasyOCR extracts raw text from your document</mat-card-subtitle>
       </mat-card-header>
-      
+
       <mat-card-content>
-        <div class="info-grid">
-          <div class="info-item">
-            <label>Status:</label>
-            <mat-chip [color]="getStatusColor(document.status)" selected>
-              {{ document.status | titlecase }}
-            </mat-chip>
-          </div>
-          
-          <div class="info-item">
-            <label>File Size:</label>
-            <span>{{ formatFileSize(document.file_size) }}</span>
-          </div>
-          
-          <div class="info-item">
-            <label>File Type:</label>
-            <span>{{ document.file_type }}</span>
-          </div>
-          
-          <div class="info-item">
-            <label>Uploaded:</label>
-            <span>{{ formatDate(document.uploaded_at) }}</span>
-          </div>
+        <div class="engine-select">
+          <label>OCR Engine:</label>
+          <mat-select [(ngModel)]="selectedEngine" [disabled]="processingOCR">
+            <mat-option value="tesseract">Tesseract</mat-option>
+            <mat-option value="easyocr">EasyOCR</mat-option>
+            <mat-option value="both">Both (Best Result)</mat-option>
+          </mat-select>
         </div>
-        
-        <mat-divider></mat-divider>
-        
-        <div class="actions">
-          <button mat-raised-button color="accent" (click)="downloadDocument()">
-            <mat-icon>download</mat-icon>
-            Download
-          </button>
-          <button mat-raised-button color="warn" (click)="deleteDocument()">
-            <mat-icon>delete</mat-icon>
-            Delete
-          </button>
+
+        <!-- Raw text preview -->
+        <div class="text-preview" *ngIf="rawText">
+          <h4>Extracted Raw Text</h4>
+          <pre>{{ rawText }}</pre>
+        </div>
+
+        <div class="no-result" *ngIf="!rawText">
+          <mat-icon>info</mat-icon>
+          <span>No text extracted yet. Run OCR to begin.</span>
         </div>
       </mat-card-content>
+
+      <mat-card-actions>
+        <button mat-raised-button color="primary"
+          (click)="runOCR()"
+          [disabled]="processingOCR">
+          <mat-spinner diameter="18" *ngIf="processingOCR"></mat-spinner>
+          <mat-icon *ngIf="!processingOCR">document_scanner</mat-icon>
+          {{ processingOCR ? 'Extracting...' : (rawText ? 'Re-run OCR' : 'Run OCR') }}
+        </button>
+      </mat-card-actions>
     </mat-card>
-    
-    <mat-card class="ocr-card">
+
+    <!-- Arrow -->
+    <div class="pipeline-arrow">
+      <mat-icon>arrow_downward</mat-icon>
+    </div>
+
+    <!-- ── STEP 2: LLM ──────────────────────────────────── -->
+    <mat-card class="step-card" [class.disabled-card]="!rawText">
       <mat-card-header>
-        <mat-card-title>
-          <mat-icon>text_fields</mat-icon>
-          <span>OCR Processing</span>
-        </mat-card-title>
+        <mat-icon mat-card-avatar [class.done]="llmResult">
+          {{ llmResult ? 'check_circle' : 'psychology' }}
+        </mat-icon>
+        <mat-card-title>Step 2 — AI Field Extraction</mat-card-title>
+        <mat-card-subtitle>Ollama + Mistral converts raw text into structured JSON</mat-card-subtitle>
       </mat-card-header>
-      
+
       <mat-card-content>
-        <div *ngIf="document.status === 'pending'" class="ocr-controls">
-          <p>This document has not been processed yet. Select an OCR engine and click process.</p>
-          
-          <mat-form-field appearance="outline">
-            <mat-label>OCR Engine</mat-label>
-            <mat-select [(ngModel)]="selectedEngine">
-              <mat-option value="tesseract">Tesseract (Fast)</mat-option>
-              <mat-option value="easyocr">EasyOCR (Accurate)</mat-option>
-              <mat-option value="both">Both (Best Result)</mat-option>
-            </mat-select>
-          </mat-form-field>
-          
-          <button mat-raised-button color="primary" 
-                  (click)="processWithOCR()" 
-                  [disabled]="processing">
-            <mat-spinner *ngIf="processing" diameter="20"></mat-spinner>
-            <mat-icon *ngIf="!processing">play_arrow</mat-icon>
-            <span *ngIf="!processing">Process Document</span>
-            <span *ngIf="processing">Processing...</span>
-          </button>
-        </div>
-        
-        <div *ngIf="document.status === 'processing'" class="processing-state">
-          <mat-spinner diameter="40"></mat-spinner>
-          <p>Processing document with OCR...</p>
-        </div>
-        
-        <div *ngIf="document.status === 'completed'" class="extracted-text">
-          <div class="text-header">
-            <h3>Extracted Text</h3>
-            <button mat-raised-button color="primary" (click)="processWithOCR()" [disabled]="processing">
-              <mat-icon>refresh</mat-icon>
-              Re-process
-            </button>
+
+        <!-- LLM Results -->
+        <div class="llm-results" *ngIf="llmResult && !llmResult.error">
+
+          <!-- Top Fields -->
+          <div class="fields-grid">
+            <div class="field-item" *ngFor="let key of llmKeys">
+              <span class="field-label">{{ key | titlecase }}</span>
+              <span class="field-value">{{ formatValue(llmResult[key]) }}</span>
+            </div>
           </div>
-          
-          <div class="text-container">
-            <pre *ngIf="document.extracted_text">{{ document.extracted_text }}</pre>
-            <p *ngIf="!document.extracted_text" class="no-text">No text extracted</p>
+
+          <!-- Patient block -->
+          <div class="patient-block" *ngIf="llmResult.patient">
+            <h4>Patient</h4>
+            <div class="fields-grid">
+              <div class="field-item">
+                <span class="field-label">Name</span>
+                <span class="field-value">{{ formatValue(llmResult.patient?.name) }}</span>
+              </div>
+              <div class="field-item">
+                <span class="field-label">Age</span>
+                <span class="field-value">{{ formatValue(llmResult.patient?.age) }}</span>
+              </div>
+              <div class="field-item">
+                <span class="field-label">Gender</span>
+                <span class="field-value">{{ formatValue(llmResult.patient?.gender) }}</span>
+              </div>
+            </div>
           </div>
+
+          <!-- Line Items Table -->
+          <div class="line-items" *ngIf="lineItems.length > 0">
+            <h4>Line Items</h4>
+            <table class="items-table">
+              <thead>
+                <tr>
+                  <th>Description</th>
+                  <th>Qty</th>
+                  <th>Unit Price</th>
+                  <th>Amount</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of lineItems">
+                  <td>{{ formatValue(item.description) }}</td>
+                  <td>{{ formatValue(item.quantity) }}</td>
+                  <td>{{ formatValue(item.unit_price) }}</td>
+                  <td>{{ formatValue(item.amount) }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Raw JSON toggle -->
+          <details class="raw-json">
+            <summary>View Raw JSON</summary>
+            <pre>{{ llmResult | json }}</pre>
+          </details>
         </div>
-        
-        <div *ngIf="document.status === 'failed'" class="failed-state">
+
+        <!-- Error state -->
+        <div class="error-result" *ngIf="llmResult?.error">
           <mat-icon color="warn">error</mat-icon>
-          <p>OCR processing failed. Please try again.</p>
-          <button mat-raised-button color="primary" (click)="processWithOCR()" [disabled]="processing">
-            <mat-icon>refresh</mat-icon>
-            Retry
-          </button>
+          <span>{{ llmResult.error }}</span>
         </div>
+
+        <!-- Empty state -->
+        <div class="no-result" *ngIf="!llmResult">
+          <mat-icon>psychology</mat-icon>
+          <span>{{ rawText ? 'Run AI extraction to get structured fields.' : 'Complete Step 1 first.' }}</span>
+        </div>
+
       </mat-card-content>
+
+      <mat-card-actions>
+        <button mat-raised-button color="accent"
+          (click)="runLLMExtraction()"
+          [disabled]="!rawText || processingLLM">
+          <mat-spinner diameter="18" *ngIf="processingLLM"></mat-spinner>
+          <mat-icon *ngIf="!processingLLM">psychology</mat-icon>
+          {{ processingLLM ? 'Extracting with AI...' : (llmResult ? 'Re-run AI Extraction' : 'Extract with AI') }}
+        </button>
+      </mat-card-actions>
     </mat-card>
+
   </div>
 </div>
+
+<!-- Loading -->
+<ng-template #loadingTpl>
+  <div class="loading-center">
+    <mat-spinner></mat-spinner>
+    <p>Loading document...</p>
+  </div>
+</ng-template>

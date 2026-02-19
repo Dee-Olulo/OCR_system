@@ -5,3 +5,4 @@ from .image_processing import ImageProcessor
 from .pdf_service import pdf_service
 from .docx_service import docx_service
 from .excel_service import excel_service
+from .llm_extraction_service import llm_extraction_service

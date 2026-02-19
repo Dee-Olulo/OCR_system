@@ -155,7 +155,7 @@ Make the system adaptable to different insurer requirements.
 ## 🔹 Deliverables
 
 * Schema mapping engine
-* Insurer configuration file (JSON/YAML)
+* Insurer configuration file (JSON)
 * Field normalization utilities
 * Validation error reporting
 

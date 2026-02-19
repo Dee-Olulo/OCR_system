@@ -12,14 +12,46 @@ import { OCRResult } from '../models/document.model';
 export class OcrService {
   private http = inject(HttpClient);
   private apiUrl = `${environment.apiUrl}/ocr`;
-  
-  processDocument(documentId: string, engine: 'tesseract' | 'easyocr' | 'both' = 'tesseract'): Observable<OCRResult> {
+  private llmUrl = `${environment.apiUrl}/llm`;
+
+  // -------------------------
+  // OCR METHODS
+  // -------------------------
+
+  processDocument(
+    documentId: string,
+    engine: 'tesseract' | 'easyocr' | 'both' = 'tesseract'
+  ): Observable<OCRResult> {
+
     const params = new HttpParams().set('engine', engine);
-    
-    return this.http.post<OCRResult>(`${this.apiUrl}/process/${documentId}`, null, { params });
+
+    return this.http.post<OCRResult>(
+      `${this.apiUrl}/process/${documentId}`,
+      null,
+      { params }
+    );
   }
-  
+
   getOCRResult(documentId: string): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/result/${documentId}`);
+    return this.http.get<any>(
+      `${this.apiUrl}/result/${documentId}`
+    );
+  }
+
+  // -------------------------
+  // LLM EXTRACTION METHODS
+  // -------------------------
+
+  extractWithLLM(documentId: string): Observable<any> {
+    return this.http.post<any>(
+      `${this.llmUrl}/extract/${documentId}`,
+      null
+    );
+  }
+
+  getLLMResult(documentId: string): Observable<any> {
+    return this.http.get<any>(
+      `${this.llmUrl}/result/${documentId}`
+    );
   }
 }
