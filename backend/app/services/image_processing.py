@@ -1,271 +1,105 @@
-# # # /backend/app/services/image_processing.py
+# /backend/app/services/image_processing.py
 
-# # import cv2
-# # import numpy as np
-# # from PIL import Image, ImageEnhance
-
-
-# # class ImageProcessor:
-# #     """Image preprocessing for better OCR results"""
-
-# #     @staticmethod
-# #     def preprocess_image(image_path: str) -> np.ndarray:
-# #         """
-# #         Preprocess image for OCR:
-# #         - Load via PIL (handles TIFF, multi-page, 16-bit, palette modes, etc.)
-# #         - Convert to grayscale
-# #         - Denoise (conservative to preserve fine strokes)
-# #         - Adaptive thresholding (handles uneven lighting in scanned forms)
-# #         """
-# #         # Use PIL to open — cv2.imread() silently fails on many TIFF variants
-# #         pil_img = Image.open(image_path)
-
-# #         # Normalize to RGB (handles palette, CMYK, grayscale, 16-bit, etc.)
-# #         pil_img = pil_img.convert("RGB")
-
-# #         # Enhance sharpness slightly before converting — helps with soft scans
-# #         pil_img = ImageEnhance.Sharpness(pil_img).enhance(1.5)
-
-# #         # Convert to OpenCV BGR array
-# #         img = np.array(pil_img)
-# #         img = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
-
-# #         # Convert to grayscale
-# #         gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-
-# #         # Conservative denoise — preserves fine character strokes
-# #         # Lower h (7 vs 10) avoids blurring thin letterforms
-# #         denoised = cv2.fastNlMeansDenoising(
-# #             gray,
-# #             None,
-# #             h=7,
-# #             templateWindowSize=7,
-# #             searchWindowSize=21,
-# #         )
-
-# #         # Adaptive threshold instead of Otsu's global threshold.
-# #         # Scanned forms have dark borders, shaded cells, and faint pre-printed
-# #         # text — adaptive thresholding handles local contrast zones far better.
-# #         binary = cv2.adaptiveThreshold(
-# #             denoised,
-# #             255,
-# #             cv2.ADAPTIVE_THRESH_GAUSSIAN_C,
-# #             cv2.THRESH_BINARY,
-# #             blockSize=31,   # Larger block = more tolerant of shading gradients
-# #             C=10,           # Constant subtracted from mean; tune up if background is noisy
-# #         )
-
-# #         return binary
-
-# #     @staticmethod
-# #     def deskew_image(image: np.ndarray) -> np.ndarray:
-# #         """Deskew image if tilted"""
-# #         coords = np.column_stack(np.where(image > 0))
-
-# #         if coords.size == 0:
-# #             return image
-
-# #         angle = cv2.minAreaRect(coords)[-1]
-
-# #         if angle < -45:
-# #             angle = -(90 + angle)
-# #         else:
-# #             angle = -angle
-
-# #         # Only deskew if angle is significant
-# #         if abs(angle) > 0.5:
-# #             (h, w) = image.shape[:2]
-# #             center = (w // 2, h // 2)
-# #             M = cv2.getRotationMatrix2D(center, angle, 1.0)
-# #             rotated = cv2.warpAffine(
-# #                 image,
-# #                 M,
-# #                 (w, h),
-# #                 flags=cv2.INTER_CUBIC,
-# #                 borderMode=cv2.BORDER_REPLICATE,
-# #             )
-# #             return rotated
-
-# #         return image
-
-# #     @staticmethod
-# #     def resize_if_needed(
-# #         image: np.ndarray,
-# #         target_width: int = 2400,
-# #         max_width: int = 3000,
-# #     ) -> np.ndarray:
-# #         """
-# #         Resize image for optimal OCR resolution (~300 DPI equivalent).
-
-# #         - Upscales images narrower than target_width using INTER_CUBIC
-# #           (better quality when enlarging).
-# #         - Downscales images wider than max_width using INTER_AREA
-# #           (better quality when shrinking).
-# #         - Leaves images within range untouched.
-# #         """
-# #         height, width = image.shape[:2]
-
-# #         if width < target_width:
-# #             # Upscale — scans at lower resolution need enlarging for Tesseract
-# #             ratio = target_width / width
-# #             new_size = (target_width, int(height * ratio))
-# #             return cv2.resize(image, new_size, interpolation=cv2.INTER_CUBIC)
-
-# #         if width > max_width:
-# #             # Downscale — avoid excessive memory usage and slow processing
-# #             ratio = max_width / width
-# #             new_size = (max_width, int(height * ratio))
-# #             return cv2.resize(image, new_size, interpolation=cv2.INTER_AREA)
-
-# #         return image
-
-# #     @staticmethod
-# #     def get_pil_image(image_path: str) -> Image.Image:
-# #         """Get PIL Image object (normalized to RGB)"""
-# #         img = Image.open(image_path)
-# #         return img.convert("RGB")
-
-# #     @staticmethod
-# #     def load_all_pages(image_path: str) -> list[Image.Image]:
-# #         """
-# #         Load all pages from a multi-page TIFF (or single-page image).
-
-# #         Returns a list of PIL Images, one per page.
-# #         """
-# #         pages = []
-# #         img = Image.open(image_path)
-# #         page_index = 0
-
-# #         while True:
-# #             try:
-# #                 img.seek(page_index)
-# #                 pages.append(img.copy().convert("RGB"))
-# #                 page_index += 1
-# #             except EOFError:
-# #                 break
-
-# #         return pages if pages else [img.convert("RGB")]
-
+import io
 import cv2
 import numpy as np
 from PIL import Image, ImageEnhance
 
 
+# ── Constants ────────────────────────────────────────────────────────────────
+
+# DPI to embed in all intermediate images handed to Tesseract.
+# The source TIFFs often carry broken metadata (e.g. dpi=1,1).  Tesseract uses
+# DPI to estimate character size; wrong DPI → complete misread.
+TESSERACT_DPI = 300
+
+# Fixed-threshold value used for clean / digital-style scans.
+# Pixels darker than this become black; everything else white.
+# 180 keeps light-grey form-field text while dropping the blue/grey fill.
+CLEAN_SCAN_THRESHOLD = 180
+
+# Only run fastNlMeansDenoising when image noise exceeds this std-dev level.
+NOISE_STDDEV_THRESHOLD = 15.0
+
+
 class ImageProcessor:
-    """Image preprocessing for better OCR results"""
+    """Image preprocessing for better OCR results."""
+
+    # ── Public helpers ────────────────────────────────────────────────────────
 
     @staticmethod
-    def _load_as_gray(image_path: str) -> np.ndarray:
+    def pil_to_tesseract_png(pil_img: Image.Image, dpi: int = TESSERACT_DPI) -> Image.Image:
         """
-        Load any image format as a grayscale numpy array.
-
-        Uses PIL instead of cv2.imread() because cv2 silently returns None
-        for many TIFF variants (LZW-compressed, RGBA, 16-bit, multi-page).
-
-        Also handles RGBA correctly — drops the alpha channel before converting
-        to grayscale. RGBA fed directly to cv2.cvtColor(BGR2GRAY) produces
-        wrong results because the alpha channel skews the luminance calculation.
+        Round-trip a PIL image through an in-memory PNG so that DPI metadata
+        is correctly embedded.  This is the single most important fix: TIFFs
+        (and numpy arrays) handed to Tesseract without DPI info cause Tesseract
+        to misestimate character size and produce garbage output.
         """
+        buf = io.BytesIO()
+        # Convert to RGB/L first — PNG doesn't support RGBA with dpi kwarg
+        mode = "L" if pil_img.mode == "L" else "RGB"
+        pil_img.convert(mode).save(buf, format="PNG", dpi=(dpi, dpi))
+        buf.seek(0)
+        return Image.open(buf)
+
+    @staticmethod
+    def _estimate_noise(gray: np.ndarray) -> float:
+        """Return a simple noise estimate (local std-dev via Laplacian variance)."""
+        lap = cv2.Laplacian(gray, cv2.CV_64F)
+        return float(lap.var() ** 0.5)
+
+    @staticmethod
+    def preprocess_image(image_path: str) -> Image.Image:
+        """
+        Preprocess an image for OCR and return a DPI-stamped PIL image.
+
+        Pipeline (all steps justified below):
+
+        1.  Open via PIL — handles TIFF variants, RGBA, palette, 16-bit, etc.
+        2.  Contrast + sharpness boost — makes light-grey field text pop against
+            the blue/grey form background before we go monochrome.
+        3.  Convert to grayscale.
+        4.  Conditional denoising — skip for clean scans (noise blurs fine
+            strokes and degrades accuracy); only run when noise std-dev is high.
+        5.  Fixed threshold at 180 — adaptive threshold with blockSize=31
+            uses the local neighbourhood mean as reference.  When text sits
+            inside a lightly-filled box the box background *is* the local mean,
+            so the threshold nearly equals the text luminance → text disappears.
+            A fixed threshold of 180 reliably separates dark text from light
+            fills while retaining grey-on-white field entries.
+        6.  Embed DPI=300 metadata — critical for Tesseract accuracy.
+        """
+        # ── 1. Open ──────────────────────────────────────────────────────────
         pil_img = Image.open(image_path)
-        pil_img.seek(0)                    # always use first frame/page
-        pil_img = pil_img.convert("RGB")   # RGBA/palette/CMYK → clean RGB
-        arr = np.array(pil_img)
-        bgr = cv2.cvtColor(arr, cv2.COLOR_RGB2BGR)
-        return cv2.cvtColor(bgr, cv2.COLOR_BGR2GRAY)
 
-    @staticmethod
-    def _contrast_stretch(gray: np.ndarray, lo: float = 5, hi: float = 95) -> np.ndarray:
-        """
-        Percentile-based contrast stretch.
+        # ── 2. Contrast / sharpness boost ────────────────────────────────────
+        # Boost contrast before grayscale so that light-grey field text (which
+        # lives in blue/grey boxes) isn't collapsed into the background.
+        pil_img = pil_img.convert("RGB")
+        pil_img = ImageEnhance.Contrast(pil_img).enhance(2.0)
+        pil_img = ImageEnhance.Sharpness(pil_img).enhance(2.0)
 
-        Why not CLAHE alone: this TIFF has 95.9% bright pixels and only 1.9%
-        dark (text) pixels. CLAHE's tile-based histogram equalization barely
-        moves the needle because each tile is dominated by background pixels.
-        Stretching the 5th–95th percentile range to 0–255 first gives CLAHE
-        something useful to work with.
-        """
-        p_lo = np.percentile(gray, lo)
-        p_hi = np.percentile(gray, hi)
-        denom = max(float(p_hi - p_lo), 1.0)
-        stretched = np.clip((gray.astype(np.float32) - p_lo) / denom * 255, 0, 255)
-        return stretched.astype(np.uint8)
+        # ── 3. Grayscale ──────────────────────────────────────────────────────
+        gray_pil = pil_img.convert("L")
+        gray = np.array(gray_pil)
 
-    @staticmethod
-    def preprocess_image(image_path: str) -> np.ndarray:
-        """
-        Preprocess image for Tesseract OCR → returns binary (0/255) array.
+        # ── 4. Conditional denoising ──────────────────────────────────────────
+        noise = ImageProcessor._estimate_noise(gray)
+        if noise > NOISE_STDDEV_THRESHOLD:
+            gray = cv2.fastNlMeansDenoising(
+                gray, None, h=7, templateWindowSize=7, searchWindowSize=21
+            )
 
-        Tesseract is a classical CV engine — it works best on clean binary
-        images where text pixels are black (0) and background is white (255).
-        Adaptive thresholding is used instead of Otsu's global threshold
-        because scanned forms have shaded cells, dark borders, and stamp ink
-        that shift the global histogram and cause Otsu to pick a bad midpoint.
-        """
-        gray = ImageProcessor._load_as_gray(image_path)
+        # ── 5. Fixed threshold ────────────────────────────────────────────────
+        _, binary = cv2.threshold(gray, CLEAN_SCAN_THRESHOLD, 255, cv2.THRESH_BINARY)
 
-        # Stretch contrast before thresholding so faint text becomes visible
-        stretched = ImageProcessor._contrast_stretch(gray)
-
-        # Mild denoise — conservative to preserve thin stroke edges
-        denoised = cv2.fastNlMeansDenoising(
-            stretched, None, h=7, templateWindowSize=7, searchWindowSize=21
-        )
-
-        # Adaptive threshold with a 25-pixel block.
-        # Smaller block (vs 31) catches tighter local regions like small
-        # handwritten characters; C=8 keeps faint pre-printed text visible.
-        binary = cv2.adaptiveThreshold(
-            denoised,
-            255,
-            cv2.ADAPTIVE_THRESH_GAUSSIAN_C,
-            cv2.THRESH_BINARY,
-            blockSize=25,
-            C=8,
-        )
-
-        return binary
-
-    @staticmethod
-    def preprocess_image_for_easyocr(image_path: str) -> np.ndarray:
-        """
-        Preprocess image specifically for EasyOCR → returns grayscale array.
-
-        EasyOCR uses a deep learning text detector (CRAFT) followed by a
-        recognition CNN. Both are trained on natural/grayscale images and rely
-        on gradient information (stroke edges, ink density variation) that is
-        destroyed by binarization.
-
-        Feeding a binary (0/255) image to EasyOCR causes two problems:
-          1. CRAFT loses the gradient cues it uses to score text regions,
-             producing fewer and weaker detections.
-          2. The recognition CNN sees hard black/white edges instead of the
-             soft gradients it was trained on, reducing character accuracy.
-
-        This pipeline preserves grayscale while maximising local contrast so
-        EasyOCR's detector can find text regions reliably.
-        """
-        gray = ImageProcessor._load_as_gray(image_path)
-
-        # Contrast stretch — critical for this TIFF which has std≈32 raw
-        # (almost all pixels are near-white). Stretch brings std up to ~70+.
-        stretched = ImageProcessor._contrast_stretch(gray, lo=5, hi=95)
-
-        # CLAHE after stretch for local contrast boost
-        # Smaller tile (4,4) handles the fine-grained contrast variation in
-        # handwritten form fill-ins better than the default (8,8)
-        clahe = cv2.createCLAHE(clipLimit=4.0, tileGridSize=(4, 4))
-        enhanced = clahe.apply(stretched)
-
-        # Unsharp mask sharpen — makes character stroke edges crisper for the
-        # CRAFT detector without introducing ringing artifacts
-        blurred = cv2.GaussianBlur(enhanced, (0, 0), 2)
-        sharpened = cv2.addWeighted(enhanced, 1.8, blurred, -0.8, 0)
-
-        return sharpened
+        # ── 6. Embed DPI metadata ─────────────────────────────────────────────
+        pil_binary = Image.fromarray(binary)
+        return ImageProcessor.pil_to_tesseract_png(pil_binary)
 
     @staticmethod
     def deskew_image(image: np.ndarray) -> np.ndarray:
-        """Deskew image if tilted"""
+        """Deskew image if tilted (operates on numpy arrays only)."""
         coords = np.column_stack(np.where(image > 0))
 
         if coords.size == 0:
@@ -282,12 +116,11 @@ class ImageProcessor:
             (h, w) = image.shape[:2]
             center = (w // 2, h // 2)
             M = cv2.getRotationMatrix2D(center, angle, 1.0)
-            rotated = cv2.warpAffine(
+            image = cv2.warpAffine(
                 image, M, (w, h),
                 flags=cv2.INTER_CUBIC,
                 borderMode=cv2.BORDER_REPLICATE,
             )
-            return rotated
 
         return image
 
@@ -300,10 +133,8 @@ class ImageProcessor:
         """
         Resize image for optimal OCR resolution (~300 DPI equivalent).
 
-        - Upscales images narrower than target_width using INTER_CUBIC
-          (better quality when enlarging).
-        - Downscales images wider than max_width using INTER_AREA
-          (better quality when shrinking).
+        - Upscales images narrower than target_width using INTER_CUBIC.
+        - Downscales images wider than max_width using INTER_AREA.
         - Leaves images within range untouched.
         """
         height, width = image.shape[:2]
@@ -322,15 +153,14 @@ class ImageProcessor:
 
     @staticmethod
     def get_pil_image(image_path: str) -> Image.Image:
-        """Get PIL Image object (normalized to RGB)"""
-        img = Image.open(image_path)
-        return img.convert("RGB")
+        """Return a normalised RGB PIL image."""
+        return Image.open(image_path).convert("RGB")
 
     @staticmethod
     def load_all_pages(image_path: str) -> list[Image.Image]:
         """
-        Load all pages from a multi-page TIFF (or single-page image).
-        Returns a list of PIL Images, one per page.
+        Load all pages from a multi-page TIFF (or any single-page image).
+        Returns a list of PIL Images (one per page) normalised to RGB.
         """
         pages = []
         img = Image.open(image_path)
