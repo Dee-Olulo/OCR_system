@@ -36,7 +36,7 @@ class Settings(BaseModel):
     # Secret shared between n8n and this backend.
     # n8n sends it in the X-Webhook-Secret header on every call.
     # The backend sends it when calling n8n webhook endpoints.
-    N8N_WEBHOOK_SECRET: str = ""
+    N8N_WEBHOOK_SECRET: str = "3d276301c2e24c755717126108dca6074980dca3f583aefece25fe0a2324cc68"
 
     # Base URL of the n8n instance
     N8N_BASE_URL: str = "http://localhost:5678"
@@ -44,6 +44,14 @@ class Settings(BaseModel):
     # Production webhook URL — Angular POSTs here after upload to trigger pipeline.
     # Format: {N8N_BASE_URL}/webhook/{path-you-set-in-n8n-webhook-node}
     N8N_INVOICE_WEBHOOK_URL: str = "http://localhost:5678/webhook/ocr-invoice-process"
+
+    # Full path to the service account JSON key file.
+    # Windows example: C:\OCR_project\OCR_system\backend\credentials\service_account.json
+    GOOGLE_SERVICE_ACCOUNT_KEY_PATH: str = "credentials/service_account.json"
+
+    # The ID from your master spreadsheet URL:
+    # https://docs.google.com/spreadsheets/d/THIS_PART_HERE/edit
+    MASTER_SPREADSHEET_ID: str = "1OpMCHsG4bi7mx3ndbwfXXlQgCdNdB-sJ9Mof4wLCKTw"
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -56,4 +64,6 @@ class Settings(BaseModel):
         self.N8N_WEBHOOK_SECRET = os.getenv("N8N_WEBHOOK_SECRET", self.N8N_WEBHOOK_SECRET)
         self.N8N_BASE_URL = os.getenv("N8N_BASE_URL", self.N8N_BASE_URL)
         self.N8N_INVOICE_WEBHOOK_URL = os.getenv("N8N_INVOICE_WEBHOOK_URL", self.N8N_INVOICE_WEBHOOK_URL)
+        self.GOOGLE_SERVICE_ACCOUNT_KEY_PATH = os.getenv("GOOGLE_SERVICE_ACCOUNT_KEY_PATH", self.GOOGLE_SERVICE_ACCOUNT_KEY_PATH)
+        self.MASTER_SPREADSHEET_ID = os.getenv("MASTER_SPREADSHEET_ID", self.MASTER_SPREADSHEET_ID)
 settings = Settings()
