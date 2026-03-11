@@ -1,6 +1,6 @@
 // frontend/src/app/features/documents/document-detail/document-detail.component.ts
 
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, OnDestroy, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
@@ -10,20 +10,22 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatDividerModule } from '@angular/material/divider';
-import { MatSelectModule } from '@angular/material/select';
-import { MatTabsModule } from '@angular/material/tabs';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { FormsModule } from '@angular/forms';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatBadgeModule } from '@angular/material/badge';
+import { interval, Subscription } from 'rxjs';
+import { switchMap, takeWhile } from 'rxjs/operators';
 import { DocumentService } from '../../../core/services/document';
 import { OcrService } from '../../../core/services/ocr';
 import { Document } from '../../../core/models/document.model';
+
+type PipelineStatus = 'pending' | 'ocr' | 'extraction' | 'complete' | 'failed' | 'review';
 
 @Component({
   selector: 'app-document-detail',
   standalone: true,
   imports: [
     CommonModule,
-    FormsModule,
     MatCardModule,
     MatButtonModule,
     MatIconModule,
@@ -31,55 +33,72 @@ import { Document } from '../../../core/models/document.model';
     MatChipsModule,
     MatSnackBarModule,
     MatDividerModule,
-    MatSelectModule,
-    MatTabsModule,
     MatTooltipModule,
+    MatTabsModule,
+    MatBadgeModule,
   ],
   templateUrl: './document-detail.html',
   styleUrls: ['./document-detail.scss']
 })
-export class DocumentDetailComponent implements OnInit {
-  private route = inject(ActivatedRoute);
-  private router = inject(Router);
+export class DocumentDetailComponent implements OnInit, OnDestroy {
+  private route           = inject(ActivatedRoute);
+  private router          = inject(Router);
   private documentService = inject(DocumentService);
-  private ocrService = inject(OcrService);
-  private snackBar = inject(MatSnackBar);
+  private ocrService      = inject(OcrService);
+  private snackBar        = inject(MatSnackBar);
 
   document: Document | null = null;
   loading = true;
-  processingOCR = false;
-  processingLLM = false;
-  selectedEngine: 'tesseract' | 'easyocr' | 'both' = 'tesseract';
 
-  // Step 1 — OCR
+  // Pipeline data
   rawText: string | null = null;
-
-  // Step 2+3 — LLM + Mapping (Phase 3 response shape)
-  canonicalFields: any = null;   // raw LLM output
-  normalizedFields: any = null;  // after normalization
-  mappedFields: any = null;      // insurer-specific field names
-  insurerKey: string | null = null;
+  canonicalFields: any   = null;
+  normalizedFields: any  = null;
+  mappedFields: any      = null;
+  insurerKey: string | null        = null;
   insurerDisplayName: string | null = null;
-  extractionComplete: boolean = false;
-  // missingRequiredFields: string[] = [];
+  extractionComplete = false;
+  confidenceScore: number | null = null;
+  confidenceLevel: 'high' | 'medium' | 'low' | null = null;
+  tableValidation: any  = null;
+  missingFields: string[] = [];
+  auditLog: any[]        = [];
+
+  // UI state
+  pipelineStatus: PipelineStatus = 'pending';
+  pollingActive = false;
+  showDebug = false;
+
+  private pollSub?: Subscription;
+
+  // ── Lifecycle ─────────────────────────────────────────────────────────────
 
   ngOnInit(): void {
-    const documentId = this.route.snapshot.paramMap.get('id');
-    if (documentId) {
-      this.loadDocument(documentId);
-    }
+    const id = this.route.snapshot.paramMap.get('id');
+    if (id) this.loadDocument(id);
   }
+
+  ngOnDestroy(): void {
+    this.pollSub?.unsubscribe();
+  }
+
+  // ── Data loading ──────────────────────────────────────────────────────────
 
   loadDocument(id: string): void {
     this.loading = true;
     this.documentService.getDocument(id).subscribe({
       next: (doc) => {
         this.document = doc;
-        this.rawText = doc.extracted_text || null;
-        this.loading = false;
+        this.loading  = false;
+        this.syncPipelineStatus(doc);
 
-        if (doc.status === 'completed' && this.rawText) {
+        if (doc.status === 'completed' || doc.status === 'processing') {
           this.loadLLMResult(doc.id);
+        }
+
+        // Auto-poll while pipeline is running
+        if (doc.status === 'pending' || doc.status === 'processing') {
+          this.startPolling(doc.id);
         }
       },
       error: () => {
@@ -93,24 +112,59 @@ export class DocumentDetailComponent implements OnInit {
   loadLLMResult(id: string): void {
     this.ocrService.getLLMResult(id).subscribe({
       next: (result) => this.applyLLMResult(result),
-      error: () => {
-        // No LLM result yet — fine, user hasn't run it
-      }
+      error: () => {}
     });
   }
 
-  // ── Helpers ──────────────────────────────────────────────────────────────
+  startPolling(id: string): void {
+    if (this.pollingActive) return;
+    this.pollingActive = true;
+
+    this.pollSub = interval(4000).pipe(
+      switchMap(() => this.documentService.getDocument(id)),
+      takeWhile(doc => doc.status === 'pending' || doc.status === 'processing', true)
+    ).subscribe({
+      next: (doc) => {
+        this.document = doc;
+        this.syncPipelineStatus(doc);
+        if (doc.status === 'completed') {
+          this.loadLLMResult(doc.id);
+          this.pollingActive = false;
+        }
+        if (doc.status === 'failed') {
+          this.pollingActive = false;
+        }
+      },
+      error: () => { this.pollingActive = false; }
+    });
+  }
+
+  // ── State sync ────────────────────────────────────────────────────────────
+
+  syncPipelineStatus(doc: Document): void {
+    if (doc.status === 'pending')    this.pipelineStatus = 'pending';
+    if (doc.status === 'processing') this.pipelineStatus = 'ocr';
+    if (doc.status === 'completed')  this.pipelineStatus = this.mappedFields ? 'complete' : 'extraction';
+    if (doc.status === 'failed')     this.pipelineStatus = 'failed';
+  }
 
   private applyLLMResult(result: any): void {
-    // Phase 3 response shape from /llm/extract or /llm/result
-    this.canonicalFields  = result.canonical_fields  || result.extracted_fields || null;
-    this.normalizedFields = result.normalized_fields || null;
-    this.mappedFields     = result.mapped_fields     || null;
-    this.insurerKey       = result.insurer           || null;
+    this.canonicalFields    = result.canonical_fields  || result.extracted_fields || null;
+    this.normalizedFields   = result.normalized_fields || null;
+    this.mappedFields       = result.mapped_fields     || null;
+    this.insurerKey         = result.insurer           || null;
     this.insurerDisplayName = result.insurer_display_name || null;
     this.extractionComplete = result.extraction_complete ?? false;
-    // this.missingRequiredFields = result.missing_required_fields || [];
+    this.tableValidation    = result.table_validation  || null;
+    this.missingFields      = result.missing_required_fields || [];
+    this.rawText            = this.document?.extracted_text || null;
+
+    if (this.mappedFields || this.canonicalFields) {
+      this.pipelineStatus = 'complete';
+    }
   }
+
+  // ── Computed props ────────────────────────────────────────────────────────
 
   get mappedKeys(): string[] {
     if (!this.mappedFields) return [];
@@ -125,6 +179,71 @@ export class DocumentDetailComponent implements OnInit {
     return !!(this.mappedFields || this.canonicalFields);
   }
 
+  get isProcessing(): boolean {
+    return this.pipelineStatus === 'pending' || this.pipelineStatus === 'ocr' || this.pipelineStatus === 'extraction';
+  }
+
+  get confidenceBadgeClass(): string {
+    switch (this.confidenceLevel) {
+      case 'high':   return 'confidence-high';
+      case 'medium': return 'confidence-medium';
+      case 'low':    return 'confidence-low';
+      default:       return '';
+    }
+  }
+
+  get pipelineSteps() {
+    return [
+      {
+        id: 'received',
+        label: 'Received',
+        sublabel: 'File saved to server',
+        icon: 'inbox',
+        done: true,
+        active: false,
+      },
+      {
+        id: 'ocr',
+        label: 'OCR Extraction',
+        sublabel: 'Tesseract text extraction',
+        icon: 'document_scanner',
+        done: !!this.rawText,
+        active: this.pipelineStatus === 'ocr',
+      },
+      {
+        id: 'llm',
+        label: 'AI Extraction',
+        sublabel: 'Llama 3 field extraction',
+        icon: 'psychology',
+        done: !!this.canonicalFields,
+        active: this.pipelineStatus === 'extraction',
+      },
+      {
+        id: 'mapping',
+        label: 'Schema Mapping',
+        sublabel: 'Insurer normalization',
+        icon: 'swap_horiz',
+        done: !!this.mappedFields,
+        active: false,
+      },
+      {
+        id: 'confidence',
+        label: 'Quality Gate',
+        sublabel: 'Confidence scoring',
+        icon: 'verified',
+        done: this.pipelineStatus === 'complete',
+        active: false,
+      },
+    ];
+  }
+
+  get tableMatchStatus(): string {
+    if (!this.tableValidation) return 'unknown';
+    return this.tableValidation.total_match ? 'match' : 'mismatch';
+  }
+
+  // ── Helpers ───────────────────────────────────────────────────────────────
+
   formatValue(value: any): string {
     if (value === null || value === undefined) return '—';
     if (typeof value === 'number') return value.toLocaleString();
@@ -135,58 +254,18 @@ export class DocumentDetailComponent implements OnInit {
     return key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
   }
 
-  // ── STEP 1: Run OCR ──────────────────────────────────────────────────────
-  runOCR(): void {
-    if (!this.document) return;
-    this.processingOCR = true;
-
-    this.ocrService.processDocument(this.document.id, this.selectedEngine).subscribe({
-      next: (result) => {
-        this.rawText = result.extracted_text || null;
-        this.snackBar.open('✅ OCR complete', 'Close', { duration: 3000 });
-        this.processingOCR = false;
-        this.loadDocument(this.document!.id);
-      },
-      error: (error) => {
-        this.snackBar.open(error.error?.detail || 'OCR failed', 'Close', { duration: 5000 });
-        this.processingOCR = false;
-      }
-    });
+  formatFileSize(bytes: number): string {
+    if (!bytes) return '0 B';
+    const k = 1024, sizes = ['B', 'KB', 'MB', 'GB'];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return (bytes / Math.pow(k, i)).toFixed(1) + ' ' + sizes[i];
   }
 
-  // ── STEP 2+3: Run LLM + Mapping ──────────────────────────────────────────
-  runLLMExtraction(): void {
-    if (!this.document) return;
-    this.processingLLM = true;
-    this.canonicalFields = null;
-    this.mappedFields = null;
-    this.normalizedFields = null;
-
-    this.ocrService.extractWithLLM(this.document.id).subscribe({
-      next: (result) => {
-        this.applyLLMResult(result);
-        const msg = this.extractionComplete
-          // ? '✅ Extraction complete — all required fields found'
-          // : `⚠️ Extraction done — ${this.missingRequiredFields.length} required field(s) missing`;
-        // this.snackBar.open(msg, 'Close', { duration: 4000 });
-        this.processingLLM = false;
-      },
-      error: (error) => {
-        this.snackBar.open(error.error?.detail || 'LLM extraction failed', 'Close', { duration: 5000 });
-        this.processingLLM = false;
-      }
-    });
-  }
-
-  // ── Delete / Navigate ─────────────────────────────────────────────────────
-  goBack(): void {
-    this.router.navigate(['/documents']);
-  }
+  goBack(): void { this.router.navigate(['/documents']); }
 
   deleteDocument(): void {
     if (!this.document) return;
     if (!confirm(`Delete "${this.document.filename}"?`)) return;
-
     this.documentService.deleteDocument(this.document.id).subscribe({
       next: () => {
         this.snackBar.open('Document deleted', 'Close', { duration: 3000 });
@@ -194,5 +273,10 @@ export class DocumentDetailComponent implements OnInit {
       },
       error: () => this.snackBar.open('Delete failed', 'Close', { duration: 3000 })
     });
+  }
+
+  copyToClipboard(data: any): void {
+    navigator.clipboard.writeText(JSON.stringify(data, null, 2));
+    this.snackBar.open('Copied to clipboard', '', { duration: 2000 });
   }
 }

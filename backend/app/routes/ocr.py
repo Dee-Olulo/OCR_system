@@ -17,7 +17,7 @@ router = APIRouter(prefix="/ocr", tags=["OCR Processing"])
 @router.post("/process/{document_id}", response_model=OCRResult)
 async def process_document(
     document_id: str,
-    engine: str = Query("tesseract", regex="^(tesseract|easyocr|both)$"),
+    engine: str = Query("tesseract", pattern="^(tesseract|easyocr|both)$"),
     current_user: dict = Depends(get_current_user)
 ):
     """

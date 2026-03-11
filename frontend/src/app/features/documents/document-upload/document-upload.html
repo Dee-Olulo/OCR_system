@@ -1,74 +1,152 @@
-<!-- frontend/src/app/features/documents/document-upload/document-upload.component.html -->
+<!-- frontend/src/app/features/documents/document-upload/document-upload.html -->
 
-<div class="upload-container">
-  <h1>Upload Document</h1>
-  <p class="subtitle">Upload an image document for OCR processing</p>
-  
-  <mat-card class="upload-card">
-    <mat-card-content>
-      <div class="upload-area"
-           [class.drag-over]="dragOver"
-           [class.has-file]="selectedFile"
-           (dragover)="onDragOver($event)"
-           (dragleave)="onDragLeave($event)"
-           (drop)="onDrop($event)">
-        
-        <div *ngIf="!selectedFile" class="upload-prompt">
-          <mat-icon>cloud_upload</mat-icon>
-          <h3>Drag and drop your file here</h3>
-          <p>or</p>
-          <input type="file"
-                 #fileInput
-                 accept=".jpg,.jpeg,.png,.tiff,.tif, .pdf,.docx,.doc,.xlsx,.xls"
-                 (change)="onFileSelected($event)"
-                 style="display: none;">
-          <button mat-raised-button color="primary" (click)="fileInput.click()">
-            Browse Files
-          </button>
-          <p class="file-info">Supported formats: JPG, PNG, TIFF (Max 10MB)</p>
-        </div>
-        
-        <div *ngIf="selectedFile" class="file-preview">
-          <mat-icon class="file-icon">insert_drive_file</mat-icon>
-          <div class="file-details">
-            <h3>{{ selectedFile.name }}</h3>
-            <p>{{ formatFileSize(selectedFile.size) }}</p>
+<div class="upload-root">
+
+  <!-- ── Page Header ───────────────────────────────────────────────────────── -->
+  <div class="page-header">
+    <div class="page-header-left">
+      <div class="page-icon">
+        <mat-icon>upload_file</mat-icon>
+      </div>
+      <div>
+        <h1 class="page-title">Upload Invoice</h1>
+        <p class="page-sub">Drop a file and the pipeline handles everything automatically</p>
+      </div>
+    </div>
+    <div class="pipeline-pills">
+      <span class="pill">
+        <mat-icon>document_scanner</mat-icon> OCR
+      </span>
+      <mat-icon class="pill-arrow">arrow_forward</mat-icon>
+      <span class="pill">
+        <mat-icon>psychology</mat-icon> AI Extract
+      </span>
+      <mat-icon class="pill-arrow">arrow_forward</mat-icon>
+      <span class="pill">
+        <mat-icon>table_chart</mat-icon> Google Sheets
+      </span>
+    </div>
+  </div>
+
+  <!-- ── Drop Zone ─────────────────────────────────────────────────────────── -->
+  <div class="drop-zone"
+       [class.drag-over]="dragOver"
+       [class.has-file]="selectedFile"
+       [class.is-processing]="isProcessing"
+       (dragover)="onDragOver($event)"
+       (dragleave)="onDragLeave($event)"
+       (drop)="onDrop($event)">
+
+    <!-- Empty state -->
+    <div class="drop-idle" *ngIf="!selectedFile && !isProcessing">
+      <div class="drop-icon-wrap">
+        <mat-icon class="drop-icon">cloud_upload</mat-icon>
+        <div class="drop-icon-ring"></div>
+      </div>
+      <h2>Drag & drop your invoice here</h2>
+      <p class="drop-sub">or</p>
+      <input type="file"
+             #fileInput
+             accept=".jpg,.jpeg,.png,.tiff,.tif,.pdf,.docx,.doc,.xlsx,.xls"
+             (change)="onFileSelected($event)"
+             style="display: none;">
+      <button class="browse-btn" (click)="fileInput.click()">
+        <mat-icon>folder_open</mat-icon>
+        Browse Files
+      </button>
+      <p class="drop-formats">JPG · PNG · TIFF · PDF · DOCX · XLSX &nbsp;·&nbsp; Max 50 MB</p>
+    </div>
+
+    <!-- File selected -->
+    <div class="drop-file" *ngIf="selectedFile && !isProcessing">
+      <div class="file-type-icon">
+        <mat-icon>{{ getFileIcon(selectedFile.name) }}</mat-icon>
+      </div>
+      <div class="file-meta">
+        <span class="file-name">{{ selectedFile.name }}</span>
+        <span class="file-size">{{ formatFileSize(selectedFile.size) }}</span>
+      </div>
+      <div class="file-actions">
+        <button class="remove-btn" (click)="removeFile()">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+    </div>
+
+    <!-- Processing state -->
+    <div class="drop-processing" *ngIf="isProcessing">
+      <div class="processing-stages">
+        <div class="stage" [class.stage-active]="uploading" [class.stage-done]="!uploading && triggeringPipeline || (!uploading && !triggeringPipeline)">
+          <div class="stage-dot">
+            <mat-spinner *ngIf="uploading" diameter="16"></mat-spinner>
+            <mat-icon *ngIf="!uploading">check</mat-icon>
           </div>
-          <button mat-icon-button color="warn" (click)="removeFile()" [disabled]="uploading">
-            <mat-icon>close</mat-icon>
-          </button>
+          <span>Uploading file</span>
+        </div>
+        <div class="stage-line" [class.done]="!uploading"></div>
+        <div class="stage" [class.stage-active]="triggeringPipeline" [class.stage-done]="!triggeringPipeline && !uploading">
+          <div class="stage-dot">
+            <mat-spinner *ngIf="triggeringPipeline" diameter="16"></mat-spinner>
+            <mat-icon *ngIf="!triggeringPipeline && !uploading">check</mat-icon>
+            <mat-icon *ngIf="!triggeringPipeline && uploading" class="pending-icon">radio_button_unchecked</mat-icon>
+          </div>
+          <span>Triggering n8n pipeline</span>
         </div>
       </div>
-      
-      <mat-progress-bar *ngIf="uploading" mode="indeterminate"></mat-progress-bar>
-      
-      <div class="upload-actions" *ngIf="selectedFile">
-        <button mat-raised-button (click)="removeFile()" [disabled]="uploading">
-          Cancel
-        </button>
-        <button mat-raised-button color="primary" (click)="uploadFile()" [disabled]="uploading">
-          <span *ngIf="!uploading">Upload</span>
-          <span *ngIf="uploading">Uploading...</span>
-        </button>
+      <p class="processing-note">
+        {{ uploading ? 'Saving your file to the server…' : 'Handing off to the automation pipeline…' }}
+      </p>
+    </div>
+
+  </div>
+
+  <!-- ── Upload Actions ─────────────────────────────────────────────────────── -->
+  <div class="upload-actions" *ngIf="selectedFile && !isProcessing">
+    <button class="cancel-btn" (click)="removeFile()">
+      Cancel
+    </button>
+    <button class="upload-btn" (click)="uploadFile()">
+      <mat-icon>rocket_launch</mat-icon>
+      Upload & Start Pipeline
+    </button>
+  </div>
+
+  <!-- ── Pipeline explainer ─────────────────────────────────────────────────── -->
+  <div class="explainer" *ngIf="!isProcessing">
+    <div class="explainer-header">
+      <mat-icon>auto_awesome</mat-icon>
+      <span>What happens after you upload?</span>
+    </div>
+    <div class="explainer-steps">
+      <div class="ex-step">
+        <div class="ex-num">1</div>
+        <div class="ex-body">
+          <strong>OCR Extraction</strong>
+          <span>Tesseract reads raw text from your document</span>
+        </div>
       </div>
-    </mat-card-content>
-  </mat-card>
-  
-  <mat-card class="info-card">
-    <mat-card-header>
-      <mat-card-title>
-        <mat-icon>info</mat-icon>
-        <span>Upload Guidelines</span>
-      </mat-card-title>
-    </mat-card-header>
-    <mat-card-content>
-      <ul>
-        <li>Supported formats: JPG, JPEG, PNG, TIFF, PDF, DOCX, DOC, XLSX, XLS</li>
-        <li>Maximum file size: 50 MB</li>
-        <li>For best results, upload clear, high-quality images</li>
-        <li>Avoid blurry or low-resolution images</li>
-        <li>Documents will be processed automatically after upload</li>
-      </ul>
-    </mat-card-content>
-  </mat-card>
+      <div class="ex-step">
+        <div class="ex-num">2</div>
+        <div class="ex-body">
+          <strong>AI Field Extraction</strong>
+          <span>Llama 3 maps fields to your insurer's schema</span>
+        </div>
+      </div>
+      <div class="ex-step">
+        <div class="ex-num">3</div>
+        <div class="ex-body">
+          <strong>Quality Gate</strong>
+          <span>Confidence scoring routes to auto-process, review queue, or ops alert</span>
+        </div>
+      </div>
+      <div class="ex-step">
+        <div class="ex-num">4</div>
+        <div class="ex-body">
+          <strong>Google Sheets Export</strong>
+          <span>High-confidence invoices are exported automatically</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </div>

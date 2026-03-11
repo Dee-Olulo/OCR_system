@@ -1,207 +1,290 @@
 <!-- frontend/src/app/features/documents/document-detail/document-detail.html -->
 
-<div class="detail-container" *ngIf="!loading; else loadingTpl">
+<div class="detail-root" *ngIf="!loading; else loadingTpl">
 
-  <!-- Header -->
-  <div class="detail-header">
-    <button mat-icon-button (click)="goBack()">
+  <!-- ── Top Bar ──────────────────────────────────────────────────────────── -->
+  <div class="top-bar">
+    <button class="back-btn" (click)="goBack()">
       <mat-icon>arrow_back</mat-icon>
+      <span>All Documents</span>
     </button>
-    <div class="header-info">
-      <h1>{{ document?.filename }}</h1>
-      <mat-chip [class]="'status-' + document?.status">{{ document?.status }}</mat-chip>
+    <div class="top-bar-actions">
+      <button mat-icon-button matTooltip="Delete document" (click)="deleteDocument()">
+        <mat-icon>delete_outline</mat-icon>
+      </button>
     </div>
-    <button mat-icon-button color="warn" (click)="deleteDocument()" matTooltip="Delete document">
-      <mat-icon>delete</mat-icon>
-    </button>
   </div>
 
-  <div class="pipeline">
+  <!-- ── Document Hero ─────────────────────────────────────────────────────── -->
+  <div class="doc-hero">
+    <div class="doc-icon-wrap">
+      <mat-icon class="doc-icon">description</mat-icon>
+    </div>
+    <div class="doc-meta">
+      <h1 class="doc-title">{{ document?.filename }}</h1>
+      <div class="doc-tags">
+        <span class="tag tag-size">{{ formatFileSize(document?.file_size || 0) }}</span>
+        <span class="tag tag-type">{{ document?.file_type }}</span>
+        <span class="tag" [ngClass]="'tag-status-' + document?.status">
+          {{ document?.status }}
+        </span>
+        <span class="tag tag-insurer" *ngIf="insurerDisplayName">
+          <mat-icon>business</mat-icon>{{ insurerDisplayName }}
+        </span>
+      </div>
+    </div>
 
-    <!-- ── STEP 1: OCR ─────────────────────────────────────────────────── -->
-    <mat-card class="step-card">
-      <mat-card-header>
-        <mat-icon mat-card-avatar [class.done]="rawText">
-          {{ rawText ? 'check_circle' : 'document_scanner' }}
-        </mat-icon>
-        <mat-card-title>Step 1 — OCR Text Extraction</mat-card-title>
-        <mat-card-subtitle>Tesseract / EasyOCR extracts raw text from your document</mat-card-subtitle>
-      </mat-card-header>
+    <!-- Confidence Badge -->
+    <div class="confidence-ring" *ngIf="confidenceScore !== null" [ngClass]="confidenceBadgeClass">
+      <svg viewBox="0 0 36 36" class="ring-svg">
+        <path class="ring-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
+        <path class="ring-fill" [style.stroke-dasharray]="confidenceScore + ', 100'"
+          d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
+      </svg>
+      <div class="ring-label">
+        <span class="ring-score">{{ confidenceScore }}</span>
+        <span class="ring-unit">%</span>
+      </div>
+    </div>
+  </div>
 
-      <mat-card-content>
-        <div class="engine-select">
-          <label>OCR Engine:</label>
-          <mat-select [(ngModel)]="selectedEngine" [disabled]="processingOCR">
-            <mat-option value="tesseract">Tesseract</mat-option>
-            <mat-option value="easyocr">EasyOCR</mat-option>
-            <mat-option value="both">Both (Best Result)</mat-option>
-          </mat-select>
-        </div>
+  <!-- ── Pipeline Progress Track ───────────────────────────────────────────── -->
+  <div class="pipeline-track">
+    <div class="pipeline-header">
+      <span class="pipeline-label">Automation Pipeline</span>
+      <span class="pipeline-sublabel" *ngIf="isProcessing">
+        <span class="pulse-dot"></span> Processing automatically via n8n…
+      </span>
+      <span class="pipeline-sublabel done" *ngIf="pipelineStatus === 'complete'">
+        <mat-icon>check_circle</mat-icon> Pipeline complete
+      </span>
+      <span class="pipeline-sublabel failed" *ngIf="pipelineStatus === 'failed'">
+        <mat-icon>error</mat-icon> Pipeline failed
+      </span>
+    </div>
 
-        <div class="text-preview" *ngIf="rawText">
-          <h4>Extracted Raw Text</h4>
-          <pre>{{ rawText }}</pre>
-        </div>
-
-        <div class="no-result" *ngIf="!rawText">
-          <mat-icon>info</mat-icon>
-          <span>No text extracted yet. Run OCR to begin.</span>
-        </div>
-      </mat-card-content>
-
-      <mat-card-actions>
-        <button mat-raised-button color="primary" (click)="runOCR()" [disabled]="processingOCR">
-          <mat-spinner diameter="18" *ngIf="processingOCR"></mat-spinner>
-          <mat-icon *ngIf="!processingOCR">document_scanner</mat-icon>
-          {{ processingOCR ? 'Extracting...' : (rawText ? 'Re-run OCR' : 'Run OCR') }}
-        </button>
-      </mat-card-actions>
-    </mat-card>
-
-    <div class="pipeline-arrow"><mat-icon>arrow_downward</mat-icon></div>
-
-    <!-- ── STEP 2+3: LLM + MAPPING ────────────────────────────────────── -->
-    <mat-card class="step-card" [class.disabled-card]="!rawText">
-      <mat-card-header>
-        <mat-icon mat-card-avatar [class.done]="hasLLMResult">
-          {{ hasLLMResult ? 'check_circle' : 'psychology' }}
-        </mat-icon>
-        <mat-card-title>Step 2 — AI Field Extraction & Schema Mapping</mat-card-title>
-        <mat-card-subtitle>LLM extracts fields → normalized → mapped to insurer schema</mat-card-subtitle>
-      </mat-card-header>
-
-      <mat-card-content>
-
-        <!-- ── Results ─────────────────────────────────────────────────── -->
-        <div *ngIf="hasLLMResult">
-
-          <!-- Insurer badge + validation status -->
-          <div class="result-header">
-            <div class="insurer-badge" *ngIf="insurerDisplayName">
-              <mat-icon>business</mat-icon>
-              <span>{{ insurerDisplayName }}</span>
-            </div>
-            <div class="validation-badge" [class.complete]="extractionComplete" [class.incomplete]="!extractionComplete">
-              <!-- <mat-icon>{{ extractionComplete ? 'verified' : 'warning' }}</mat-icon> -->
-              <!-- <span>{{ extractionComplete ? 'All required fields found' : missingRequiredFields.length + ' required field(s) missing' }}</span> -->
-            </div>
+    <div class="steps-track">
+      <ng-container *ngFor="let step of pipelineSteps; let last = last">
+        <div class="step-node" [class.done]="step.done" [class.active]="step.active">
+          <div class="step-icon-wrap">
+            <mat-spinner *ngIf="step.active" diameter="20" class="step-spinner"></mat-spinner>
+            <mat-icon *ngIf="!step.active">{{ step.done ? 'check' : step.icon }}</mat-icon>
           </div>
-
-          <!-- Missing fields warning
-          <div class="missing-fields" *ngIf="missingRequiredFields.length > 0">
-            <mat-icon>warning_amber</mat-icon>
-            <div>
-              <strong>Missing required fields:</strong>
-              <span class="missing-list">{{ missingRequiredFields.join(', ') }}</span>
-            </div>
-          </div> -->
-
-          <!-- Mapped Fields (insurer-specific names) -->
-          <div class="section" *ngIf="mappedFields">
-            <h4 class="section-title">
-              <mat-icon>swap_horiz</mat-icon>
-              Mapped Fields
-              <span class="section-hint">insurer-specific field names</span>
-            </h4>
-            <div class="fields-grid">
-              <div class="field-item" *ngFor="let key of mappedKeys">
-                <span class="field-label">{{ formatKey(key) }}</span>
-                <span class="field-value" [class.null-value]="mappedFields[key] === null || mappedFields[key] === undefined">
-                  {{ formatValue(mappedFields[key]) }}
-                </span>
-              </div>
-            </div>
-          </div>
-
-          <!-- Line Items -->
-          <div class="section" *ngIf="lineItems.length > 0">
-            <h4 class="section-title">
-              <mat-icon>receipt_long</mat-icon>
-              Line Items
-            </h4>
-            <div class="table-wrapper">
-              <table class="items-table">
-                <thead>
-                  <tr>
-                    <th>Description</th>
-                    <th>Tariff Code</th>
-                    <th>Date</th>
-                    <th>Qty</th>
-                    <th>Unit Price</th>
-                    <th>Amount</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr *ngFor="let item of lineItems">
-                    <td>{{ formatValue(item.description) }}</td>
-                    <td>{{ formatValue(item.tariff_code) }}</td>
-                    <td>{{ formatValue(item.date) }}</td>
-                    <td>{{ formatValue(item.quantity) }}</td>
-                    <td>{{ formatValue(item.unit_price) }}</td>
-                    <td class="amount-cell">{{ formatValue(item.amount) }}</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-
-          <!-- Pipeline debug accordion -->
-          <div class="debug-section">
-            <details>
-              <summary>
-                <mat-icon>code</mat-icon>
-                View pipeline data (canonical → normalized → mapped)
-              </summary>
-              <mat-tab-group class="debug-tabs">
-                <mat-tab label="Canonical (LLM output)">
-                  <pre>{{ canonicalFields | json }}</pre>
-                </mat-tab>
-                <mat-tab label="Normalized">
-                  <pre>{{ normalizedFields | json }}</pre>
-                </mat-tab>
-                <mat-tab label="Mapped (insurer)">
-                  <pre>{{ mappedFields | json }}</pre>
-                </mat-tab>
-              </mat-tab-group>
-            </details>
-          </div>
-
-        </div>
-
-        <!-- Empty state -->
-        <div class="no-result" *ngIf="!hasLLMResult && !processingLLM">
-          <mat-icon>psychology</mat-icon>
-          <span>{{ rawText ? 'Run AI extraction to get structured fields.' : 'Complete Step 1 first.' }}</span>
-        </div>
-
-        <!-- Processing state -->
-        <div class="processing-state" *ngIf="processingLLM">
-          <mat-spinner diameter="32"></mat-spinner>
-          <div class="processing-text">
-            <strong>AI extraction in progress...</strong>
-            <span>This takes 2–4 minutes on CPU. Please wait.</span>
+          <div class="step-info">
+            <span class="step-label">{{ step.label }}</span>
+            <span class="step-sub">{{ step.sublabel }}</span>
           </div>
         </div>
+        <div class="step-connector" *ngIf="!last" [class.done]="step.done"></div>
+      </ng-container>
+    </div>
 
-      </mat-card-content>
+    <!-- Live processing message -->
+    <div class="processing-banner" *ngIf="isProcessing">
+      <mat-icon>auto_mode</mat-icon>
+      <div>
+        <strong>n8n is processing this invoice automatically.</strong>
+        <span>This page will update in real time — no action needed.</span>
+      </div>
+    </div>
 
-      <mat-card-actions>
-        <button mat-raised-button color="accent"
-          (click)="runLLMExtraction()"
-          [disabled]="!rawText || processingLLM">
-          <mat-spinner diameter="18" *ngIf="processingLLM"></mat-spinner>
-          <mat-icon *ngIf="!processingLLM">psychology</mat-icon>
-          {{ processingLLM ? 'Extracting...' : (hasLLMResult ? 'Re-run AI Extraction' : 'Extract with AI') }}
-        </button>
-      </mat-card-actions>
-    </mat-card>
+    <!-- Review banner -->
+    <div class="review-banner" *ngIf="pipelineStatus === 'review'">
+      <mat-icon>pending_actions</mat-icon>
+      <div>
+        <strong>Awaiting human review.</strong>
+        <span>Confidence score was in the medium range (60–84%). A reviewer has been notified via email.</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Results Grid ───────────────────────────────────────────────────────── -->
+  <div class="results-grid" *ngIf="hasLLMResult">
+
+    <!-- Left column: Extracted Fields -->
+    <div class="col-fields">
+
+      <!-- Mapped fields card -->
+      <div class="result-card">
+        <div class="card-header">
+          <mat-icon>receipt</mat-icon>
+          <span>Extracted Invoice Fields</span>
+          <span class="card-badge" *ngIf="insurerDisplayName">{{ insurerDisplayName }}</span>
+          <button class="copy-btn" mat-icon-button matTooltip="Copy JSON"
+            (click)="copyToClipboard(mappedFields)">
+            <mat-icon>content_copy</mat-icon>
+          </button>
+        </div>
+
+        <!-- Missing fields alert -->
+        <div class="alert-missing" *ngIf="missingFields.length > 0">
+          <mat-icon>warning_amber</mat-icon>
+          <span>Missing required fields: <strong>{{ missingFields.join(', ') }}</strong></span>
+        </div>
+
+        <div class="fields-grid">
+          <div class="field-cell" *ngFor="let key of mappedKeys">
+            <span class="field-key">{{ formatKey(key) }}</span>
+            <span class="field-val"
+              [class.null-val]="mappedFields[key] === null || mappedFields[key] === undefined">
+              {{ formatValue(mappedFields[key]) }}
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Table validation card -->
+      <div class="result-card" *ngIf="tableValidation">
+        <div class="card-header">
+          <mat-icon>calculate</mat-icon>
+          <span>Arithmetic Validation</span>
+          <span class="card-badge" [ngClass]="tableMatchStatus === 'match' ? 'badge-success' : 'badge-warn'">
+            {{ tableMatchStatus === 'match' ? '✓ Totals match' : '⚠ Mismatch' }}
+          </span>
+        </div>
+        <div class="validation-row">
+          <div class="val-item">
+            <span class="val-label">Claimed Total</span>
+            <span class="val-num">{{ formatValue(tableValidation.claimed_total) }}</span>
+          </div>
+          <div class="val-divider">vs</div>
+          <div class="val-item">
+            <span class="val-label">Computed Total</span>
+            <span class="val-num">{{ formatValue(tableValidation.computed_total) }}</span>
+          </div>
+          <div class="val-item">
+            <span class="val-label">Table Confidence</span>
+            <span class="val-num">{{ tableValidation.table_confidence ? (tableValidation.table_confidence * 100 | number:'1.0-0') + '%' : '—' }}</span>
+          </div>
+        </div>
+        <div class="discrepancies" *ngIf="tableValidation.discrepancies?.length">
+          <div class="disc-item" *ngFor="let d of tableValidation.discrepancies">
+            <mat-icon>info_outline</mat-icon>{{ d }}
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Right column: Line Items -->
+    <div class="col-items">
+      <div class="result-card full-height">
+        <div class="card-header">
+          <mat-icon>table_rows</mat-icon>
+          <span>Line Items</span>
+          <span class="card-badge">{{ lineItems.length }} row{{ lineItems.length !== 1 ? 's' : '' }}</span>
+          <button class="copy-btn" mat-icon-button matTooltip="Copy JSON"
+            (click)="copyToClipboard(lineItems)">
+            <mat-icon>content_copy</mat-icon>
+          </button>
+        </div>
+
+        <div class="items-scroll" *ngIf="lineItems.length > 0">
+          <table class="items-table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Description</th>
+                <th>Code</th>
+                <th>Date</th>
+                <th>Qty</th>
+                <th>Unit</th>
+                <th>Amount</th>
+                <th>✓</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of lineItems; let i = index"
+                [class.row-invalid]="item.valid === false">
+                <td class="col-num">{{ i + 1 }}</td>
+                <td class="col-desc">{{ formatValue(item.description) }}</td>
+                <td class="col-code">{{ formatValue(item.tariff_code) }}</td>
+                <td class="col-date">{{ formatValue(item.date) }}</td>
+                <td class="col-qty">{{ formatValue(item.quantity) }}</td>
+                <td class="col-price">{{ formatValue(item.unit_price) }}</td>
+                <td class="col-amount">{{ formatValue(item.amount) }}</td>
+                <td class="col-valid">
+                  <mat-icon *ngIf="item.valid !== false" class="icon-ok">check_circle</mat-icon>
+                  <mat-icon *ngIf="item.valid === false" class="icon-warn">warning</mat-icon>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="no-items" *ngIf="lineItems.length === 0">
+          <mat-icon>table_rows</mat-icon>
+          <span>No line items extracted</span>
+        </div>
+      </div>
+    </div>
 
   </div>
+
+  <!-- ── OCR Text (collapsed by default) ──────────────────────────────────── -->
+  <div class="raw-text-section" *ngIf="rawText">
+    <details>
+      <summary>
+        <mat-icon>text_snippet</mat-icon>
+        Raw OCR Text
+        <span class="summary-hint">{{ rawText.length }} characters</span>
+      </summary>
+      <div class="raw-text-body">
+        <button class="copy-btn-sm" mat-stroked-button (click)="copyToClipboard(rawText)">
+          <mat-icon>content_copy</mat-icon> Copy
+        </button>
+        <pre>{{ rawText }}</pre>
+      </div>
+    </details>
+  </div>
+
+  <!-- ── Debug Panel ─────────────────────────────────────────────────────── -->
+  <div class="debug-panel" *ngIf="hasLLMResult">
+    <details>
+      <summary>
+        <mat-icon>code</mat-icon>
+        Pipeline Data
+        <span class="summary-hint">canonical → normalized → mapped</span>
+      </summary>
+      <mat-tab-group class="debug-tabs">
+        <mat-tab label="Canonical (LLM output)">
+          <div class="debug-actions">
+            <button mat-stroked-button (click)="copyToClipboard(canonicalFields)">
+              <mat-icon>content_copy</mat-icon> Copy
+            </button>
+          </div>
+          <pre>{{ canonicalFields | json }}</pre>
+        </mat-tab>
+        <mat-tab label="Normalized">
+          <pre>{{ normalizedFields | json }}</pre>
+        </mat-tab>
+        <mat-tab label="Mapped (insurer schema)">
+          <pre>{{ mappedFields | json }}</pre>
+        </mat-tab>
+        <mat-tab label="Table Validation">
+          <pre>{{ tableValidation | json }}</pre>
+        </mat-tab>
+      </mat-tab-group>
+    </details>
+  </div>
+
+  <!-- ── Empty / Processing state ─────────────────────────────────────────── -->
+  <div class="empty-state" *ngIf="!hasLLMResult && !isProcessing && pipelineStatus !== 'failed'">
+    <mat-icon>hourglass_empty</mat-icon>
+    <p>No extraction results yet. The n8n pipeline will process this invoice automatically.</p>
+  </div>
+
+  <div class="failed-state" *ngIf="pipelineStatus === 'failed'">
+    <mat-icon>error_outline</mat-icon>
+    <p>Pipeline failed for this document. Check the n8n workflow logs for details.</p>
+  </div>
+
 </div>
 
+<!-- Loading -->
 <ng-template #loadingTpl>
-  <div class="loading-center">
-    <mat-spinner></mat-spinner>
-    <p>Loading document...</p>
+  <div class="loading-root">
+    <mat-spinner diameter="40"></mat-spinner>
+    <p>Loading document…</p>
   </div>
 </ng-template>

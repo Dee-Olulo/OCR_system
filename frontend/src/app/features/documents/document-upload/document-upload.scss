@@ -1,141 +1,541 @@
-// frontend/src/app/features/documents/document-upload/document-upload.component.scss
+// frontend/src/app/features/documents/document-upload/document-upload.scss
+// Design: Clinical dark — precision medical billing aesthetic
 
-.upload-container {
-  max-width: 800px;
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Sora:wght@400;500;600;700&display=swap');
+
+// ── Tokens ────────────────────────────────────────────────────────────────────
+$bg:           #0f1117;
+$surface:      #181c27;
+$surface-2:    #1f2435;
+$border:       rgba(255,255,255,0.07);
+$border-2:     rgba(255,255,255,0.13);
+$text-primary: #f0f2f8;
+$text-secondary:#8a92a8;
+$text-dim:     #4a5168;
+$accent:       #4f8fff;
+$accent-glow:  rgba(79,143,255,0.14);
+$green:        #34c77b;
+$amber:        #f5a623;
+$mono:         'DM Mono', monospace;
+$sans:         'Sora', sans-serif;
+
+// ── Root ──────────────────────────────────────────────────────────────────────
+
+.upload-root {
+  min-height: 100vh;
+  background: $bg;
+  font-family: $sans;
+  color: $text-primary;
+  padding: 40px 32px 80px;
+  max-width: 760px;
   margin: 0 auto;
-  
-  h1 {
-    font-size: 32px;
-    margin-bottom: 8px;
-    color: #333;
-  }
-  
-  .subtitle {
-    color: #666;
-    margin-bottom: 32px;
+}
+
+// ── Page header ───────────────────────────────────────────────────────────────
+
+.page-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 36px;
+  flex-wrap: wrap;
+}
+
+.page-header-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.page-icon {
+  width: 48px;
+  height: 48px;
+  background: $surface;
+  border: 1px solid $border-2;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+
+  mat-icon {
+    color: $accent;
+    font-size: 24px;
+    width: 24px;
+    height: 24px;
   }
 }
 
-.upload-card {
-  margin-bottom: 24px;
-  
-  mat-card-content {
-    padding: 32px !important;
-  }
-  
-  .upload-area {
-    border: 2px dashed #ccc;
-    border-radius: 8px;
-    padding: 48px 24px;
-    text-align: center;
-    transition: all 0.3s ease;
-    background-color: #fafafa;
-    
-    &.drag-over {
-      border-color: #3f51b5;
-      background-color: #e8eaf6;
-    }
-    
-    &.has-file {
-      border-style: solid;
-      background-color: #fff;
-    }
-    
-    .upload-prompt {
-      mat-icon {
-        font-size: 64px;
-        width: 64px;
-        height: 64px;
-        color: #3f51b5;
-        margin-bottom: 16px;
-      }
-      
-      h3 {
-        font-size: 20px;
-        margin: 0 0 8px 0;
-        color: #333;
-      }
-      
-      p {
-        color: #666;
-        margin: 16px 0;
-        
-        &.file-info {
-          font-size: 14px;
-          margin-top: 24px;
-        }
-      }
-      
-      button {
-        margin: 16px 0;
-      }
-    }
-    
-    .file-preview {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      
-      .file-icon {
-        font-size: 48px;
-        width: 48px;
-        height: 48px;
-        color: #3f51b5;
-      }
-      
-      .file-details {
-        flex: 1;
-        text-align: left;
-        
-        h3 {
-          margin: 0 0 4px 0;
-          font-size: 16px;
-          color: #333;
-        }
-        
-        p {
-          margin: 0;
-          color: #666;
-          font-size: 14px;
-        }
-      }
-    }
-  }
-  
-  mat-progress-bar {
-    margin-top: 16px;
-  }
-  
-  .upload-actions {
-    display: flex;
-    justify-content: flex-end;
-    gap: 16px;
-    margin-top: 24px;
+.page-title {
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: -0.4px;
+  margin: 0 0 4px;
+  color: $text-primary;
+}
+
+.page-sub {
+  font-size: 13px;
+  color: $text-secondary;
+  margin: 0;
+}
+
+.pipeline-pills {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.pill {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-family: $mono;
+  padding: 5px 12px;
+  border-radius: 20px;
+  background: $surface;
+  border: 1px solid $border-2;
+  color: $text-secondary;
+  white-space: nowrap;
+
+  mat-icon {
+    font-size: 13px;
+    width: 13px;
+    height: 13px;
+    color: $accent;
   }
 }
 
-.info-card {
-  mat-card-header {
-    mat-card-title {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      
-      mat-icon {
-        color: #3f51b5;
-      }
+.pill-arrow {
+  font-size: 14px;
+  width: 14px;
+  height: 14px;
+  color: $text-dim;
+}
+
+// ── Drop zone ─────────────────────────────────────────────────────────────────
+
+.drop-zone {
+  background: $surface;
+  border: 2px dashed $border-2;
+  border-radius: 20px;
+  min-height: 260px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.25s ease;
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 20px;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 50% 0%, rgba(79,143,255,0.04) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  &.drag-over {
+    border-color: $accent;
+    background: rgba(79,143,255,0.06);
+    border-style: solid;
+
+    &::before {
+      background: radial-gradient(ellipse at 50% 0%, rgba(79,143,255,0.12) 0%, transparent 70%);
     }
   }
-  
-  mat-card-content {
-    ul {
-      padding-left: 20px;
-      
-      li {
-        margin-bottom: 8px;
-        color: #666;
-        line-height: 1.6;
-      }
-    }
+
+  &.has-file {
+    border-style: solid;
+    border-color: rgba(52,199,123,0.4);
+    background: rgba(52,199,123,0.04);
+  }
+
+  &.is-processing {
+    border-style: solid;
+    border-color: rgba(79,143,255,0.35);
+    background: $accent-glow;
+  }
+}
+
+// ── Drop idle ─────────────────────────────────────────────────────────────────
+
+.drop-idle {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 48px 24px;
+  text-align: center;
+
+  h2 {
+    font-size: 18px;
+    font-weight: 600;
+    margin: 0;
+    color: $text-primary;
+    letter-spacing: -0.2px;
+  }
+}
+
+.drop-icon-wrap {
+  position: relative;
+  width: 72px;
+  height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 4px;
+}
+
+.drop-icon {
+  font-size: 36px;
+  width: 36px;
+  height: 36px;
+  color: $accent;
+  position: relative;
+  z-index: 1;
+}
+
+.drop-icon-ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 1px solid rgba(79,143,255,0.25);
+  animation: ring-pulse 2.5s ease-in-out infinite;
+}
+
+@keyframes ring-pulse {
+  0%, 100% { transform: scale(1); opacity: 0.6; }
+  50%       { transform: scale(1.15); opacity: 0.2; }
+}
+
+.drop-sub {
+  font-size: 13px;
+  color: $text-dim;
+  margin: -4px 0;
+}
+
+.browse-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 24px;
+  background: $accent;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-family: $sans;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin: 4px 0;
+
+  mat-icon { font-size: 18px; width: 18px; height: 18px; }
+
+  &:hover {
+    background: lighten(#4f8fff, 8%);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(79,143,255,0.3);
+  }
+}
+
+.drop-formats {
+  font-size: 11px;
+  font-family: $mono;
+  color: $text-dim;
+  letter-spacing: 0.3px;
+  margin: 0;
+}
+
+// ── File selected state ───────────────────────────────────────────────────────
+
+.drop-file {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 32px 36px;
+  width: 100%;
+}
+
+.file-type-icon {
+  width: 56px;
+  height: 56px;
+  background: rgba(52,199,123,0.1);
+  border: 1px solid rgba(52,199,123,0.25);
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+
+  mat-icon {
+    font-size: 26px;
+    width: 26px;
+    height: 26px;
+    color: $green;
+  }
+}
+
+.file-meta {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  min-width: 0;
+}
+
+.file-name {
+  font-size: 15px;
+  font-weight: 600;
+  color: $text-primary;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.file-size {
+  font-size: 12px;
+  font-family: $mono;
+  color: $text-secondary;
+}
+
+.file-actions {
+  flex-shrink: 0;
+}
+
+.remove-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: $surface-2;
+  border: 1px solid $border;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: $text-dim;
+  transition: all 0.15s;
+
+  mat-icon { font-size: 18px; width: 18px; height: 18px; }
+
+  &:hover {
+    background: rgba(255,79,106,0.12);
+    border-color: rgba(255,79,106,0.3);
+    color: #ff4f6a;
+  }
+}
+
+// ── Processing state ──────────────────────────────────────────────────────────
+
+.drop-processing {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  padding: 48px 24px;
+}
+
+.processing-stages {
+  display: flex;
+  align-items: center;
+  gap: 0;
+}
+
+.stage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+
+  span {
+    font-size: 12px;
+    font-family: $mono;
+    color: $text-dim;
+    white-space: nowrap;
+  }
+
+  &.stage-active span { color: $accent; }
+  &.stage-done span   { color: $green; }
+}
+
+.stage-dot {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: $surface-2;
+  border: 2px solid $border;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  mat-icon {
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+  }
+}
+
+.stage.stage-active .stage-dot {
+  background: $accent-glow;
+  border-color: rgba(79,143,255,0.5);
+  box-shadow: 0 0 16px rgba(79,143,255,0.25);
+}
+
+.stage.stage-done .stage-dot {
+  background: rgba(52,199,123,0.12);
+  border-color: rgba(52,199,123,0.4);
+  mat-icon { color: $green; }
+}
+
+.pending-icon { color: $text-dim !important; }
+
+.stage-line {
+  width: 60px;
+  height: 2px;
+  background: $border;
+  margin-bottom: 22px;
+  transition: background 0.3s;
+
+  &.done { background: rgba(52,199,123,0.35); }
+}
+
+.processing-note {
+  font-size: 13px;
+  color: $text-secondary;
+  margin: 0;
+  text-align: center;
+}
+
+// ── Upload actions ────────────────────────────────────────────────────────────
+
+.upload-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-bottom: 36px;
+}
+
+.cancel-btn {
+  padding: 10px 20px;
+  background: none;
+  border: 1px solid $border-2;
+  border-radius: 10px;
+  font-family: $sans;
+  font-size: 14px;
+  color: $text-secondary;
+  cursor: pointer;
+  transition: all 0.15s;
+
+  &:hover {
+    background: $surface;
+    color: $text-primary;
+  }
+}
+
+.upload-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 24px;
+  background: $accent;
+  border: none;
+  border-radius: 10px;
+  font-family: $sans;
+  font-size: 14px;
+  font-weight: 600;
+  color: #fff;
+  cursor: pointer;
+  transition: all 0.2s;
+
+  mat-icon { font-size: 18px; width: 18px; height: 18px; }
+
+  &:hover {
+    background: lighten(#4f8fff, 6%);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(79,143,255,0.3);
+  }
+}
+
+// ── Explainer ─────────────────────────────────────────────────────────────────
+
+.explainer {
+  background: $surface;
+  border: 1px solid $border;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.explainer-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 20px;
+  border-bottom: 1px solid $border;
+  font-size: 13px;
+  font-weight: 600;
+  color: $text-secondary;
+
+  mat-icon {
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+    color: $accent;
+  }
+}
+
+.explainer-steps {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: $border;
+}
+
+.ex-step {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 18px 20px;
+  background: $surface;
+  transition: background 0.15s;
+
+  &:hover { background: $surface-2; }
+}
+
+.ex-num {
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  background: $accent-glow;
+  border: 1px solid rgba(79,143,255,0.2);
+  color: $accent;
+  font-size: 12px;
+  font-family: $mono;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.ex-body {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+
+  strong {
+    font-size: 13px;
+    font-weight: 600;
+    color: $text-primary;
+  }
+
+  span {
+    font-size: 12px;
+    color: $text-secondary;
+    line-height: 1.5;
   }
 }

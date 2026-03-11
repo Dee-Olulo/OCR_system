@@ -86,6 +86,21 @@ async def export_single_to_sheets(
             detail=f"Document status is '{doc.get('status')}' — only 'completed' documents can be exported"
         )
 
+    # ── Duplicate check ───────────────────────────────────────────────────
+    existing = await db.sheet_exports.find_one({
+        "document_id": document_id,
+        "success": True
+    })
+    if existing:
+        logger.info(f"Sheets export skipped (duplicate): {document_id}")
+        return {
+            "document_id": document_id,
+            "sheet_url":   f"https://docs.google.com/spreadsheets/d/{settings.MASTER_SPREADSHEET_ID}",
+            "message":     "Invoice exported successfully",  # keep same message so n8n If node still passes
+            "note":        "Already exported — skipping duplicate",
+            "exported_at": str(existing.get("exported_at")),
+        }
+
     errors = []
     success = False
     sheet_url = None

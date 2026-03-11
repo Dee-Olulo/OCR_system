@@ -2,14 +2,13 @@
 
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
-import { MatCardModule } from '@angular/material/card';
+import { Router, RouterModule } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
-import { MatChipsModule } from '@angular/material/chips';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatChipsModule } from '@angular/material/chips';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { DocumentService } from '../../../core/services/document';
@@ -20,123 +19,219 @@ import { Document } from '../../../core/models/document.model';
   standalone: true,
   imports: [
     CommonModule,
-    MatCardModule,
+    FormsModule,
+    RouterModule,
     MatTableModule,
     MatButtonModule,
     MatIconModule,
-    MatPaginatorModule,
-    MatChipsModule,
     MatProgressSpinnerModule,
+    MatChipsModule,
     MatSnackBarModule,
-    MatTooltipModule
+    MatTooltipModule,
   ],
   templateUrl: './document-list.html',
-  styleUrls: ['./document-list.scss']
+  styleUrls: ['./document-list.scss'],
 })
 export class DocumentListComponent implements OnInit {
   private documentService = inject(DocumentService);
-  private router = inject(Router);
-  private snackBar = inject(MatSnackBar);
-  
-  documents: Document[] = [];
-  displayedColumns: string[] = ['filename', 'status', 'uploaded_at', 'file_size', 'actions'];
+  private router          = inject(Router);
+  private snackBar        = inject(MatSnackBar);
+
+  documents:         Document[] = [];
+  filteredDocuments: Document[] = [];
   loading = true;
-  
+
+  // Table columns
+  displayedColumns = ['filename', 'status', 'file_type', 'file_size', 'uploaded_at', 'actions'];
+
+  // Search & filter
+  searchQuery  = '';
+  activeFilter = 'all';
+
   // Pagination
-  pageSize = 10;
-  pageIndex = 0;
-  totalDocuments = 0;
-  
+  currentPage     = 0;
+  pageSize        = 10;
+  pageSizeOptions = [5, 10, 25, 50];
+
+  // ── Lifecycle ────────────────────────────────────────────────────────────
+
   ngOnInit(): void {
     this.loadDocuments();
   }
-  
+
   loadDocuments(): void {
     this.loading = true;
-    const skip = this.pageIndex * this.pageSize;
-    
-    this.documentService.getDocuments(skip, this.pageSize).subscribe({
-      next: (documents) => {
-        this.documents = documents;
-        this.totalDocuments = documents.length; // Note: Backend doesn't return total count
-        this.loading = false;
+    this.documentService.getDocuments().subscribe({
+      next: (docs) => {
+        this.documents         = docs;
+        this.filteredDocuments = docs;
+        this.loading           = false;
+        this.applyFilters();
       },
-      error: (error) => {
-        console.error('Error loading documents:', error);
+      error: () => {
         this.snackBar.open('Failed to load documents', 'Close', { duration: 3000 });
         this.loading = false;
-      }
-    });
-  }
-  
-  onPageChange(event: PageEvent): void {
-    this.pageSize = event.pageSize;
-    this.pageIndex = event.pageIndex;
-    this.loadDocuments();
-  }
-  
-  viewDocument(document: Document): void {
-    this.router.navigate(['/documents', document.id]);
-  }
-  
-  downloadDocument(document: Document, event: Event): void {
-    event.stopPropagation();
-    
-    this.documentService.downloadDocument(document.id).subscribe({
-      next: (blob) => {
-        const url = window.URL.createObjectURL(blob);
-        const link = window.document.createElement('a');
-        link.href = url;
-        link.download = document.filename;
-        link.click();
-        window.URL.revokeObjectURL(url);
-        this.snackBar.open('Download started', 'Close', { duration: 2000 });
       },
-      error: (error) => {
-        console.error('Download error:', error);
-        this.snackBar.open('Download failed', 'Close', { duration: 3000 });
-      }
     });
   }
-  
-  deleteDocument(document: Document, event: Event): void {
-    event.stopPropagation();
-    
-    if (!confirm(`Are you sure you want to delete "${document.filename}"?`)) {
-      return;
+
+  // ── Computed ─────────────────────────────────────────────────────────────
+
+  get totalDocuments(): number {
+    return this.documents.length;
+  }
+
+  get totalPages(): number {
+    return Math.max(1, Math.ceil(this.filteredDocuments.length / this.pageSize));
+  }
+
+  get pageStart(): number {
+    if (this.filteredDocuments.length === 0) return 0;
+    return this.currentPage * this.pageSize + 1;
+  }
+
+  get pageEnd(): number {
+    return Math.min((this.currentPage + 1) * this.pageSize, this.filteredDocuments.length);
+  }
+
+  get pagedDocuments(): Document[] {
+    const start = this.currentPage * this.pageSize;
+    return this.filteredDocuments.slice(start, start + this.pageSize);
+  }
+
+  countByStatus(status: string): number {
+    return this.documents.filter(d => d.status === status).length;
+  }
+
+  // ── Filtering ────────────────────────────────────────────────────────────
+
+  onSearch(): void {
+    this.currentPage = 0;
+    this.applyFilters();
+  }
+
+  setFilter(filter: string): void {
+    this.activeFilter = filter;
+    this.currentPage  = 0;
+    this.applyFilters();
+  }
+
+  private applyFilters(): void {
+    let result = [...this.documents];
+
+    // Status filter
+    if (this.activeFilter === 'pending') {
+      result = result.filter(d => d.status === 'pending' || d.status === 'processing');
+    } else if (this.activeFilter !== 'all') {
+      result = result.filter(d => d.status === this.activeFilter);
     }
-    
-    this.documentService.deleteDocument(document.id).subscribe({
+
+    // Search
+    const q = this.searchQuery.trim().toLowerCase();
+    if (q) {
+      result = result.filter(d => d.filename.toLowerCase().includes(q));
+    }
+
+    this.filteredDocuments = result;
+  }
+
+  // ── Pagination ────────────────────────────────────────────────────────────
+
+  prevPage(): void {
+    if (this.currentPage > 0) this.currentPage--;
+  }
+
+  nextPage(): void {
+    if (this.currentPage < this.totalPages - 1) this.currentPage++;
+  }
+
+  onPageSizeChange(): void {
+    this.currentPage = 0;
+  }
+
+  // ── Actions ───────────────────────────────────────────────────────────────
+
+  viewDocument(doc: Document): void {
+    this.router.navigate(['/documents', doc.id]);
+  }
+
+  downloadDocument(doc: Document, event: Event): void {
+    event.stopPropagation();
+    this.documentService.downloadDocument(doc.id).subscribe({
+      next: (blob) => {
+        const url  = URL.createObjectURL(blob);
+        const link = window.document.createElement('a');
+        link.href     = url;
+        link.download = doc.filename;
+        link.click();
+        URL.revokeObjectURL(url);
+      },
+      error: () => this.snackBar.open('Download failed', 'Close', { duration: 3000 }),
+    });
+  }
+
+  deleteDocument(doc: Document, event: Event): void {
+    event.stopPropagation();
+    if (!confirm(`Delete "${doc.filename}"?`)) return;
+
+    this.documentService.deleteDocument(doc.id).subscribe({
       next: () => {
-        this.snackBar.open('Document deleted successfully', 'Close', { duration: 3000 });
+        this.snackBar.open('Document deleted', 'Close', { duration: 3000 });
         this.loadDocuments();
       },
-      error: (error) => {
-        console.error('Delete error:', error);
-        this.snackBar.open('Failed to delete document', 'Close', { duration: 3000 });
-      }
+      error: () => this.snackBar.open('Delete failed', 'Close', { duration: 3000 }),
     });
   }
-  
-  getStatusColor(status: string): string {
-    switch (status) {
-      case 'completed': return 'primary';
-      case 'processing': return 'accent';
-      case 'failed': return 'warn';
-      default: return '';
-    }
+
+  // ── Helpers ───────────────────────────────────────────────────────────────
+
+  getFileIcon(filename: string): string {
+    const ext = filename.toLowerCase().split('.').pop();
+    const map: Record<string, string> = {
+      pdf:  'picture_as_pdf',
+      docx: 'description',
+      doc:  'description',
+      xlsx: 'table_chart',
+      xls:  'table_chart',
+      jpg:  'image',
+      jpeg: 'image',
+      png:  'image',
+      tiff: 'image',
+      tif:  'image',
+    };
+    return map[ext || ''] || 'insert_drive_file';
   }
-  
+
+  getExtension(filename: string): string {
+    return filename.split('.').pop()?.toUpperCase() || '—';
+  }
+
   formatFileSize(bytes: number): string {
-    if (bytes === 0) return '0 Bytes';
-    const k = 1024;
-    const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+    if (!bytes) return '0 B';
+    const k = 1024, sizes = ['B', 'KB', 'MB', 'GB'];
     const i = Math.floor(Math.log(bytes) / Math.log(k));
-    return Math.round((bytes / Math.pow(k, i)) * 100) / 100 + ' ' + sizes[i];
+    return (bytes / Math.pow(k, i)).toFixed(1) + ' ' + sizes[i];
   }
-  
-  formatDate(dateString: string): string {
-    const date = new Date(dateString);
-    return date.toLocaleDateString() + ' ' + date.toLocaleTimeString();
+
+  formatDate(dateStr: string): string {
+    if (!dateStr) return '—';
+    const d = new Date(dateStr);
+    return d.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })
+      + ' ' + d.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
+  }
+
+  // Legacy — kept for compatibility if used elsewhere
+  getStatusColor(status: string): string {
+    const map: Record<string, string> = {
+      completed: 'primary',
+      pending:   'accent',
+      failed:    'warn',
+    };
+    return map[status] || 'default';
+  }
+
+  onPageChange(event: any): void {
+    this.currentPage = event.pageIndex;
+    this.pageSize    = event.pageSize;
   }
 }
