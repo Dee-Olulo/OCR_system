@@ -22,6 +22,7 @@ Design decisions:
 import logging
 from datetime import datetime, timezone
 from typing import Optional
+from zoneinfo import ZoneInfo
 
 import gspread
 from google.oauth2.service_account import Credentials
@@ -42,7 +43,7 @@ TAB_LINE_ITEMS = "Line Items"
 
 # Column headers for each tab
 SUMMARY_HEADERS = [
-    "Export Timestamp (UTC)",
+    "Export Timestamp (EAT)",
     "Invoice No.",
     "Patient Name",
     "Date of Service",
@@ -195,7 +196,7 @@ class SheetsService:
         routing_decision  = document.get("routing_decision") or "—"
         missing_fields    = ", ".join(document.get("missing_fields") or []) or "None"
         mongo_id          = str(document.get("_id", "—"))
-        export_timestamp  = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC")
+        export_timestamp  = datetime.now(ZoneInfo("Africa/Nairobi")).strftime("%Y-%m-%d %H:%M:%S EAT")
 
         line_items = (
             mapped.get("line_items") or
